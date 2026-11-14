@@ -6,7 +6,28 @@
 <meta name="theme-color" content="#087C55">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="Aplikasi web modern untuk membuat kartu ujian dan kartu bangku sekolah. Upload data Excel, cocokkan foto NISN, atur kop & tanda tangan, lalu cetak ke A3/A4.">
 <title>Generator Kartu Ujian</title>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Generator Kartu Ujian">
+<meta property="og:description" content="Buat kartu ujian & kartu bangku sekolah dengan mudah. Import Excel, cocokkan foto, atur desain, lalu cetak.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Generator Kartu Ujian — Kartu Ujian & Kartu Bangku Sekolah">
+<meta property="og:site_name" content="Generator Kartu Ujian">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Generator Kartu Ujian">
+<meta name="twitter:description" content="Buat kartu ujian & kartu bangku sekolah dengan mudah. Import Excel, cocokkan foto, atur desain, lalu cetak.">
+<meta name="twitter:image" content="og-image.png">
+<meta name="twitter:image:alt" content="Generator Kartu Ujian — Kartu Ujian & Kartu Bangku Sekolah">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1379,7 +1400,7 @@ a { color: var(--primary); text-decoration: none; }
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label class="form-label" for="tempat">Tempat</label>
+              <label class="form-label" for="tempat">Tempat (Titi Mangsa)</label>
               <input type="text" class="form-input" id="tempat" placeholder="Jember">
             </div>
             <div class="form-group">
@@ -1572,7 +1593,7 @@ a { color: var(--primary); text-decoration: none; }
         Generator Kartu Ujian
       </div>
       <div>Aplikasi web untuk membuat kartu ujian &amp; kartu bangku sekolah</div>
-      <div class="footer-meta">© 2026 · Made with 💔  by @em.rivki <br> Semua data diproses di perangkat Anda (tidak diunggah ke server)</div>
+      <div class="footer-meta">© 2026 · Semua data diproses di perangkat Anda (tidak diunggah ke server)</div>
     </footer>
   </div>
 </div>
@@ -1733,7 +1754,7 @@ a { color: var(--primary); text-decoration: none; }
     var w = wm();
     var head = '<div class="k-head"><div class="lg">'+(state.logoL?'<img src="'+state.logoL+'">':'')+'</div>'+
       '<div class="k-title"><div class="s">'+esc($('sekolah').value)+'</div><div class="a">'+esc($('alamat').value)+'</div>'+
-      '<div class="u">'+esc($('ujian').value)+'</div><div class="t">Tahun Ajaran: '+esc($('tahun').value)+'</div></div>'+
+      '<div class="u">'+esc($('ujian').value)+'</div><div class="t">Tahun Pelajaran: '+esc($('tahun').value)+'</div></div>'+
       '<div class="lg">'+(state.logoR?'<img src="'+state.logoR+'">':'')+'</div></div>'+
       '<div class="k-line"></div>';
     if(state.mode==='bangku'){
