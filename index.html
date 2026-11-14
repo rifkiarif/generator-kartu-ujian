@@ -1593,7 +1593,7 @@ a { color: var(--primary); text-decoration: none; }
         Generator Kartu Ujian
       </div>
       <div>Aplikasi web untuk membuat kartu ujian &amp; kartu bangku sekolah</div>
-      <div class="footer-meta">© 2026 · Semua data diproses di perangkat Anda (tidak diunggah ke server)</div>
+      <div class="footer-meta">© 2027 · Made with 💓 by @em.rivki | Semua data diproses di perangkat Anda (tidak diunggah ke server)</div>
     </footer>
   </div>
 </div>
@@ -1650,6 +1650,10 @@ a { color: var(--primary); text-decoration: none; }
 </div>
 
 <script>
+  // Mengambil tahun saat ini
+        const tahunSekarang = new Date().getFullYear();
+        // Menampilkan ke dalam elemen HTML berdasarkan ID 'tahun'
+        document.getElementById('tahun').textContent = tahunSekarang;
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var $$ = function(sel){ return document.querySelectorAll(sel); };
@@ -1767,7 +1771,7 @@ a { color: var(--primary); text-decoration: none; }
     return '<div class="kartu">'+w+head+
       '<div class="k-data">'+d('No. Peserta',s.no)+d('NISN',s.nisn)+d('Nama',s.nama)+d('TTL',s.ttl)+d('Kelas/Ruang',kr)+'</div>'+
       '<div class="k-foot"><div class="k-foto">'+(foto?'<img src="'+foto+'">':userSvg)+'</div>'+
-      '<div class="k-ttd"><div>'+esc($('tempat').value)+', '+esc($('tanggal').value)+'</div><div>Kepala Madrasah,</div>'+
+      '<div class="k-ttd"><div>'+esc($('tempat').value)+', '+esc($('tanggal').value)+'</div><div>Kepala Sekolah,</div>'+
       '<div class="sig">'+(state.ttd?'<img src="'+state.ttd+'">':'')+'</div>'+
       '<div class="n">'+esc($('kepala').value)+'</div><div class="p">NIP. '+esc($('nip').value)+'</div></div></div>'+
     '</div>';
