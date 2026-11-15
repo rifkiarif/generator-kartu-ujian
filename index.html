@@ -1101,6 +1101,198 @@ a { color: var(--primary); text-decoration: none; }
 .quick-card h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
 .quick-card p { font-size: 12px; color: var(--mute); }
 
+/* ===== DATA TABLE ===== */
+.data-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.data-toolbar .search-wrap {
+  flex: 1;
+  min-width: 180px;
+  position: relative;
+}
+.data-toolbar .search-wrap input {
+  width: 100%;
+  padding-left: 36px;
+}
+.data-toolbar .search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--mute);
+  pointer-events: none;
+}
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: var(--primary-l);
+  color: var(--primary-d);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 12px;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: 0; }
+.data-table tr:hover td { background: #FAFBFA; }
+.data-table .foto-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.data-table .foto-status.ok { color: var(--success); }
+.data-table .foto-status.miss { color: var(--warning); }
+.data-table .actions {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+.data-table .empty-row td {
+  text-align: center;
+  color: var(--mute);
+  padding: 28px 12px;
+}
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  background: var(--primary-l);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+.mass-hint {
+  font-size: 12.5px;
+  color: var(--mute);
+  background: #FAFBFA;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-xs);
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.mass-hint code {
+  background: var(--primary-l);
+  color: var(--primary-d);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* Editable Excel-like table for mass input */
+.mass-table-wrap {
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  max-height: 320px;
+  background: #fff;
+  margin-bottom: 12px;
+}
+.mass-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 620px;
+}
+.mass-table th {
+  background: var(--primary-l);
+  color: var(--primary-d);
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.mass-table th:last-child { border-right: 0; }
+.mass-table td {
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  vertical-align: middle;
+}
+.mass-table td:last-child { border-right: 0; }
+.mass-table tr:last-child td { border-bottom: 0; }
+.mass-table input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  padding: 8px 10px;
+  font-size: 13px;
+  background: transparent;
+  color: var(--ink);
+  font-family: inherit;
+  min-height: 36px;
+}
+.mass-table input:focus {
+  background: #F0FAF6;
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+.mass-table .row-num {
+  width: 36px;
+  text-align: center;
+  color: var(--mute);
+  font-size: 12px;
+  background: #FAFBFA;
+  font-weight: 500;
+  user-select: none;
+}
+.mass-table .row-del {
+  width: 40px;
+  text-align: center;
+}
+.mass-table .row-del button {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--mute);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.mass-table .row-del button:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.mass-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.mass-toolbar .spacer { flex: 1; }
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1394,8 +1586,60 @@ a { color: var(--primary); text-decoration: none; }
           <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
             <button class="btn btn-danger btn-sm" type="button" id="btnReset">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-              Reset Data Siswa
+              Reset ke Contoh
             </button>
+            <button class="btn btn-outline btn-sm" type="button" id="btnClearAll">
+              Hapus Semua Data
+            </button>
+            <button class="btn btn-secondary btn-sm" type="button" id="btnExport">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Ekspor Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Daftar & Tambah Massal -->
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">
+            Daftar Peserta
+            <span class="badge-count" id="tableCount">0</span>
+          </div>
+          <div class="card-desc">Kelola data peserta secara manual atau massal. Data disimpan otomatis di browser.</div>
+
+          <div class="data-toolbar">
+            <div class="search-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" class="form-input" id="searchPeserta" placeholder="Cari nama / NISN / no peserta..." style="min-height:42px;padding-top:10px;padding-bottom:10px">
+            </div>
+            <button class="btn btn-primary btn-sm" type="button" id="btnAddOne">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah 1
+            </button>
+            <button class="btn btn-secondary btn-sm" type="button" id="btnMassOpen">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>
+              Tambah Massal
+            </button>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table" id="siswaTable">
+              <thead>
+                <tr>
+                  <th style="width:40px">#</th>
+                  <th>No. Peserta</th>
+                  <th>NISN</th>
+                  <th>Nama</th>
+                  <th>TTL</th>
+                  <th>Kelas</th>
+                  <th>Ruang</th>
+                  <th>Foto</th>
+                  <th style="width:100px">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="siswaTbody">
+                <tr class="empty-row"><td colspan="9">Belum ada data. Upload Excel atau tambah manual.</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -1649,12 +1893,12 @@ a { color: var(--primary); text-decoration: none; }
         <div class="card">
           <div class="card-title">Petunjuk Penggunaan</div>
           <ol style="padding-left:20px;line-height:1.75;font-size:14.5px;color:var(--ink)">
-            <li style="margin-bottom:10px">Klik <b>Unduh Template Excel</b>, isi data peserta (No. Peserta, NISN, Nama, TTL, Kelas, Ruang).</li>
-            <li style="margin-bottom:10px">Klik <b>Upload File .xlsx</b> dan pilih file yang sudah diisi.</li>
-            <li style="margin-bottom:10px">Siapkan foto siswa dengan nama file sesuai NISN (contoh <b>1234567890.jpg</b>), kumpulkan dalam satu file ZIP, lalu klik <b>Upload Foto (.zip)</b>.</li>
-            <li style="margin-bottom:10px">Atur kop, tanggal, kepala sekolah, dan TTD pada halaman Identitas Sekolah. Logo dapat diganti dengan klik kotak logo.</li>
-            <li style="margin-bottom:10px">Pilih jenis kartu (Ujian / Bangku) dan atur watermark jika diperlukan.</li>
-            <li style="margin-bottom:10px">Cek hasil pada Preview, pilih ukuran kertas (A3 atau A4), lalu klik <b>Cetak</b>. Kartu disusun otomatis dengan jarak 3 mm. Pada dialog cetak, atur skala 100% (bukan “Fit to page”) dan matikan header/footer browser.</li>
+            <li style="margin-bottom:10px">Klik <b>Unduh Template Excel</b>, isi data (No. Peserta, NISN, Nama, TTL, Kelas, Ruang). Atau gunakan <b>Tambah Massal</b> (tempel dari Excel) / <b>Tambah 1</b>.</li>
+            <li style="margin-bottom:10px">Upload file .xlsx atau proses data massal, lalu upload foto ZIP (nama file = NISN).</li>
+            <li style="margin-bottom:10px">Kelola di tabel daftar peserta: cari, edit, hapus. Data tersimpan otomatis di browser Anda.</li>
+            <li style="margin-bottom:10px">Atur identitas sekolah (logo, kop, TTD, stempel) pada halaman Identitas.</li>
+            <li style="margin-bottom:10px">Pilih jenis kartu (Ujian / Bangku) dan watermark jika perlu.</li>
+            <li style="margin-bottom:10px">Preview, pilih kertas A3/A4, lalu cetak. Skala 100% dan matikan header/footer browser.</li>
           </ol>
         </div>
       </section>
@@ -1709,15 +1953,140 @@ a { color: var(--primary); text-decoration: none; }
     </div>
     <div class="modal-body">
       <ol>
-        <li>Klik <b>Unduh Template Excel</b>, isi data peserta (No. Peserta, NISN, Nama, TTL, Kelas, Ruang).</li>
-        <li>Klik <b>Upload File .xlsx</b> dan pilih file yang sudah diisi.</li>
-        <li>Siapkan foto siswa dengan nama file sesuai NISN (contoh <b>1234567890.jpg</b>), kumpulkan dalam satu file ZIP, lalu klik <b>Upload Foto (.zip)</b>.</li>
-        <li>Atur kop, tanggal, kepala sekolah, dan TTD. Logo dapat diganti dengan klik kotak logo.</li>
-        <li>Cek hasil pada Preview, pilih ukuran kertas (A3 atau A4), lalu klik <b>Cetak</b>. Kartu disusun otomatis. Pada dialog cetak, atur skala 100% dan matikan header/footer browser.</li>
+        <li>Klik <b>Unduh Template Excel</b>, isi data peserta (No. Peserta, NISN, Nama, TTL, Kelas, Ruang) — atau gunakan <b>Tambah Massal</b> / <b>Tambah 1</b> di daftar peserta.</li>
+        <li>Klik <b>Upload File .xlsx</b> atau tempel data massal (copy dari Excel), lalu unggah foto ZIP (nama file = NISN).</li>
+        <li>Kelola data di tabel: cari, edit, hapus per baris. Data tersimpan otomatis di browser.</li>
+        <li>Atur kop, tanggal, kepala sekolah, TTD & stempel. Logo diganti dengan klik kotak logo.</li>
+        <li>Pilih jenis kartu & watermark, cek Preview, pilih kertas A3/A4, lalu <b>Cetak</b> (skala 100%, matikan header/footer browser).</li>
       </ol>
     </div>
     <div class="modal-footer">
       <button class="btn btn-primary" type="button" id="btnClose2">Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah / Edit Peserta -->
+<div class="modal-overlay" id="modalPeserta">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-header">
+      <h3 id="modalPesertaTitle">Tambah Peserta</h3>
+      <button class="btn btn-ghost btn-icon" type="button" id="btnClosePeserta" aria-label="Tutup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editIndex" value="-1">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fNo">No. Peserta</label>
+          <input type="text" class="form-input" id="fNo" placeholder="U-001">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fNisn">NISN</label>
+          <input type="text" class="form-input" id="fNisn" placeholder="1234567890">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="fNama">Nama Lengkap</label>
+        <input type="text" class="form-input" id="fNama" placeholder="Nama siswa">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="fTtl">Tempat, Tanggal Lahir</label>
+        <input type="text" class="form-input" id="fTtl" placeholder="Jakarta, 17 Agustus 2007">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fKelas">Kelas</label>
+          <input type="text" class="form-input" id="fKelas" placeholder="VII A">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fRuang">Ruang</label>
+          <input type="text" class="form-input" id="fRuang" placeholder="01">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" type="button" id="btnCancelPeserta">Batal</button>
+      <button class="btn btn-primary" type="button" id="btnSavePeserta">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Massal -->
+<div class="modal-overlay" id="modalMass">
+  <div class="modal-box" style="max-width:780px">
+    <div class="modal-header">
+      <h3>Tambah Data Peserta Massal</h3>
+      <button class="btn btn-ghost btn-icon" type="button" id="btnCloseMass" aria-label="Tutup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="mass-hint">
+        Isi langsung seperti tabel Excel, atau <b>tempel (Ctrl+V)</b> data yang disalin dari Excel.<br>
+        Kolom: <code>No Peserta</code> · <code>NISN</code> · <code>Nama</code> · <code>TTL</code> · <code>Kelas</code> · <code>Ruang</code>
+      </div>
+
+      <div class="mass-toolbar">
+        <button class="btn btn-secondary btn-sm" type="button" id="btnMassAddRow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Tambah Baris
+        </button>
+        <button class="btn btn-outline btn-sm" type="button" id="btnMassPaste">
+          Tempel dari Excel
+        </button>
+        <button class="btn btn-ghost btn-sm" type="button" id="btnMassClear">
+          Kosongkan
+        </button>
+        <span class="spacer"></span>
+        <span id="massRowCount" style="font-size:12.5px;color:var(--mute);font-weight:500">0 baris terisi</span>
+      </div>
+
+      <div class="mass-table-wrap" id="massTableWrap">
+        <table class="mass-table" id="massTable">
+          <thead>
+            <tr>
+              <th class="row-num">#</th>
+              <th style="min-width:90px">No. Peserta</th>
+              <th style="min-width:110px">NISN</th>
+              <th style="min-width:160px">Nama</th>
+              <th style="min-width:140px">TTL</th>
+              <th style="min-width:80px">Kelas</th>
+              <th style="min-width:70px">Ruang</th>
+              <th class="row-del"></th>
+            </tr>
+          </thead>
+          <tbody id="massTbody">
+            <!-- rows generated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Mode impor</label>
+        <div class="seg" style="grid-template-columns:1fr 1fr">
+          <label class="seg-item">
+            <input type="radio" name="massMode" id="massAppend" value="append" checked>
+            <div class="seg-card" style="padding:12px 10px">
+              <div class="seg-title" style="font-size:13px">Tambahkan</div>
+              <div class="seg-desc">Gabung ke data yang ada</div>
+            </div>
+          </label>
+          <label class="seg-item">
+            <input type="radio" name="massMode" id="massReplace" value="replace">
+            <div class="seg-card" style="padding:12px 10px">
+              <div class="seg-title" style="font-size:13px">Ganti Semua</div>
+              <div class="seg-desc">Hapus data lama, isi baru</div>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div id="massPreview" class="status-bar info" style="display:none;margin-top:12px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" type="button" id="btnCancelMass">Batal</button>
+      <button class="btn btn-primary" type="button" id="btnProcessMass">Proses & Tambahkan</button>
     </div>
   </div>
 </div>
@@ -1744,7 +2113,8 @@ a { color: var(--primary); text-decoration: none; }
     logoR: shield('#1f4fa8','#f4c430'),
     ttd:'', stempel:'', wmImg:'', mode:'ujian',
     siswa: SAMPLE.slice(), foto:{},
-    zoom: 1, dirty: false
+    zoom: 1, dirty: false,
+    searchQ: ''
   };
   var fields = ['sekolah','alamat','ujian','tahun','tempat','tanggal','kepala','nip','wmType','wmText','wmOpacity','paper'];
   var pageTitles = {
@@ -1768,6 +2138,9 @@ a { color: var(--primary); text-decoration: none; }
     if(saved.mode==='bangku') state.mode = 'bangku';
     if(saved.paper && $('paper')) $('paper').value = saved.paper;
     if(saved.paper && $('paperMobile')) $('paperMobile').value = saved.paper;
+    if(Array.isArray(saved.siswa) && saved.siswa.length){
+      state.siswa = saved.siswa;
+    }
   } catch(e) {
     fields.forEach(function(f){ if($(f)) $(f).value = DEF[f]; });
   }
@@ -1780,6 +2153,7 @@ a { color: var(--primary); text-decoration: none; }
       var o = {};
       fields.forEach(function(f){ if($(f)) o[f]=$(f).value; });
       o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.stempel=state.stempel; o.wmImg=state.wmImg; o.mode=state.mode;
+      o.siswa = state.siswa; // persist daftar peserta (foto tidak disimpan agar localStorage tidak penuh)
       localStorage.setItem('kartuUjianCfg', JSON.stringify(o));
       state.dirty = false;
       updateSaveBadge();
@@ -1950,6 +2324,7 @@ a { color: var(--primary); text-decoration: none; }
       }
     }
     updateStats();
+    renderTable();
   }
 
   function setStatus(msg, type){
@@ -1963,6 +2338,346 @@ a { color: var(--primary); text-decoration: none; }
     } else {
       el.textContent = msg;
     }
+  }
+
+  /* ===== DATA TABLE & CRUD ===== */
+  function getFilteredSiswa(){
+    var q = (state.searchQ || '').toLowerCase().trim();
+    if(!q) return state.siswa.map(function(s,i){ return {s:s, i:i}; });
+    return state.siswa.map(function(s,i){ return {s:s, i:i}; }).filter(function(item){
+      var s = item.s;
+      return (s.no||'').toLowerCase().indexOf(q)>=0 ||
+             (s.nisn||'').toLowerCase().indexOf(q)>=0 ||
+             (s.nama||'').toLowerCase().indexOf(q)>=0 ||
+             (s.kelas||'').toLowerCase().indexOf(q)>=0 ||
+             (s.ruang||'').toLowerCase().indexOf(q)>=0;
+    });
+  }
+
+  function renderTable(){
+    var tbody = $('siswaTbody');
+    var countEl = $('tableCount');
+    if(!tbody) return;
+    var list = getFilteredSiswa();
+    if(countEl) countEl.textContent = state.siswa.length;
+    if(!state.siswa.length){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="9">Belum ada data. Upload Excel, tempel massal, atau tambah manual.</td></tr>';
+      return;
+    }
+    if(!list.length){
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="9">Tidak ada hasil untuk pencarian "'+esc(state.searchQ)+'".</td></tr>';
+      return;
+    }
+    tbody.innerHTML = list.map(function(item, idx){
+      var s = item.s;
+      var hasFoto = !!state.foto[String(s.nisn).trim()];
+      var fotoHtml = hasFoto
+        ? '<span class="foto-status ok"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Ada</span>'
+        : '<span class="foto-status miss"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Belum</span>';
+      return '<tr data-idx="'+item.i+'">'+
+        '<td>'+(idx+1)+'</td>'+
+        '<td>'+esc(s.no)+'</td>'+
+        '<td>'+esc(s.nisn)+'</td>'+
+        '<td><strong>'+esc(s.nama)+'</strong></td>'+
+        '<td>'+esc(s.ttl)+'</td>'+
+        '<td>'+esc(s.kelas)+'</td>'+
+        '<td>'+esc(s.ruang)+'</td>'+
+        '<td>'+fotoHtml+'</td>'+
+        '<td class="actions">'+
+          '<button type="button" class="btn btn-ghost btn-sm btn-edit" data-idx="'+item.i+'" title="Edit">✎</button>'+
+          '<button type="button" class="btn btn-danger btn-sm btn-del" data-idx="'+item.i+'" title="Hapus">×</button>'+
+        '</td></tr>';
+    }).join('');
+  }
+
+  function openPesertaModal(idx){
+    var isEdit = typeof idx === 'number' && idx >= 0;
+    $('editIndex').value = isEdit ? idx : -1;
+    $('modalPesertaTitle').textContent = isEdit ? 'Edit Peserta' : 'Tambah Peserta';
+    if(isEdit){
+      var s = state.siswa[idx];
+      $('fNo').value = s.no || '';
+      $('fNisn').value = s.nisn || '';
+      $('fNama').value = s.nama || '';
+      $('fTtl').value = s.ttl || '';
+      $('fKelas').value = s.kelas || '';
+      $('fRuang').value = s.ruang || '';
+    } else {
+      $('fNo').value = '';
+      $('fNisn').value = '';
+      $('fNama').value = '';
+      $('fTtl').value = '';
+      $('fKelas').value = '';
+      $('fRuang').value = '';
+    }
+    $('modalPeserta').classList.add('on');
+    setTimeout(function(){ $('fNo').focus(); }, 80);
+  }
+  function closePesertaModal(){ $('modalPeserta').classList.remove('on'); }
+
+  function savePesertaFromModal(){
+    var no = ($('fNo').value||'').trim();
+    var nisn = ($('fNisn').value||'').trim();
+    var nama = ($('fNama').value||'').trim();
+    var ttl = ($('fTtl').value||'').trim();
+    var kelas = ($('fKelas').value||'').trim();
+    var ruang = ($('fRuang').value||'').trim();
+    if(!nama && !nisn){
+      toast('Isi minimal Nama atau NISN','error');
+      return;
+    }
+    var obj = {no:no, nisn:nisn, nama:nama, ttl:ttl, kelas:kelas, ruang:ruang};
+    var idx = parseInt($('editIndex').value, 10);
+    if(idx >= 0 && idx < state.siswa.length){
+      state.siswa[idx] = obj;
+      toast('Data peserta diperbarui','success');
+    } else {
+      state.siswa.push(obj);
+      toast('Peserta ditambahkan','success');
+    }
+    markDirty(); save(); render();
+    closePesertaModal();
+  }
+
+  /* ===== MASS TABLE (Excel-like) ===== */
+  var MASS_COLS = ['no','nisn','nama','ttl','kelas','ruang'];
+  var MASS_PLACEHOLDERS = ['U-001','1234567890','Nama Lengkap','Jakarta, 17 Agustus 2007','VII A','01'];
+
+  function parseMassText(text){
+    var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+    if(!lines.length) return [];
+    var delim = lines[0].indexOf('\t') >= 0 ? '\t' : (lines[0].indexOf(';') >= 0 ? ';' : ',');
+    var rows = lines.map(function(line){
+      return line.split(delim).map(function(c){ return c.trim().replace(/^["']|["']$/g,''); });
+    });
+    var start = 0;
+    var headerMap = null;
+    var first = rows[0].map(function(h){ return h.toLowerCase().replace(/[^a-z0-9]/g,''); });
+    var looksHeader = first.some(function(h){
+      return ['nopeserta','nisn','nama','ttl','kelas','ruang','nomorpeserta','no'].indexOf(h) >= 0;
+    });
+    if(looksHeader){
+      headerMap = {};
+      first.forEach(function(h,i){ headerMap[h] = i; });
+      start = 1;
+    }
+    var out = [];
+    for(var r = start; r < rows.length; r++){
+      var cols = rows[r];
+      if(!cols.length || cols.every(function(c){ return !c; })) continue;
+      var get = function(keys, fallbackIdx){
+        if(headerMap){
+          for(var k=0;k<keys.length;k++){
+            if(headerMap[keys[k]] != null) return cols[headerMap[keys[k]]] || '';
+          }
+        }
+        return cols[fallbackIdx] || '';
+      };
+      var s = {
+        no: get(['nopeserta','nomorpeserta','no'], 0),
+        nisn: get(['nisn'], 1),
+        nama: get(['nama','namasiswa'], 2),
+        ttl: get(['ttl','tempattanggallahir'], 3),
+        kelas: get(['kelas'], 4),
+        ruang: get(['ruang','ruangan'], 5)
+      };
+      if(s.nama || s.nisn) out.push(s);
+    }
+    return out;
+  }
+
+  function createMassRow(data){
+    data = data || {};
+    var tr = document.createElement('tr');
+    var numTd = document.createElement('td');
+    numTd.className = 'row-num';
+    numTd.textContent = '';
+    tr.appendChild(numTd);
+
+    MASS_COLS.forEach(function(col, i){
+      var td = document.createElement('td');
+      var inp = document.createElement('input');
+      inp.type = 'text';
+      inp.dataset.col = col;
+      inp.placeholder = MASS_PLACEHOLDERS[i];
+      inp.value = data[col] || '';
+      inp.addEventListener('input', updateMassRowCount);
+      inp.addEventListener('keydown', function(e){
+        // Excel-like navigation: Enter / Tab move focus
+        if(e.key === 'Enter' && !e.shiftKey){
+          e.preventDefault();
+          var next = tr.nextElementSibling;
+          if(next){
+            var target = next.querySelector('input[data-col="'+col+'"]');
+            if(target) target.focus();
+          } else {
+            addMassRow();
+            setTimeout(function(){
+              var last = $('massTbody').lastElementChild;
+              if(last){
+                var t = last.querySelector('input[data-col="'+col+'"]');
+                if(t) t.focus();
+              }
+            }, 30);
+          }
+        }
+      });
+      td.appendChild(inp);
+      tr.appendChild(td);
+    });
+
+    var delTd = document.createElement('td');
+    delTd.className = 'row-del';
+    var delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.title = 'Hapus baris';
+    delBtn.innerHTML = '×';
+    delBtn.addEventListener('click', function(){
+      var tbody = $('massTbody');
+      if(tbody.children.length <= 1){
+        // keep at least one empty row
+        MASS_COLS.forEach(function(col){
+          var inp = tr.querySelector('input[data-col="'+col+'"]');
+          if(inp) inp.value = '';
+        });
+        updateMassRowCount();
+        return;
+      }
+      tr.remove();
+      renumberMassRows();
+      updateMassRowCount();
+    });
+    delTd.appendChild(delBtn);
+    tr.appendChild(delTd);
+    return tr;
+  }
+
+  function renumberMassRows(){
+    var rows = $('massTbody').querySelectorAll('tr');
+    rows.forEach(function(tr, i){
+      var num = tr.querySelector('.row-num');
+      if(num) num.textContent = i + 1;
+    });
+  }
+
+  function addMassRow(data){
+    var tr = createMassRow(data);
+    $('massTbody').appendChild(tr);
+    renumberMassRows();
+    updateMassRowCount();
+    return tr;
+  }
+
+  function clearMassTable(){
+    var tbody = $('massTbody');
+    tbody.innerHTML = '';
+    for(var i=0; i<6; i++) addMassRow();
+    updateMassRowCount();
+  }
+
+  function fillMassTable(rows){
+    var tbody = $('massTbody');
+    tbody.innerHTML = '';
+    if(!rows || !rows.length){
+      for(var i=0; i<6; i++) addMassRow();
+    } else {
+      rows.forEach(function(r){ addMassRow(r); });
+      // add a couple of empty rows at the end for convenience
+      addMassRow();
+      addMassRow();
+    }
+    updateMassRowCount();
+  }
+
+  function collectMassTable(){
+    var out = [];
+    var rows = $('massTbody').querySelectorAll('tr');
+    rows.forEach(function(tr){
+      var obj = {};
+      var hasData = false;
+      MASS_COLS.forEach(function(col){
+        var inp = tr.querySelector('input[data-col="'+col+'"]');
+        var val = inp ? (inp.value || '').trim() : '';
+        obj[col] = val;
+        if(val) hasData = true;
+      });
+      if(hasData && (obj.nama || obj.nisn)) out.push(obj);
+    });
+    return out;
+  }
+
+  function updateMassRowCount(){
+    var n = collectMassTable().length;
+    var el = $('massRowCount');
+    if(el) el.textContent = n + ' baris terisi';
+    var prev = $('massPreview');
+    if(prev){
+      if(n > 0){
+        prev.style.display = 'flex';
+        prev.className = 'status-bar success';
+        prev.textContent = n + ' baris data siap diproses.';
+      } else {
+        prev.style.display = 'none';
+      }
+    }
+  }
+
+  function processMass(){
+    var parsed = collectMassTable();
+    if(!parsed.length){
+      toast('Isi minimal satu baris data (Nama atau NISN)','error');
+      $('massPreview').style.display = 'flex';
+      $('massPreview').className = 'status-bar error';
+      $('massPreview').textContent = 'Belum ada data valid. Isi Nama atau NISN minimal.';
+      return;
+    }
+    var mode = $('massReplace').checked ? 'replace' : 'append';
+    if(mode === 'replace'){
+      state.siswa = parsed;
+    } else {
+      state.siswa = state.siswa.concat(parsed);
+    }
+    markDirty(); save(); render();
+    closeMassModal();
+    setStatus(parsed.length + ' data ' + (mode==='replace'?'mengganti':'ditambahkan') + '. Total sekarang: ' + state.siswa.length, 'success');
+    toast(parsed.length + ' peserta ' + (mode==='replace'?'diimpor (ganti)':'ditambahkan'), 'success');
+  }
+
+  function openMassModal(){
+    $('massAppend').checked = true;
+    $('massPreview').style.display = 'none';
+    clearMassTable();
+    $('modalMass').classList.add('on');
+    setTimeout(function(){
+      var first = $('massTbody').querySelector('input');
+      if(first) first.focus();
+    }, 80);
+  }
+  function closeMassModal(){ $('modalMass').classList.remove('on'); }
+
+  function pasteIntoMassTable(text){
+    var parsed = parseMassText(text);
+    if(!parsed.length){
+      toast('Data tempel tidak dikenali. Pastikan format sesuai template.','error');
+      return;
+    }
+    fillMassTable(parsed);
+    toast(parsed.length + ' baris ditempel ke tabel','success');
+  }
+
+  function exportExcel(){
+    if(!window.XLSX){ toast('Pustaka Excel belum termuat.','error'); return; }
+    if(!state.siswa.length){ toast('Tidak ada data untuk diekspor','error'); return; }
+    var aoa = [['No Peserta','NISN','Nama','TTL','Kelas','Ruang']];
+    state.siswa.forEach(function(s){
+      aoa.push([s.no||'', s.nisn||'', s.nama||'', s.ttl||'', s.kelas||'', s.ruang||'']);
+    });
+    var ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = [{wch:12},{wch:14},{wch:28},{wch:26},{wch:12},{wch:8}];
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Siswa');
+    XLSX.writeFile(wb, 'Data_Peserta_Kartu.xlsx');
+    toast('Data diekspor ke Excel','success');
   }
 
   /* ===== NAVIGATION ===== */
@@ -2091,6 +2806,7 @@ a { color: var(--primary); text-decoration: none; }
         });
         if(!out.length){ setStatus('Tidak ada data siswa terbaca. Gunakan format template.','error'); toast('Format Excel tidak dikenali','error'); return; }
         state.siswa = out;
+        markDirty(); save();
         render();
         setStatus(out.length+' data siswa berhasil dimuat.','success');
         toast(out.length+' data siswa dimuat','success');
@@ -2135,15 +2851,104 @@ a { color: var(--primary); text-decoration: none; }
     e.target.value = '';
   };
 
-  /* Reset */
+  /* Reset & Clear */
   if($('btnReset')) $('btnReset').onclick = function(){
     if(!confirm('Reset data siswa ke contoh default? Foto yang sudah diupload akan dihapus.')) return;
     state.siswa = SAMPLE.slice();
     state.foto = {};
+    markDirty(); save();
     render();
-    setStatus('Data siswa direset.','info');
+    setStatus('Data siswa direset ke contoh.','info');
     toast('Data direset','info');
   };
+  if($('btnClearAll')) $('btnClearAll').onclick = function(){
+    if(!state.siswa.length){ toast('Sudah kosong','info'); return; }
+    if(!confirm('Hapus SEMUA data peserta? Tindakan ini tidak bisa dibatalkan.')) return;
+    state.siswa = [];
+    state.foto = {};
+    markDirty(); save();
+    render();
+    setStatus('Semua data peserta dihapus.','info');
+    toast('Semua data dihapus','info');
+  };
+  if($('btnExport')) $('btnExport').onclick = exportExcel;
+
+  /* Search */
+  if($('searchPeserta')){
+    $('searchPeserta').addEventListener('input', function(){
+      state.searchQ = this.value;
+      renderTable();
+    });
+  }
+
+  /* Table actions (event delegation) */
+  if($('siswaTbody')){
+    $('siswaTbody').addEventListener('click', function(e){
+      var btn = e.target.closest('button');
+      if(!btn) return;
+      var idx = parseInt(btn.getAttribute('data-idx'), 10);
+      if(isNaN(idx)) return;
+      if(btn.classList.contains('btn-edit')){
+        openPesertaModal(idx);
+      } else if(btn.classList.contains('btn-del')){
+        var nama = state.siswa[idx] ? state.siswa[idx].nama : '';
+        if(!confirm('Hapus peserta'+(nama?' "'+nama+'"':'')+'?')) return;
+        state.siswa.splice(idx, 1);
+        markDirty(); save();
+        render();
+        toast('Peserta dihapus','info');
+      }
+    });
+  }
+
+  /* Single add / edit modal */
+  if($('btnAddOne')) $('btnAddOne').onclick = function(){ openPesertaModal(-1); };
+  if($('btnClosePeserta')) $('btnClosePeserta').onclick = closePesertaModal;
+  if($('btnCancelPeserta')) $('btnCancelPeserta').onclick = closePesertaModal;
+  if($('btnSavePeserta')) $('btnSavePeserta').onclick = savePesertaFromModal;
+  if($('modalPeserta')) $('modalPeserta').addEventListener('click', function(e){ if(e.target===this) closePesertaModal(); });
+
+  /* Mass modal (Excel-like table) */
+  if($('btnMassOpen')) $('btnMassOpen').onclick = openMassModal;
+  if($('btnCloseMass')) $('btnCloseMass').onclick = closeMassModal;
+  if($('btnCancelMass')) $('btnCancelMass').onclick = closeMassModal;
+  if($('btnProcessMass')) $('btnProcessMass').onclick = processMass;
+  if($('modalMass')) $('modalMass').addEventListener('click', function(e){ if(e.target===this) closeMassModal(); });
+
+  if($('btnMassAddRow')) $('btnMassAddRow').onclick = function(){ addMassRow(); };
+  if($('btnMassClear')) $('btnMassClear').onclick = function(){
+    if(collectMassTable().length && !confirm('Kosongkan semua baris?')) return;
+    clearMassTable();
+  };
+  if($('btnMassPaste')) $('btnMassPaste').onclick = function(){
+    // Prefer modern clipboard API; fallback to prompt
+    if(navigator.clipboard && navigator.clipboard.readText){
+      navigator.clipboard.readText().then(function(text){
+        if(!text || !text.trim()){
+          toast('Clipboard kosong. Salin data dari Excel dulu.','error');
+          return;
+        }
+        pasteIntoMassTable(text);
+      }).catch(function(){
+        var t = prompt('Tempel data dari Excel di sini (Ctrl+V lalu Enter):');
+        if(t) pasteIntoMassTable(t);
+      });
+    } else {
+      var t = prompt('Tempel data dari Excel di sini (Ctrl+V lalu Enter):');
+      if(t) pasteIntoMassTable(t);
+    }
+  };
+
+  // Allow direct paste (Ctrl+V) anywhere inside the mass table
+  if($('massTableWrap')){
+    $('massTableWrap').addEventListener('paste', function(e){
+      var text = (e.clipboardData || window.clipboardData).getData('text');
+      if(text && (text.indexOf('\t') >= 0 || text.indexOf('\n') >= 0)){
+        e.preventDefault();
+        pasteIntoMassTable(text);
+      }
+    });
+  }
 
   /* Print */
   function doPrint(){ window.print(); }
