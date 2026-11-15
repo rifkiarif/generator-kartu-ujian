@@ -1737,7 +1737,7 @@ a { color: var(--primary); text-decoration: none; }
     kepala:'Drs. H. Kepala Sekolah, M.Pd.', nip:'19700101 200012 1 001',
     wmType:'none', wmText:'SMPN 4 SILO', wmOpacity:'15', paper:'A3'
   };
-  var SAMPLE = [{no:'U-001',nisn:'1234567890',nama:'CONTOH SISWA',ttl:'Jakarta, 17 Agustus 2007',kelas:'XII IPA 1',ruang:'R.01'}];
+  var SAMPLE = [{no:'U-001',nisn:'1234567890',nama:'CONTOH SISWA',ttl:'Jakarta, 17 Agustus 2007',kelas:'VII A',ruang:'01'}];
   var state = {
     logoL: shield('#d33','#f4c430'),
     logoR: shield('#1f4fa8','#f4c430'),
@@ -1827,7 +1827,7 @@ a { color: var(--primary); text-decoration: none; }
     var w = wm();
     var head = '<div class="k-head"><div class="lg">'+(state.logoL?'<img src="'+state.logoL+'">':'')+'</div>'+
       '<div class="k-title"><div class="s">'+esc($('sekolah').value)+'</div><div class="a">'+esc($('alamat').value)+'</div>'+
-      '<div class="u">'+esc($('ujian').value)+'</div><div class="t">Tahun Pelajaran: '+esc($('tahun').value)+'</div></div>'+
+      '<div class="u">'+esc($('ujian').value)+'</div><div class="t">Tahun Ajaran: '+esc($('tahun').value)+'</div></div>'+
       '<div class="lg">'+(state.logoR?'<img src="'+state.logoR+'">':'')+'</div></div>'+
       '<div class="k-line"></div>';
     if(state.mode==='bangku'){
