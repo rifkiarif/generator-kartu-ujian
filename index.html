@@ -726,11 +726,46 @@ a { color: var(--primary); text-decoration: none; }
   display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .k-foto img { width: 100%; height: 100%; object-fit: cover; }
-.k-ttd { position: absolute; right: 0; top: 0; width: 52mm; text-align: center; font-size: 5.6pt; line-height: 1.25; }
-.k-ttd .sig { height: 10mm; display: flex; align-items: center; justify-content: center; }
-.k-ttd .sig img { max-height: 10mm; max-width: 30mm; }
-.k-ttd .n { font-weight: 700; text-decoration: underline; font-size: 6pt; }
-.k-ttd .p { font-size: 4.8pt; }
+.k-ttd {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 52mm;
+  text-align: center;
+  font-size: 5.6pt;
+  line-height: 1.25;
+  overflow: visible;
+}
+.k-ttd .stempel-overlay {
+  position: absolute;
+  left: 8%;
+  top: 38%;
+  transform: translate(0, -40%);
+  width: 22mm;
+  height: 22mm;
+  object-fit: contain;
+  z-index: 5;
+  opacity: 0.9;
+  pointer-events: none;
+}
+.k-ttd .sig {
+  height: 11mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0.4mm 0;
+  z-index: 1;
+}
+.k-ttd .sig .ttd-img {
+  max-height: 10mm;
+  max-width: 28mm;
+  position: relative;
+  z-index: 1;
+}
+.k-ttd > div { position: relative; z-index: 1; }
+.k-ttd .n { font-weight: 700; text-decoration: underline; font-size: 6pt; position: relative; z-index: 1; }
+.k-ttd .p { font-size: 4.8pt; position: relative; z-index: 1; }
 .kartu .wm {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
@@ -754,19 +789,43 @@ a { color: var(--primary); text-decoration: none; }
 .bk .k-title .u { font-size: 10.5pt; }
 .bk .k-title .t { font-size: 8pt; }
 .bk .k-line { margin: 1.5mm 0 3mm; border-top-width: 1.6px; }
-.bk-body { display: flex; align-items: center; gap: 8mm; position: relative; z-index: 1; }
+.bk-body { display: flex; align-items: center; gap: 6mm; position: relative; z-index: 1; }
 .bk-no {
-  width: 52mm; height: 29mm;
+  width: 56mm;
+  min-height: 30mm;
+  height: auto;
   border: 2px solid #000;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: 1.5mm 2.5mm;
+  box-sizing: border-box;
 }
-.bk-no .l { font-size: 9pt; letter-spacing: 1px; }
-.bk-no .n { font-size: 30pt; font-weight: 800; line-height: 1.1; }
+.bk-no .l {
+  font-size: 8pt;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+  margin-bottom: 0.8mm;
+  white-space: nowrap;
+}
+.bk-no .n {
+  font-size: 24pt;
+  font-weight: 800;
+  line-height: 1.05;
+  text-align: center;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  letter-spacing: -0.2px;
+}
+.bk-no .n.n-md { font-size: 18pt; letter-spacing: -0.3px; line-height: 1.08; }
+.bk-no .n.n-sm { font-size: 14pt; letter-spacing: -0.4px; line-height: 1.1; }
 .bk-info { flex: 1; min-width: 0; }
-.bk-info .nm { font-size: 20pt; font-weight: 800; line-height: 1.15; margin-bottom: 2.5mm; overflow-wrap: anywhere; }
-.bk-info .r { display: flex; font-size: 11.5pt; line-height: 1.5; }
-.bk-info .r .l { width: 30mm; flex: none; }
+.bk-info .nm { font-size: 18pt; font-weight: 800; line-height: 1.15; margin-bottom: 2mm; overflow-wrap: anywhere; }
+.bk-info .r { display: flex; font-size: 11pt; line-height: 1.45; }
+.bk-info .r .l { width: 28mm; flex: none; }
 .bk-info .r .c { width: 4mm; flex: none; }
 .bk-info .r .v { font-weight: 700; }
 
@@ -1411,7 +1470,7 @@ a { color: var(--primary); text-decoration: none; }
         </div>
 
         <div class="card">
-          <div class="card-title">Tanda Tangan</div>
+          <div class="card-title">Tanda Tangan & Stempel</div>
           <div class="form-group">
             <label class="form-label" for="kepala">Nama Kepala Madrasah / Sekolah</label>
             <input type="text" class="form-input" id="kepala" placeholder="Drs. H. Nama, M.Pd.">
@@ -1420,10 +1479,23 @@ a { color: var(--primary); text-decoration: none; }
             <label class="form-label" for="nip">NIP</label>
             <input type="text" class="form-input" id="nip" placeholder="19700101 200012 1 001">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="fTtd">Upload TTD / Stempel (Opsional)</label>
-            <input type="file" class="form-input" id="fTtd" accept="image/*" style="padding:10px 12px">
-            <p class="form-hint">PNG transparan disarankan. Akan ditampilkan di area tanda tangan kartu.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fTtd">Upload TTD (Tanda Tangan)</label>
+              <input type="file" class="form-input" id="fTtd" accept="image/*" style="padding:10px 12px">
+              <p class="form-hint">PNG transparan disarankan.</p>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fStempel">Upload Stempel Sekolah</label>
+              <input type="file" class="form-input" id="fStempel" accept="image/*" style="padding:10px 12px">
+              <p class="form-hint">PNG transparan; ditempel di atas TTD.</p>
+            </div>
+          </div>
+          <div id="ttdPreviewRow" style="display:none;margin-top:8px">
+            <div class="form-label">Pratinjau area TTD + Stempel</div>
+            <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:12px;background:#FAFBFA;border:1px solid var(--line);border-radius:12px;min-height:72px">
+              <div id="ttdLivePreview" style="position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:120px;min-height:56px"></div>
+            </div>
           </div>
         </div>
 
@@ -1650,10 +1722,6 @@ a { color: var(--primary); text-decoration: none; }
 </div>
 
 <script>
-  // Mengambil tahun saat ini
-        const tahunSekarang = new Date().getFullYear();
-        // Menampilkan ke dalam elemen HTML berdasarkan ID 'tahun'
-        document.getElementById('tahun').textContent = tahunSekarang;
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   var $$ = function(sel){ return document.querySelectorAll(sel); };
@@ -1673,7 +1741,7 @@ a { color: var(--primary); text-decoration: none; }
   var state = {
     logoL: shield('#d33','#f4c430'),
     logoR: shield('#1f4fa8','#f4c430'),
-    ttd:'', wmImg:'', mode:'ujian',
+    ttd:'', stempel:'', wmImg:'', mode:'ujian',
     siswa: SAMPLE.slice(), foto:{},
     zoom: 1, dirty: false
   };
@@ -1694,6 +1762,7 @@ a { color: var(--primary); text-decoration: none; }
     if(saved.logoL) state.logoL = saved.logoL;
     if(saved.logoR) state.logoR = saved.logoR;
     if(saved.ttd) state.ttd = saved.ttd;
+    if(saved.stempel) state.stempel = saved.stempel;
     if(saved.wmImg) state.wmImg = saved.wmImg;
     if(saved.mode==='bangku') state.mode = 'bangku';
     if(saved.paper && $('paper')) $('paper').value = saved.paper;
@@ -1709,7 +1778,7 @@ a { color: var(--primary); text-decoration: none; }
     try {
       var o = {};
       fields.forEach(function(f){ if($(f)) o[f]=$(f).value; });
-      o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.wmImg=state.wmImg; o.mode=state.mode;
+      o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.stempel=state.stempel; o.wmImg=state.wmImg; o.mode=state.mode;
       localStorage.setItem('kartuUjianCfg', JSON.stringify(o));
       state.dirty = false;
       updateSaveBadge();
@@ -1763,16 +1832,23 @@ a { color: var(--primary); text-decoration: none; }
       '<div class="k-line"></div>';
     if(state.mode==='bangku'){
       var b = function(l,v){ return '<div class="r"><span class="l">'+l+'</span><span class="c">:</span><span class="v">'+esc(v)+'</span></div>'; };
+      var noStr = String(s.no||'');
+      var noCls = 'n';
+      if(noStr.length > 11) noCls = 'n n-sm';
+      else if(noStr.length > 8) noCls = 'n n-md';
       return '<div class="kartu bk">'+w+head+
-        '<div class="bk-body"><div class="bk-no"><span class="l">NO. PESERTA</span><span class="n">'+esc(s.no)+'</span></div>'+
+        '<div class="bk-body"><div class="bk-no"><span class="l">NO. PESERTA</span><span class="'+noCls+'">'+esc(noStr)+'</span></div>'+
         '<div class="bk-info"><div class="nm">'+esc(s.nama)+'</div>'+b('NISN',s.nisn)+b('Kelas',s.kelas)+b('Ruang',s.ruang)+'</div></div>'+
       '</div>';
     }
+    var ttdImg = state.ttd ? '<img class="ttd-img" src="'+state.ttd+'" alt="TTD">' : '';
+    var stempelImg = state.stempel ? '<img class="stempel-overlay" src="'+state.stempel+'" alt="Stempel">' : '';
     return '<div class="kartu">'+w+head+
       '<div class="k-data">'+d('No. Peserta',s.no)+d('NISN',s.nisn)+d('Nama',s.nama)+d('TTL',s.ttl)+d('Kelas/Ruang',kr)+'</div>'+
       '<div class="k-foot"><div class="k-foto">'+(foto?'<img src="'+foto+'">':userSvg)+'</div>'+
-      '<div class="k-ttd"><div>'+esc($('tempat').value)+', '+esc($('tanggal').value)+'</div><div>Kepala Sekolah,</div>'+
-      '<div class="sig">'+(state.ttd?'<img src="'+state.ttd+'">':'')+'</div>'+
+      '<div class="k-ttd">'+stempelImg+
+      '<div>'+esc($('tempat').value)+', '+esc($('tanggal').value)+'</div><div>Kepala Sekolah,</div>'+
+      '<div class="sig">'+ttdImg+'</div>'+
       '<div class="n">'+esc($('kepala').value)+'</div><div class="p">NIP. '+esc($('nip').value)+'</div></div></div>'+
     '</div>';
   }
@@ -1848,6 +1924,30 @@ a { color: var(--primary); text-decoration: none; }
     }
     setLogoBox('boxL', state.logoL);
     setLogoBox('boxR', state.logoR);
+
+    var prevRow = $('ttdPreviewRow');
+    var prevBox = $('ttdLivePreview');
+    if(prevRow && prevBox){
+      if(state.ttd || state.stempel){
+        prevRow.style.display = 'block';
+        var tempat = ($('tempat') && $('tempat').value) || 'Tempat';
+        var tanggal = ($('tanggal') && $('tanggal').value) || 'Tanggal';
+        var kepala = ($('kepala') && $('kepala').value) || 'Nama Kepala';
+        var nip = ($('nip') && $('nip').value) || '';
+        var html = '<div style="position:relative;text-align:center;font-size:11px;line-height:1.35;padding:8px 16px;min-width:160px">';
+        if(state.stempel) html += '<img src="'+state.stempel+'" style="position:absolute;left:6%;top:36%;transform:translate(0,-40%);width:68px;height:68px;object-fit:contain;opacity:.9;z-index:5;pointer-events:none">';
+        html += '<div style="position:relative;z-index:1">'+esc(tempat)+', '+esc(tanggal)+'</div>';
+        html += '<div style="position:relative;z-index:1">Kepala Sekolah,</div>';
+        html += '<div style="position:relative;z-index:1;height:36px;display:flex;align-items:center;justify-content:center">'+(state.ttd?'<img src="'+state.ttd+'" style="max-height:32px;max-width:100px">':'')+'</div>';
+        html += '<div style="position:relative;z-index:1;font-weight:700;text-decoration:underline">'+esc(kepala)+'</div>';
+        html += '<div style="position:relative;z-index:1;font-size:10px">NIP. '+esc(nip)+'</div>';
+        html += '</div>';
+        prevBox.innerHTML = html;
+      } else {
+        prevRow.style.display = 'none';
+        prevBox.innerHTML = '';
+      }
+    }
     updateStats();
   }
 
@@ -1937,6 +2037,7 @@ a { color: var(--primary); text-decoration: none; }
   if($('fLogoR')) $('fLogoR').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoR=u; markDirty(); save(); render(); toast('Logo kanan diperbarui','success'); }); };
   if($('fWm')) $('fWm').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.wmImg=u; markDirty(); save(); render(); toast('Gambar watermark dipasang','success'); }); };
   if($('fTtd')) $('fTtd').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.ttd=u; markDirty(); save(); render(); toast('Tanda tangan dipasang','success'); }); };
+  if($('fStempel')) $('fStempel').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.stempel=u; markDirty(); save(); render(); toast('Stempel sekolah dipasang','success'); }); };
 
   ['modeUjian','modeBangku'].forEach(function(id){
     if($(id)) $(id).addEventListener('change', function(){

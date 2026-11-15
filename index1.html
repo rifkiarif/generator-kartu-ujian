@@ -1,0 +1,2089 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#087C55">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="description" content="Aplikasi web modern untuk membuat kartu ujian dan kartu bangku sekolah. Upload data Excel, cocokkan foto NISN, atur kop & tanda tangan, lalu cetak ke A3/A4.">
+<title>Generator Kartu Ujian</title>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="id_ID">
+<meta property="og:title" content="Generator Kartu Ujian">
+<meta property="og:description" content="Buat kartu ujian & kartu bangku sekolah dengan mudah. Import Excel, cocokkan foto, atur desain, lalu cetak.">
+<meta property="og:image" content="og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Generator Kartu Ujian — Kartu Ujian & Kartu Bangku Sekolah">
+<meta property="og:site_name" content="Generator Kartu Ujian">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Generator Kartu Ujian">
+<meta name="twitter:description" content="Buat kartu ujian & kartu bangku sekolah dengan mudah. Import Excel, cocokkan foto, atur desain, lalu cetak.">
+<meta name="twitter:image" content="og-image.png">
+<meta name="twitter:image:alt" content="Generator Kartu Ujian — Kartu Ujian & Kartu Bangku Sekolah">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #087C55;
+  --primary-d: #066445;
+  --primary-l: #E8F5F0;
+  --primary-soft: #D1EDE3;
+  --accent: #0EA572;
+  --bg: #F5F7F8;
+  --card: #FFFFFF;
+  --ink: #172B24;
+  --mute: #718078;
+  --line: #E5EBE7;
+  --line-strong: #D0D9D4;
+  --danger: #DC3545;
+  --danger-bg: #FEF2F2;
+  --warning: #F59E0B;
+  --success: #10B981;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-xs: 10px;
+  --shadow: 0 1px 3px rgba(23,43,36,.06), 0 4px 12px rgba(23,43,36,.04);
+  --shadow-md: 0 4px 16px rgba(23,43,36,.08);
+  --shadow-lg: 0 8px 28px rgba(23,43,36,.1);
+  --sidebar-w: 260px;
+  --sidebar-collapsed: 72px;
+  --header-h: 60px;
+  --bottom-nav-h: 64px;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+button, input, select, textarea { font-family: inherit; }
+img { max-width: 100%; display: block; }
+a { color: var(--primary); text-decoration: none; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* ===== APP SHELL ===== */
+.app {
+  display: flex;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--card);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 40;
+  transition: width .25s ease, transform .25s ease;
+  padding-top: var(--safe-top);
+}
+.sidebar.collapsed { width: var(--sidebar-collapsed); }
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--line);
+  min-height: 72px;
+}
+.sidebar-brand .logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+.sidebar-brand .brand-text { overflow: hidden; }
+.sidebar-brand h1 {
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  white-space: nowrap; line-height: 1.25;
+}
+.sidebar-brand p {
+  font-size: 11px; color: var(--mute); white-space: nowrap;
+}
+.sidebar.collapsed .brand-text { display: none; }
+.sidebar-nav {
+  flex: 1;
+  padding: 12px 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-xs);
+  border: 0;
+  background: transparent;
+  color: var(--mute);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: background .15s, color .15s;
+}
+.nav-item:hover { background: var(--primary-l); color: var(--primary); }
+.nav-item.active {
+  background: var(--primary-l);
+  color: var(--primary);
+  font-weight: 600;
+}
+.nav-item svg { flex-shrink: 0; width: 20px; height: 20px; }
+.sidebar.collapsed .nav-item span { display: none; }
+.sidebar.collapsed .nav-item { justify-content: center; padding: 12px; }
+.sidebar-footer {
+  padding: 12px 10px 16px;
+  border-top: 1px solid var(--line);
+}
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 0;
+  background: transparent;
+  color: var(--mute);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+}
+.sidebar-toggle:hover { background: var(--bg); color: var(--ink); }
+.sidebar.collapsed .sidebar-toggle span { display: none; }
+.sidebar.collapsed .sidebar-toggle { justify-content: center; }
+
+.main-wrap {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  transition: margin-left .25s ease;
+}
+.sidebar.collapsed ~ .main-wrap { margin-left: var(--sidebar-collapsed); }
+
+/* ===== HEADER ===== */
+.topbar {
+  height: var(--header-h);
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  gap: 12px;
+}
+.topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.topbar-title {
+  font-size: 17px; font-weight: 700; color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.topbar-sub {
+  font-size: 12px; color: var(--mute); margin-top: 1px;
+}
+.save-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--success);
+  background: #ECFDF5;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.save-badge.dirty { color: var(--warning); background: #FFFBEB; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 0;
+  cursor: pointer;
+  transition: background .15s, transform .1s, box-shadow .15s;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.btn:active { transform: scale(.97); }
+.btn:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(8,124,85,.25);
+}
+.btn-primary:hover:not(:disabled) { background: var(--primary-d); }
+.btn-secondary {
+  background: var(--primary-l);
+  color: var(--primary);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--primary-soft); }
+.btn-outline {
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+}
+.btn-outline:hover:not(:disabled) { background: var(--bg); border-color: var(--mute); }
+.btn-ghost {
+  background: transparent;
+  color: var(--mute);
+  padding: 8px 10px;
+}
+.btn-ghost:hover { background: var(--bg); color: var(--ink); }
+.btn-danger {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+.btn-danger:hover:not(:disabled) { background: #FEE2E2; }
+.btn-warning {
+  background: #FEF3C7;
+  color: #B45309;
+}
+.btn-lg { padding: 14px 20px; font-size: 15px; border-radius: 14px; min-height: 48px; }
+.btn-sm { padding: 7px 12px; font-size: 12.5px; border-radius: 10px; }
+.btn-icon {
+  width: 40px; height: 40px; padding: 0;
+  border-radius: 12px;
+}
+.btn-block { width: 100%; }
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  padding: 20px 24px 32px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.page { display: none; animation: fadeIn .25s ease; }
+.page.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===== CARDS & PANELS ===== */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+  padding: 20px;
+}
+.card + .card { margin-top: 16px; }
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--mute);
+  margin-bottom: 16px;
+}
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mute);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  margin-bottom: 10px;
+}
+
+/* ===== STATS ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  padding: 18px 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.stat-card .stat-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.stat-card .stat-icon.green { background: var(--primary-l); color: var(--primary); }
+.stat-card .stat-icon.blue { background: #EFF6FF; color: #3B82F6; }
+.stat-card .stat-icon.amber { background: #FFFBEB; color: #D97706; }
+.stat-card .stat-icon.red { background: var(--danger-bg); color: var(--danger); }
+.stat-card .stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.1;
+}
+.stat-card .stat-label {
+  font-size: 12.5px;
+  color: var(--mute);
+  font-weight: 500;
+}
+
+/* ===== FORMS ===== */
+.form-group { margin-bottom: 16px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.form-hint {
+  font-size: 12px;
+  color: var(--mute);
+  margin-top: 5px;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-xs);
+  padding: 12px 14px;
+  font-size: 14.5px;
+  background: #FAFBFA;
+  color: var(--ink);
+  transition: border-color .15s, box-shadow .15s;
+  min-height: 48px;
+}
+.form-textarea { min-height: 80px; resize: vertical; height: auto; padding-top: 12px; }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(8,124,85,.12);
+  background: #fff;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+}
+
+/* ===== UPLOAD ZONES ===== */
+.upload-zone {
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+  background: #FAFBFA;
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--primary);
+  background: var(--primary-l);
+}
+.upload-zone .uz-icon {
+  width: 48px; height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background: var(--primary-l);
+  color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+}
+.upload-zone .uz-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.upload-zone .uz-desc {
+  font-size: 12.5px;
+  color: var(--mute);
+}
+.upload-zone.has-file {
+  border-style: solid;
+  border-color: var(--primary-soft);
+  background: var(--primary-l);
+}
+.upload-zone input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.upload-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--card);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s;
+  box-shadow: var(--shadow);
+}
+.upload-btn:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.upload-btn .ub-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.upload-btn .ub-icon.green { background: var(--primary-l); color: var(--primary); }
+.upload-btn .ub-icon.blue { background: #EFF6FF; color: #2563EB; }
+.upload-btn .ub-icon.amber { background: #FFFBEB; color: #D97706; }
+.upload-btn .ub-text { flex: 1; min-width: 0; }
+.upload-btn .ub-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.upload-btn .ub-desc { font-size: 12px; color: var(--mute); margin-top: 2px; }
+.upload-btn .ub-arrow { color: var(--mute); flex-shrink: 0; }
+
+/* ===== LOGO BOXES ===== */
+.logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.logo-box {
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: #FAFBFA;
+  transition: border-color .15s, background .15s;
+  overflow: hidden;
+  position: relative;
+}
+.logo-box:hover { border-color: var(--primary); background: var(--primary-l); }
+.logo-box img { max-height: 72px; max-width: 90%; object-fit: contain; }
+.logo-box .placeholder {
+  text-align: center;
+  color: var(--mute);
+  font-size: 12px;
+  padding: 8px;
+}
+.logo-box .placeholder svg { margin: 0 auto 6px; opacity: .6; }
+
+/* ===== SEGMENT / MODE ===== */
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.seg-item {
+  position: relative;
+  cursor: pointer;
+}
+.seg-item input { position: absolute; opacity: 0; pointer-events: none; }
+.seg-item .seg-card {
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 14px;
+  text-align: center;
+  background: var(--card);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.seg-item input:checked + .seg-card {
+  border-color: var(--primary);
+  background: var(--primary-l);
+  box-shadow: 0 0 0 3px rgba(8,124,85,.1);
+}
+.seg-item .seg-card .seg-icon {
+  width: 40px; height: 40px;
+  margin: 0 auto 10px;
+  border-radius: 12px;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--mute);
+}
+.seg-item input:checked + .seg-card .seg-icon {
+  background: var(--primary);
+  color: #fff;
+}
+.seg-item .seg-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.seg-item .seg-desc { font-size: 11.5px; color: var(--mute); margin-top: 3px; }
+
+/* ===== STEPPER ===== */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.step-dot {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--bg);
+  color: var(--mute);
+  border: 2px solid var(--line-strong);
+  transition: all .2s;
+}
+.step-item.active .step-dot {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+.step-item.done .step-dot {
+  background: var(--primary-l);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.step-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mute);
+  white-space: nowrap;
+}
+.step-item.active .step-label { color: var(--ink); }
+.step-item.done .step-label { color: var(--primary); }
+.step-line {
+  width: 28px;
+  height: 2px;
+  background: var(--line-strong);
+  margin: 0 6px;
+  flex-shrink: 0;
+}
+.step-item.done + .step-line,
+.step-item.done ~ .step-line { background: var(--primary-soft); }
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+/* ===== PREVIEW ===== */
+.preview-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 20px;
+  align-items: start;
+}
+.preview-panel {
+  position: sticky;
+  top: calc(var(--header-h) + 20px);
+}
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.preview-toolbar h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.preview-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stage {
+  background: #E8EBEA;
+  border-radius: var(--radius);
+  padding: 20px;
+  min-height: 320px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-content: flex-start;
+  overflow: auto;
+  max-height: calc(100vh - 200px);
+  border: 1px solid var(--line);
+}
+.stage.bangku .kartu { zoom: .68; }
+.stage.empty-state {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--mute);
+  text-align: center;
+  gap: 10px;
+  min-height: 280px;
+}
+.zoom-val {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mute);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ===== KARTU (print fidelity) ===== */
+.kartu {
+  width: 95mm;
+  height: 68mm;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 2.2mm 3mm 2mm;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  overflow: hidden;
+  flex: none;
+  break-inside: avoid;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+}
+.k-head { display: flex; align-items: center; gap: 2mm; height: 12.5mm; }
+.k-head .lg { width: 9mm; height: 10.5mm; display: flex; align-items: center; justify-content: center; flex: none; }
+.k-head .lg img { max-width: 100%; max-height: 100%; }
+.k-title { flex: 1; text-align: center; line-height: 1.12; }
+.k-title .s { font-size: 8.6pt; font-weight: 700; }
+.k-title .a { font-size: 4.6pt; border-bottom: 1px dashed #000; padding-bottom: .3mm; margin-bottom: .4mm; }
+.k-title .u { font-size: 7pt; font-weight: 700; letter-spacing: .1px; }
+.k-title .t { font-size: 4.8pt; }
+.k-line { border-top: 1.2px solid #000; margin: 1mm 0 1.4mm; }
+.k-data { font-size: 6.3pt; line-height: 1.28; }
+.k-data div { display: flex; }
+.k-data .l { width: 20mm; flex: none; }
+.k-data .c { width: 3.5mm; flex: none; }
+.k-data .v { font-weight: 700; flex: 1; }
+.k-foot { position: absolute; left: 3mm; right: 3mm; bottom: 2mm; height: 27mm; }
+.k-foto {
+  position: absolute; left: 0; top: 2mm;
+  width: 17mm; height: 22.5mm;
+  border: 1px solid #bbb; background: #f6f6f6;
+  display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.k-foto img { width: 100%; height: 100%; object-fit: cover; }
+.k-ttd { position: absolute; right: 0; top: 0; width: 52mm; text-align: center; font-size: 5.6pt; line-height: 1.25; }
+.k-ttd .sig { height: 10mm; display: flex; align-items: center; justify-content: center; }
+.k-ttd .sig img { max-height: 10mm; max-width: 30mm; }
+.k-ttd .n { font-weight: 700; text-decoration: underline; font-size: 6pt; }
+.k-ttd .p { font-size: 4.8pt; }
+.kartu .wm {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 0; pointer-events: none; overflow: hidden;
+}
+.wm span {
+  font-weight: 800; font-size: 22pt;
+  transform: rotate(-25deg); white-space: nowrap;
+  color: #000; letter-spacing: 1px;
+}
+.wm img { max-width: 60%; max-height: 80%; object-fit: contain; }
+.k-head, .k-line, .k-data { position: relative; z-index: 1; }
+.k-foto, .k-ttd { z-index: 1; }
+
+/* Kartu Bangku */
+.kartu.bk { width: 190mm; height: 66mm; padding: 4mm 7mm 4mm; }
+.bk .k-head { height: 18mm; gap: 4mm; }
+.bk .k-head .lg { width: 14mm; height: 16mm; }
+.bk .k-title .s { font-size: 15pt; }
+.bk .k-title .a { font-size: 7pt; padding-bottom: .6mm; margin-bottom: .8mm; }
+.bk .k-title .u { font-size: 10.5pt; }
+.bk .k-title .t { font-size: 8pt; }
+.bk .k-line { margin: 1.5mm 0 3mm; border-top-width: 1.6px; }
+.bk-body { display: flex; align-items: center; gap: 8mm; position: relative; z-index: 1; }
+.bk-no {
+  width: 52mm; height: 29mm;
+  border: 2px solid #000;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; flex: none;
+}
+.bk-no .l { font-size: 9pt; letter-spacing: 1px; }
+.bk-no .n { font-size: 30pt; font-weight: 800; line-height: 1.1; }
+.bk-info { flex: 1; min-width: 0; }
+.bk-info .nm { font-size: 20pt; font-weight: 800; line-height: 1.15; margin-bottom: 2.5mm; overflow-wrap: anywhere; }
+.bk-info .r { display: flex; font-size: 11.5pt; line-height: 1.5; }
+.bk-info .r .l { width: 30mm; flex: none; }
+.bk-info .r .c { width: 4mm; flex: none; }
+.bk-info .r .v { font-weight: 700; }
+
+/* ===== STATUS / ALERT ===== */
+.status-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 12px;
+}
+.status-bar.info { background: var(--primary-l); color: var(--primary-d); }
+.status-bar.success { background: #ECFDF5; color: #065F46; }
+.status-bar.error { background: var(--danger-bg); color: var(--danger); }
+.status-bar.loading { background: #EFF6FF; color: #1D4ED8; }
+.status-bar .spinner {
+  width: 16px; height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== TOAST ===== */
+.toast-wrap {
+  position: fixed;
+  top: calc(16px + var(--safe-top));
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  animation: toastIn .3s ease;
+  max-width: 340px;
+}
+.toast.success { background: #065F46; }
+.toast.error { background: #991B1B; }
+.toast.info { background: #1E3A5F; }
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(23,43,36,.45);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+  padding: 20px;
+  padding-bottom: calc(20px + var(--safe-bottom));
+}
+.modal-overlay.on { display: flex; }
+.modal-box {
+  background: var(--card);
+  border-radius: 20px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn .25s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.96) translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0;
+}
+.modal-header h3 { font-size: 17px; font-weight: 700; }
+.modal-body { padding: 16px 20px 8px; }
+.modal-body ol { padding-left: 20px; line-height: 1.7; font-size: 14px; color: var(--ink); }
+.modal-body li { margin-bottom: 8px; }
+.modal-body li b { color: var(--primary); }
+.modal-footer {
+  padding: 12px 20px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* ===== RANGE ===== */
+.range-wrap { display: flex; align-items: center; gap: 12px; }
+.range-wrap input[type=range] {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 6px;
+  background: var(--line);
+  border-radius: 3px;
+  outline: none;
+}
+.range-wrap input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.range-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  min-width: 40px;
+  text-align: right;
+}
+
+/* ===== APP FOOTER ===== */
+.app-footer {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding: 18px 24px;
+  text-align: center;
+  color: var(--mute);
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin-top: auto;
+}
+.app-footer strong { color: var(--ink); font-weight: 600; }
+.app-footer .footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 13px;
+}
+.app-footer .footer-brand svg { flex-shrink: 0; }
+.app-footer .footer-meta { font-size: 11.5px; opacity: .85; }
+
+/* ===== PRINT ===== */
+#printArea { display: none; }
+@media print {
+  body { background: #fff !important; height: auto !important; display: block !important; overflow: visible !important; }
+  .app, .toast-wrap, .modal-overlay, .bottom-nav, .fab-print, .app-footer { display: none !important; }
+  #printArea { display: grid; justify-content: center; align-content: start; }
+  #printArea .kartu { border: 1px solid #000; box-shadow: none; }
+}
+
+/* ===== BOTTOM NAV (mobile) ===== */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: calc(var(--bottom-nav-h) + var(--safe-bottom));
+  padding-bottom: var(--safe-bottom);
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  z-index: 50;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: 0 -2px 12px rgba(23,43,36,.06);
+}
+.bn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--mute);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  min-width: 64px;
+  border-radius: 10px;
+  transition: color .15s;
+}
+.bn-item.active { color: var(--primary); }
+.bn-item svg { width: 22px; height: 22px; }
+
+.fab-print {
+  display: none;
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--bottom-nav-h) + var(--safe-bottom) + 16px);
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: var(--primary);
+  color: #fff;
+  border: 0;
+  box-shadow: 0 4px 16px rgba(8,124,85,.35);
+  z-index: 45;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+.fab-print:active { transform: scale(.95); }
+
+/* ===== EMPTY / HELPER ===== */
+.empty-box {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--mute);
+}
+.empty-box svg { margin: 0 auto 12px; opacity: .5; }
+.empty-box h4 { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.empty-box p { font-size: 13px; }
+
+.help-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.help-link:hover { text-decoration: underline; }
+
+/* ===== QUICK ACTIONS DASHBOARD ===== */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+.quick-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, box-shadow .15s;
+  box-shadow: var(--shadow);
+  width: 100%;
+}
+.quick-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.quick-card .qc-icon {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  background: var(--primary-l);
+  color: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+.quick-card h4 { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.quick-card p { font-size: 12px; color: var(--mute); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .preview-layout { grid-template-columns: 1fr; }
+  .preview-panel { position: static; }
+  .stage { max-height: 480px; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); width: var(--sidebar-w); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar.collapsed { width: var(--sidebar-w); }
+  .main-wrap { margin-left: 0 !important; }
+  .bottom-nav { display: flex; }
+  .fab-print { display: flex; }
+  .content {
+    padding: 16px 16px 16px;
+  }
+  .app-footer {
+    padding: 14px 16px calc(14px + var(--bottom-nav-h) + var(--safe-bottom) + 64px);
+  }
+  .topbar { padding: 0 14px; height: 56px; }
+  .topbar-title { font-size: 16px; }
+  .topbar-sub { display: none; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 14px 12px; }
+  .stat-card .stat-value { font-size: 20px; }
+  .form-row, .form-row-3, .logo-grid { grid-template-columns: 1fr; }
+  .seg { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: 1fr; }
+  .stepper { gap: 0; }
+  .step-label { display: none; }
+  .step-line { width: 20px; }
+  .card { padding: 16px; border-radius: 14px; }
+  .btn-lg { min-height: 48px; }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.35);
+    z-index: 35;
+  }
+  .sidebar-overlay.on { display: block; }
+  .menu-btn { display: flex !important; }
+  .desktop-only { display: none !important; }
+  .save-badge { display: none; }
+}
+
+@media (min-width: 769px) {
+  .menu-btn { display: none !important; }
+  .mobile-only { display: none !important; }
+}
+
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .upload-btn { padding: 14px; gap: 10px; }
+  .upload-btn .ub-icon { width: 40px; height: 40px; }
+}
+
+/* Backdrop for sidebar on mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(23,43,36,.4);
+  z-index: 35;
+  backdrop-filter: blur(2px);
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/></svg>
+      </div>
+      <div class="brand-text">
+        <h1>Generator Kartu</h1>
+        <p>Ujian & Bangku</p>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="dashboard" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="peserta" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Data Peserta</span>
+      </button>
+      <button class="nav-item" data-page="identitas" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Identitas Sekolah</span>
+      </button>
+      <button class="nav-item" data-page="desain" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+        <span>Desain Kartu</span>
+      </button>
+      <button class="nav-item" data-page="preview" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span>Preview & Cetak</span>
+      </button>
+      <button class="nav-item" data-page="petunjuk" type="button" id="navHelp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Petunjuk</span>
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-toggle" id="btnCollapse" type="button" title="Ciutkan sidebar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+        <span>Ciutkan</span>
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- MAIN -->
+  <div class="main-wrap">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="btn btn-ghost btn-icon menu-btn" id="btnMenu" type="button" aria-label="Menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div>
+          <div class="topbar-title" id="pageTitle">Dashboard</div>
+          <div class="topbar-sub" id="pageSub">Ringkasan & akses cepat</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="save-badge" id="saveBadge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Tersimpan
+        </span>
+        <button class="btn btn-ghost btn-icon desktop-only" id="btnHelpTop" type="button" title="Petunjuk">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </button>
+        <select id="paper" class="form-select desktop-only" style="width:auto;min-height:40px;padding:8px 12px;font-size:13px;" title="Ukuran kertas">
+          <option value="A3">Kertas A3</option>
+          <option value="A4">Kertas A4</option>
+        </select>
+        <button class="btn btn-primary desktop-only" id="btnPrint" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Cetak
+        </button>
+      </div>
+    </header>
+
+    <main class="content">
+      <!-- DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-value" id="statTotal">1</div>
+            <div class="stat-label">Total Peserta</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            <div class="stat-value" id="statFotoOk">0</div>
+            <div class="stat-label">Foto Cocok</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="stat-value" id="statFotoMiss">1</div>
+            <div class="stat-label">Foto Belum Ada</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="stat-value" id="statReady">—</div>
+            <div class="stat-label">Status Data</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Akses Cepat</div>
+          <div class="card-desc">Mulai dari langkah yang Anda butuhkan</div>
+          <div class="quick-grid">
+            <button class="quick-card" type="button" data-goto="peserta">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <h4>Upload Data Peserta</h4>
+              <p>Import Excel & foto ZIP</p>
+            </button>
+            <button class="quick-card" type="button" data-goto="identitas">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              </div>
+              <h4>Identitas Sekolah</h4>
+              <p>Logo, kop, & tanda tangan</p>
+            </button>
+            <button class="quick-card" type="button" data-goto="desain">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <h4>Desain Kartu</h4>
+              <p>Jenis kartu & watermark</p>
+            </button>
+            <button class="quick-card" type="button" data-goto="preview">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              </div>
+              <h4>Preview & Cetak</h4>
+              <p>Lihat hasil dan cetak</p>
+            </button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Informasi</div>
+          <p style="font-size:13.5px;color:var(--mute);line-height:1.6">
+            Aplikasi ini menghasilkan kartu ujian (9,5 × 6,8 cm) dan kartu bangku (19 × 6,6 cm).
+            Upload data dari Excel, cocokkan foto berdasarkan NISN, atur kop sekolah, lalu cetak ke A3 atau A4.
+            Konfigurasi disimpan otomatis di browser Anda.
+          </p>
+          <button class="help-link" type="button" id="btnHelpDash" style="margin-top:12px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            Baca petunjuk lengkap
+          </button>
+        </div>
+      </section>
+
+      <!-- PESERTA -->
+      <section class="page" id="page-peserta">
+        <div class="stepper" id="stepperPeserta">
+          <div class="step-item active" data-step="1"><div class="step-dot">1</div><span class="step-label">Data</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="2"><div class="step-dot">2</div><span class="step-label">Identitas</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="3"><div class="step-dot">3</div><span class="step-label">Desain</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="4"><div class="step-dot">4</div><span class="step-label">Cetak</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Data & Foto Peserta
+          </div>
+          <div class="card-desc">Unduh template, isi data, lalu unggah file Excel dan foto ZIP.</div>
+
+          <div class="upload-actions">
+            <button class="upload-btn" type="button" id="btnTpl">
+              <div class="ub-icon green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Unduh Template Excel</div>
+                <div class="ub-desc">Format kolom: No Peserta, NISN, Nama, TTL, Kelas, Ruang</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+
+            <button class="upload-btn" type="button" id="btnXls">
+              <div class="ub-icon blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Upload File .xlsx</div>
+                <div class="ub-desc">Pilih file Excel yang sudah diisi data peserta</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <input type="file" id="fXls" accept=".xlsx,.xls" hidden>
+
+            <button class="upload-btn" type="button" id="btnZip">
+              <div class="ub-icon amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Upload Foto (.zip)</div>
+                <div class="ub-desc">Nama file foto harus sama dengan NISN (contoh: 1234567890.jpg)</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <input type="file" id="fZip" accept=".zip" hidden>
+          </div>
+
+          <div id="statusPeserta" class="status-bar info" style="display:none"></div>
+
+          <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn btn-danger btn-sm" type="button" id="btnReset">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Reset Data Siswa
+            </button>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline" type="button" disabled>Kembali</button>
+          <button class="btn btn-primary" type="button" data-goto="identitas">Lanjutkan →</button>
+        </div>
+      </section>
+
+      <!-- IDENTITAS -->
+      <section class="page" id="page-identitas">
+        <div class="stepper">
+          <div class="step-item done" data-step="1"><div class="step-dot">✓</div><span class="step-label">Data</span></div>
+          <div class="step-line"></div>
+          <div class="step-item active" data-step="2"><div class="step-dot">2</div><span class="step-label">Identitas</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="3"><div class="step-dot">3</div><span class="step-label">Desain</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="4"><div class="step-dot">4</div><span class="step-label">Cetak</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Logo Sekolah</div>
+          <div class="card-desc">Klik kotak untuk mengganti logo kiri dan kanan.</div>
+          <div class="logo-grid">
+            <div>
+              <div class="form-label">Logo Kiri (Kemenag/Dinas/Yayasan)</div>
+              <div class="logo-box" id="boxL" title="Klik untuk ganti logo">
+                <div class="placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><div>Klik upload</div></div>
+              </div>
+            </div>
+            <div>
+              <div class="form-label">Logo Kanan (Madrasah/Sekolah)</div>
+              <div class="logo-box" id="boxR" title="Klik untuk ganti logo">
+                <div class="placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><div>Klik upload</div></div>
+              </div>
+            </div>
+          </div>
+          <input type="file" id="fLogoL" accept="image/*" hidden>
+          <input type="file" id="fLogoR" accept="image/*" hidden>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Kop & Informasi Ujian</div>
+          <div class="form-group">
+            <label class="form-label" for="sekolah">Nama Sekolah</label>
+            <input type="text" class="form-input" id="sekolah" placeholder="Contoh: SMP NEGERI 4 SILO">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alamat">Alamat</label>
+            <textarea class="form-textarea" id="alamat" placeholder="Alamat lengkap sekolah"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="ujian">Nama Ujian</label>
+              <input type="text" class="form-input" id="ujian" placeholder="ASESMEN SUMATIF...">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tahun">Tahun Pelajaran</label>
+              <input type="text" class="form-input" id="tahun" placeholder="2026/2027">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="tempat">Tempat (Titi Mangsa)</label>
+              <input type="text" class="form-input" id="tempat" placeholder="Jember">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="tanggal">Tanggal</label>
+              <input type="text" class="form-input" id="tanggal" placeholder="28 November 2026">
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Tanda Tangan</div>
+          <div class="form-group">
+            <label class="form-label" for="kepala">Nama Kepala Madrasah / Sekolah</label>
+            <input type="text" class="form-input" id="kepala" placeholder="Drs. H. Nama, M.Pd.">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="nip">NIP</label>
+            <input type="text" class="form-input" id="nip" placeholder="19700101 200012 1 001">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="fTtd">Upload TTD / Stempel (Opsional)</label>
+            <input type="file" class="form-input" id="fTtd" accept="image/*" style="padding:10px 12px">
+            <p class="form-hint">PNG transparan disarankan. Akan ditampilkan di area tanda tangan kartu.</p>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline" type="button" data-goto="peserta">← Kembali</button>
+          <button class="btn btn-primary" type="button" data-goto="desain">Lanjutkan →</button>
+        </div>
+      </section>
+
+      <!-- DESAIN -->
+      <section class="page" id="page-desain">
+        <div class="stepper">
+          <div class="step-item done" data-step="1"><div class="step-dot">✓</div><span class="step-label">Data</span></div>
+          <div class="step-line"></div>
+          <div class="step-item done" data-step="2"><div class="step-dot">✓</div><span class="step-label">Identitas</span></div>
+          <div class="step-line"></div>
+          <div class="step-item active" data-step="3"><div class="step-dot">3</div><span class="step-label">Desain</span></div>
+          <div class="step-line"></div>
+          <div class="step-item" data-step="4"><div class="step-dot">4</div><span class="step-label">Cetak</span></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Jenis Kartu</div>
+          <div class="card-desc">Pilih jenis kartu yang akan digenerate.</div>
+          <div class="seg">
+            <label class="seg-item">
+              <input type="radio" name="mode" id="modeUjian" value="ujian" checked>
+              <div class="seg-card">
+                <div class="seg-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                </div>
+                <div class="seg-title">Kartu Ujian</div>
+                <div class="seg-desc">9,5 × 6,8 cm · foto + data</div>
+              </div>
+            </label>
+            <label class="seg-item">
+              <input type="radio" name="mode" id="modeBangku" value="bangku">
+              <div class="seg-card">
+                <div class="seg-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="1"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg>
+                </div>
+                <div class="seg-title">Kartu Bangku</div>
+                <div class="seg-desc">19 × 6,6 cm · nomor besar</div>
+              </div>
+            </label>
+          </div>
+          <p class="form-hint" style="margin-top:12px">Kartu Bangku berisi nomor peserta dan nama dengan huruf besar untuk ditempel atau diletakkan di meja.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Watermark (Opsional)</div>
+          <div class="card-desc">Tambahkan teks atau gambar watermark di belakang kartu.</div>
+          <div class="form-group">
+            <label class="form-label" for="wmType">Jenis Watermark</label>
+            <select class="form-select" id="wmType">
+              <option value="none">Tanpa watermark</option>
+              <option value="teks">Teks</option>
+              <option value="gambar">Gambar</option>
+            </select>
+          </div>
+          <div id="wmTextRow" hidden>
+            <div class="form-group">
+              <label class="form-label" for="wmText">Teks Watermark</label>
+              <input type="text" class="form-input" id="wmText" placeholder="Contoh: SMPN 4 SILO">
+            </div>
+          </div>
+          <div id="wmImgRow" hidden>
+            <div class="form-group">
+              <label class="form-label" for="fWm">Gambar Watermark (PNG/JPG)</label>
+              <input type="file" class="form-input" id="fWm" accept="image/*" style="padding:10px 12px">
+              <p class="form-hint" id="wmImgNote">Belum ada gambar dipilih.</p>
+            </div>
+          </div>
+          <div id="wmOpRow" hidden>
+            <div class="form-group">
+              <label class="form-label">Transparansi</label>
+              <div class="range-wrap">
+                <input type="range" id="wmOpacity" min="3" max="60" step="1" value="15">
+                <span class="range-val"><span id="wmOpVal">15</span>%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline" type="button" data-goto="identitas">← Kembali</button>
+          <button class="btn btn-primary" type="button" data-goto="preview">Lanjutkan →</button>
+        </div>
+      </section>
+
+      <!-- PREVIEW -->
+      <section class="page" id="page-preview">
+        <div class="stepper">
+          <div class="step-item done" data-step="1"><div class="step-dot">✓</div><span class="step-label">Data</span></div>
+          <div class="step-line"></div>
+          <div class="step-item done" data-step="2"><div class="step-dot">✓</div><span class="step-label">Identitas</span></div>
+          <div class="step-line"></div>
+          <div class="step-item done" data-step="3"><div class="step-dot">✓</div><span class="step-label">Desain</span></div>
+          <div class="step-line"></div>
+          <div class="step-item active" data-step="4"><div class="step-dot">4</div><span class="step-label">Cetak</span></div>
+        </div>
+
+        <div class="preview-layout">
+          <div>
+            <div class="card">
+              <div class="card-title">Pengaturan Cetak</div>
+              <div class="form-group">
+                <label class="form-label" for="paperMobile">Ukuran Kertas</label>
+                <select class="form-select" id="paperMobile">
+                  <option value="A3">Kertas A3</option>
+                  <option value="A4">Kertas A4</option>
+                </select>
+              </div>
+              <p class="form-hint">Kartu disusun otomatis dengan jarak 3 mm. Pada dialog cetak browser, atur skala 100% (bukan “Fit to page”) dan matikan header/footer.</p>
+              <button class="btn btn-primary btn-lg btn-block" type="button" id="btnPrintMain" style="margin-top:16px">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                Cetak Sekarang
+              </button>
+            </div>
+            <div class="card" style="margin-top:14px">
+              <div class="card-title">Ringkasan</div>
+              <p style="font-size:13.5px;color:var(--mute);line-height:1.6">
+                <span id="sumMode">Kartu Ujian</span> · <span id="sumCount">1</span> kartu<br>
+                Kertas: <span id="sumPaper">A3</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="preview-panel">
+            <div class="preview-toolbar">
+              <h3 id="prevTitle">Preview Kartu (1)</h3>
+              <div class="preview-controls">
+                <button class="btn btn-outline btn-sm" type="button" id="btnZoomOut" title="Perkecil">−</button>
+                <span class="zoom-val" id="zoomVal">100%</span>
+                <button class="btn btn-outline btn-sm" type="button" id="btnZoomIn" title="Perbesar">+</button>
+              </div>
+            </div>
+            <div class="stage" id="stage"></div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="btn btn-outline" type="button" data-goto="desain">← Kembali</button>
+          <button class="btn btn-primary" type="button" id="btnPrintBottom">Cetak</button>
+        </div>
+      </section>
+
+      <!-- PETUNJUK (inline page) -->
+      <section class="page" id="page-petunjuk">
+        <div class="card">
+          <div class="card-title">Petunjuk Penggunaan</div>
+          <ol style="padding-left:20px;line-height:1.75;font-size:14.5px;color:var(--ink)">
+            <li style="margin-bottom:10px">Klik <b>Unduh Template Excel</b>, isi data peserta (No. Peserta, NISN, Nama, TTL, Kelas, Ruang).</li>
+            <li style="margin-bottom:10px">Klik <b>Upload File .xlsx</b> dan pilih file yang sudah diisi.</li>
+            <li style="margin-bottom:10px">Siapkan foto siswa dengan nama file sesuai NISN (contoh <b>1234567890.jpg</b>), kumpulkan dalam satu file ZIP, lalu klik <b>Upload Foto (.zip)</b>.</li>
+            <li style="margin-bottom:10px">Atur kop, tanggal, kepala sekolah, dan TTD pada halaman Identitas Sekolah. Logo dapat diganti dengan klik kotak logo.</li>
+            <li style="margin-bottom:10px">Pilih jenis kartu (Ujian / Bangku) dan atur watermark jika diperlukan.</li>
+            <li style="margin-bottom:10px">Cek hasil pada Preview, pilih ukuran kertas (A3 atau A4), lalu klik <b>Cetak</b>. Kartu disusun otomatis dengan jarak 3 mm. Pada dialog cetak, atur skala 100% (bukan “Fit to page”) dan matikan header/footer browser.</li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-brand">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/></svg>
+        Generator Kartu Ujian
+      </div>
+      <div>Aplikasi web untuk membuat kartu ujian &amp; kartu bangku sekolah</div>
+      <div class="footer-meta">© 2027 · Made with 💓 by @em.rivki | Semua data diproses di perangkat Anda (tidak diunggah ke server)</div>
+    </footer>
+  </div>
+</div>
+
+<!-- Bottom nav mobile -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="bn-item active" data-page="dashboard" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Home
+  </button>
+  <button class="bn-item" data-page="peserta" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    Peserta
+  </button>
+  <button class="bn-item" data-page="desain" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/></svg>
+    Desain
+  </button>
+  <button class="bn-item" data-page="preview" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    Preview
+  </button>
+</nav>
+
+<button class="fab-print" id="fabPrint" type="button" title="Cetak" aria-label="Cetak">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+</button>
+
+<div id="printArea"></div>
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- Modal help -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Petunjuk Penggunaan</h3>
+      <button class="btn btn-ghost btn-icon" type="button" id="btnClose" aria-label="Tutup">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ol>
+        <li>Klik <b>Unduh Template Excel</b>, isi data peserta (No. Peserta, NISN, Nama, TTL, Kelas, Ruang).</li>
+        <li>Klik <b>Upload File .xlsx</b> dan pilih file yang sudah diisi.</li>
+        <li>Siapkan foto siswa dengan nama file sesuai NISN (contoh <b>1234567890.jpg</b>), kumpulkan dalam satu file ZIP, lalu klik <b>Upload Foto (.zip)</b>.</li>
+        <li>Atur kop, tanggal, kepala sekolah, dan TTD. Logo dapat diganti dengan klik kotak logo.</li>
+        <li>Cek hasil pada Preview, pilih ukuran kertas (A3 atau A4), lalu klik <b>Cetak</b>. Kartu disusun otomatis. Pada dialog cetak, atur skala 100% dan matikan header/footer browser.</li>
+      </ol>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" id="btnClose2">Mengerti</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var $$ = function(sel){ return document.querySelectorAll(sel); };
+
+  function shield(c1,c2){
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 70"><path d="M30 3 6 12v22c0 17 12 28 24 33 12-5 24-16 24-33V12z" fill="'+c1+'" stroke="#222" stroke-width="2"/><circle cx="30" cy="34" r="12" fill="'+c2+'" stroke="#222" stroke-width="1.5"/><path d="M30 24v20M20 34h20" stroke="#222" stroke-width="1.5"/></svg>';
+    return 'data:image/svg+xml;utf8,'+encodeURIComponent(s);
+  }
+
+  var DEF = {
+    sekolah:'SMP NEGERI 4 SILO', alamat:'Jl PTPN 1 Regional 5 Kebun Silosanen Sumber Tengah',
+    ujian:'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)', tahun:'2026/2027', tempat:'Jember', tanggal:'28 November 2026',
+    kepala:'Drs. H. Kepala Sekolah, M.Pd.', nip:'19700101 200012 1 001',
+    wmType:'none', wmText:'SMPN 4 SILO', wmOpacity:'15', paper:'A3'
+  };
+  var SAMPLE = [{no:'U-001',nisn:'1234567890',nama:'CONTOH SISWA',ttl:'Jakarta, 17 Agustus 2007',kelas:'XII IPA 1',ruang:'R.01'}];
+  var state = {
+    logoL: shield('#d33','#f4c430'),
+    logoR: shield('#1f4fa8','#f4c430'),
+    ttd:'', wmImg:'', mode:'ujian',
+    siswa: SAMPLE.slice(), foto:{},
+    zoom: 1, dirty: false
+  };
+  var fields = ['sekolah','alamat','ujian','tahun','tempat','tanggal','kepala','nip','wmType','wmText','wmOpacity','paper'];
+  var pageTitles = {
+    dashboard: ['Dashboard', 'Ringkasan & akses cepat'],
+    peserta: ['Data Peserta', 'Upload Excel & foto'],
+    identitas: ['Identitas Sekolah', 'Logo, kop & tanda tangan'],
+    desain: ['Desain Kartu', 'Jenis kartu & watermark'],
+    preview: ['Preview & Cetak', 'Lihat hasil dan cetak'],
+    petunjuk: ['Petunjuk', 'Cara menggunakan aplikasi']
+  };
+
+  /* ===== INIT ===== */
+  try {
+    var saved = JSON.parse(localStorage.getItem('kartuUjianCfg')||'{}');
+    fields.forEach(function(f){ if($(f)) $(f).value = saved[f]!=null ? saved[f] : DEF[f]; });
+    if(saved.logoL) state.logoL = saved.logoL;
+    if(saved.logoR) state.logoR = saved.logoR;
+    if(saved.ttd) state.ttd = saved.ttd;
+    if(saved.wmImg) state.wmImg = saved.wmImg;
+    if(saved.mode==='bangku') state.mode = 'bangku';
+    if(saved.paper && $('paper')) $('paper').value = saved.paper;
+    if(saved.paper && $('paperMobile')) $('paperMobile').value = saved.paper;
+  } catch(e) {
+    fields.forEach(function(f){ if($(f)) $(f).value = DEF[f]; });
+  }
+  $('modeBangku').checked = state.mode==='bangku';
+  $('modeUjian').checked = state.mode!=='bangku';
+  if($('paperMobile') && $('paper')) $('paperMobile').value = $('paper').value;
+
+  function save(){
+    try {
+      var o = {};
+      fields.forEach(function(f){ if($(f)) o[f]=$(f).value; });
+      o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.wmImg=state.wmImg; o.mode=state.mode;
+      localStorage.setItem('kartuUjianCfg', JSON.stringify(o));
+      state.dirty = false;
+      updateSaveBadge();
+    } catch(e){}
+  }
+  function markDirty(){
+    state.dirty = true;
+    updateSaveBadge();
+  }
+  function updateSaveBadge(){
+    var el = $('saveBadge');
+    if(!el) return;
+    if(state.dirty){
+      el.className = 'save-badge dirty';
+      el.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Belum disimpan';
+    } else {
+      el.className = 'save-badge';
+      el.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Tersimpan';
+    }
+  }
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); }
+  var userSvg = '<svg viewBox="0 0 60 80" width="70%" height="70%"><circle cx="30" cy="28" r="13" fill="none" stroke="#999" stroke-width="2.5"/><path d="M8 70c0-14 10-18 22-18" fill="none" stroke="#999" stroke-width="2.5"/></svg>';
+
+  function toast(msg, type){
+    type = type || 'info';
+    var wrap = $('toastWrap');
+    var t = document.createElement('div');
+    t.className = 'toast ' + type;
+    t.textContent = msg;
+    wrap.appendChild(t);
+    setTimeout(function(){ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(function(){ t.remove(); },300); }, 3200);
+  }
+
+  function wm(){
+    var t = $('wmType').value, op = (parseInt($('wmOpacity').value,10)||15)/100;
+    if(t==='teks' && $('wmText').value.trim()) return '<div class="wm" style="opacity:'+op+'"><span>'+esc($('wmText').value)+'</span></div>';
+    if(t==='gambar' && state.wmImg) return '<div class="wm" style="opacity:'+op+'"><img src="'+state.wmImg+'"></div>';
+    return '';
+  }
+
+  function kartu(s){
+    var kr = s.kelas ? (s.ruang ? s.kelas+' / '+s.ruang : s.kelas) : (s.ruang||'');
+    var foto = state.foto[String(s.nisn).trim()];
+    var d = function(l,v){ return '<div><span class="l">'+l+'</span><span class="c">:</span><span class="v">'+esc(v)+'</span></div>'; };
+    var w = wm();
+    var head = '<div class="k-head"><div class="lg">'+(state.logoL?'<img src="'+state.logoL+'">':'')+'</div>'+
+      '<div class="k-title"><div class="s">'+esc($('sekolah').value)+'</div><div class="a">'+esc($('alamat').value)+'</div>'+
+      '<div class="u">'+esc($('ujian').value)+'</div><div class="t">Tahun Pelajaran: '+esc($('tahun').value)+'</div></div>'+
+      '<div class="lg">'+(state.logoR?'<img src="'+state.logoR+'">':'')+'</div></div>'+
+      '<div class="k-line"></div>';
+    if(state.mode==='bangku'){
+      var b = function(l,v){ return '<div class="r"><span class="l">'+l+'</span><span class="c">:</span><span class="v">'+esc(v)+'</span></div>'; };
+      return '<div class="kartu bk">'+w+head+
+        '<div class="bk-body"><div class="bk-no"><span class="l">NO. PESERTA</span><span class="n">'+esc(s.no)+'</span></div>'+
+        '<div class="bk-info"><div class="nm">'+esc(s.nama)+'</div>'+b('NISN',s.nisn)+b('Kelas',s.kelas)+b('Ruang',s.ruang)+'</div></div>'+
+      '</div>';
+    }
+    return '<div class="kartu">'+w+head+
+      '<div class="k-data">'+d('No. Peserta',s.no)+d('NISN',s.nisn)+d('Nama',s.nama)+d('TTL',s.ttl)+d('Kelas/Ruang',kr)+'</div>'+
+      '<div class="k-foot"><div class="k-foto">'+(foto?'<img src="'+foto+'">':userSvg)+'</div>'+
+      '<div class="k-ttd"><div>'+esc($('tempat').value)+', '+esc($('tanggal').value)+'</div><div>Kepala Sekolah,</div>'+
+      '<div class="sig">'+(state.ttd?'<img src="'+state.ttd+'">':'')+'</div>'+
+      '<div class="n">'+esc($('kepala').value)+'</div><div class="p">NIP. '+esc($('nip').value)+'</div></div></div>'+
+    '</div>';
+  }
+
+  var printStyle = document.createElement('style');
+  document.head.appendChild(printStyle);
+
+  function applyPrintLayout(){
+    var paperEl = $('paper');
+    var p = (paperEl && paperEl.value==='A4') ? 'A4' : 'A3';
+    var dim = p==='A4' ? [210,297] : [297,420];
+    var m = 8, g = 3, bk = state.mode==='bangku';
+    var cw = bk?190:95, ch = bk?66:68, best = null;
+    [[dim[0],dim[1],'portrait'],[dim[1],dim[0],'landscape']].forEach(function(o){
+      var cols = Math.floor((o[0]-2*m+g)/(cw+g)), rows = Math.floor((o[1]-2*m+g)/(ch+g));
+      if(cols<1||rows<1) return;
+      if(!best || cols*rows>best.n) best = {n:cols*rows, cols:cols, rows:rows, ori:o[2]};
+    });
+    if(!best) best = {n:1, cols:1, rows:1, ori:'portrait'};
+    printStyle.textContent = '@page{size:'+p+' '+best.ori+';margin:'+m+'mm}'+
+      '@media print{#printArea{grid-template-columns:repeat('+best.cols+','+cw+'mm);grid-auto-rows:'+ch+'mm;gap:'+g+'mm}}';
+    var btn = $('btnPrint');
+    if(btn) btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Cetak ('+p+')';
+  }
+
+  function updateStats(){
+    var total = state.siswa.length;
+    var fotoOk = state.siswa.filter(function(s){ return state.foto[String(s.nisn).trim()]; }).length;
+    var miss = total - fotoOk;
+    if($('statTotal')) $('statTotal').textContent = total;
+    if($('statFotoOk')) $('statFotoOk').textContent = fotoOk;
+    if($('statFotoMiss')) $('statFotoMiss').textContent = miss;
+    if($('statReady')) $('statReady').textContent = total ? (fotoOk===total ? 'Lengkap' : 'Siap') : '—';
+    if($('sumCount')) $('sumCount').textContent = total;
+    if($('sumMode')) $('sumMode').textContent = state.mode==='bangku' ? 'Kartu Bangku' : 'Kartu Ujian';
+    if($('sumPaper')) $('sumPaper').textContent = ($('paper') && $('paper').value) || 'A3';
+  }
+
+  function render(){
+    applyPrintLayout();
+    var html = state.siswa.map(kartu).join('');
+    var stage = $('stage');
+    var printArea = $('printArea');
+    if(stage){
+      if(!state.siswa.length){
+        stage.className = 'stage empty-state';
+        stage.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div>Belum ada data peserta</div><div style="font-size:12px">Upload file Excel di halaman Data Peserta</div>';
+      } else {
+        stage.className = 'stage' + (state.mode==='bangku' ? ' bangku' : '');
+        stage.innerHTML = html;
+        stage.style.zoom = state.zoom;
+      }
+    }
+    if(printArea){
+      printArea.innerHTML = html;
+      printArea.className = state.mode==='bangku' ? 'bangku' : '';
+    }
+    if($('prevTitle')) $('prevTitle').textContent = 'Preview '+(state.mode==='bangku'?'Kartu Bangku':'Kartu Ujian')+' ('+state.siswa.length+')';
+    if($('zoomVal')) $('zoomVal').textContent = Math.round(state.zoom*100)+'%';
+
+    var wt = $('wmType') ? $('wmType').value : 'none';
+    if($('wmTextRow')) $('wmTextRow').hidden = wt!=='teks';
+    if($('wmImgRow')) $('wmImgRow').hidden = wt!=='gambar';
+    if($('wmOpRow')) $('wmOpRow').hidden = wt==='none';
+    if($('wmOpVal')) $('wmOpVal').textContent = $('wmOpacity') ? $('wmOpacity').value : '15';
+    if($('wmImgNote')) $('wmImgNote').textContent = state.wmImg ? 'Gambar watermark terpasang.' : 'Belum ada gambar dipilih.';
+
+    function setLogoBox(id, src){
+      var box = $(id);
+      if(!box) return;
+      if(src) box.innerHTML = '<img src="'+src+'">';
+      else box.innerHTML = '<div class="placeholder"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><div>Klik upload</div></div>';
+    }
+    setLogoBox('boxL', state.logoL);
+    setLogoBox('boxR', state.logoR);
+    updateStats();
+  }
+
+  function setStatus(msg, type){
+    var el = $('statusPeserta');
+    if(!el) return;
+    if(!msg){ el.style.display='none'; return; }
+    el.style.display = 'flex';
+    el.className = 'status-bar ' + (type||'info');
+    if(type==='loading'){
+      el.innerHTML = '<span class="spinner"></span> '+msg;
+    } else {
+      el.textContent = msg;
+    }
+  }
+
+  /* ===== NAVIGATION ===== */
+  function goPage(name){
+    $$('.page').forEach(function(p){ p.classList.remove('active'); });
+    var page = $('page-'+name);
+    if(page) page.classList.add('active');
+    $$('.nav-item').forEach(function(n){ n.classList.toggle('active', n.getAttribute('data-page')===name); });
+    $$('.bn-item').forEach(function(n){ n.classList.toggle('active', n.getAttribute('data-page')===name); });
+    var titles = pageTitles[name] || [name,''];
+    if($('pageTitle')) $('pageTitle').textContent = titles[0];
+    if($('pageSub')) $('pageSub').textContent = titles[1];
+    closeSidebar();
+    window.scrollTo(0,0);
+    if(name==='preview' || name==='dashboard') render();
+  }
+
+  $$('[data-page]').forEach(function(el){
+    el.addEventListener('click', function(){ goPage(el.getAttribute('data-page')); });
+  });
+  $$('[data-goto]').forEach(function(el){
+    el.addEventListener('click', function(){ goPage(el.getAttribute('data-goto')); });
+  });
+
+  /* Sidebar mobile */
+  function openSidebar(){ $('sidebar').classList.add('open'); $('sidebarOverlay').classList.add('on'); }
+  function closeSidebar(){ $('sidebar').classList.remove('open'); $('sidebarOverlay').classList.remove('on'); }
+  if($('btnMenu')) $('btnMenu').addEventListener('click', openSidebar);
+  if($('sidebarOverlay')) $('sidebarOverlay').addEventListener('click', closeSidebar);
+  if($('btnCollapse')){
+    $('btnCollapse').addEventListener('click', function(){
+      $('sidebar').classList.toggle('collapsed');
+    });
+  }
+
+  /* Help modal */
+  function openHelp(){ $('modal').classList.add('on'); }
+  function closeHelp(){ $('modal').classList.remove('on'); }
+  ['btnHelpTop','btnHelpDash','navHelp'].forEach(function(id){
+    if($(id)) $(id).addEventListener('click', function(e){ e.preventDefault(); openHelp(); });
+  });
+  if($('btnClose')) $('btnClose').addEventListener('click', closeHelp);
+  if($('btnClose2')) $('btnClose2').addEventListener('click', closeHelp);
+  if($('modal')) $('modal').addEventListener('click', function(e){ if(e.target===this) closeHelp(); });
+
+  /* Fields */
+  fields.forEach(function(f){
+    if(!$(f)) return;
+    $(f).addEventListener('input', function(){ markDirty(); save(); render(); });
+    $(f).addEventListener('change', function(){ markDirty(); save(); render(); });
+  });
+  if($('paperMobile')){
+    $('paperMobile').addEventListener('change', function(){
+      if($('paper')) $('paper').value = this.value;
+      markDirty(); save(); render();
+    });
+  }
+  if($('paper')){
+    $('paper').addEventListener('change', function(){
+      if($('paperMobile')) $('paperMobile').value = this.value;
+      markDirty(); save(); render();
+    });
+  }
+
+  function readImg(file, cb){
+    var r = new FileReader();
+    r.onload = function(){ cb(r.result); };
+    r.readAsDataURL(file);
+  }
+  if($('boxL')) $('boxL').onclick = function(){ $('fLogoL').click(); };
+  if($('boxR')) $('boxR').onclick = function(){ $('fLogoR').click(); };
+  if($('fLogoL')) $('fLogoL').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoL=u; markDirty(); save(); render(); toast('Logo kiri diperbarui','success'); }); };
+  if($('fLogoR')) $('fLogoR').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoR=u; markDirty(); save(); render(); toast('Logo kanan diperbarui','success'); }); };
+  if($('fWm')) $('fWm').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.wmImg=u; markDirty(); save(); render(); toast('Gambar watermark dipasang','success'); }); };
+  if($('fTtd')) $('fTtd').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.ttd=u; markDirty(); save(); render(); toast('Tanda tangan dipasang','success'); }); };
+
+  ['modeUjian','modeBangku'].forEach(function(id){
+    if($(id)) $(id).addEventListener('change', function(){
+      state.mode = $('modeBangku').checked ? 'bangku' : 'ujian';
+      markDirty(); save(); render();
+    });
+  });
+
+  /* Zoom */
+  if($('btnZoomIn')) $('btnZoomIn').addEventListener('click', function(){ state.zoom = Math.min(1.6, state.zoom + 0.1); render(); });
+  if($('btnZoomOut')) $('btnZoomOut').addEventListener('click', function(){ state.zoom = Math.max(0.5, state.zoom - 0.1); render(); });
+
+  /* Template */
+  if($('btnTpl')) $('btnTpl').onclick = function(){
+    if(!window.XLSX){ toast('Pustaka Excel belum termuat. Periksa koneksi internet.','error'); return; }
+    var aoa = [['No Peserta','NISN','Nama','TTL','Kelas','Ruang'],
+               ['U-001','1234567890','CONTOH SISWA','Jakarta, 17 Agustus 2007','XII IPA 1','R.01']];
+    var ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = [{wch:12},{wch:14},{wch:28},{wch:26},{wch:12},{wch:8}];
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Siswa');
+    XLSX.writeFile(wb, 'Template_Data_Siswa.xlsx');
+    toast('Template diunduh','success');
+  };
+
+  /* Excel */
+  if($('btnXls')) $('btnXls').onclick = function(){ $('fXls').click(); };
+  if($('fXls')) $('fXls').onchange = function(e){
+    var f = e.target.files[0]; if(!f) return;
+    if(!window.XLSX){ toast('Pustaka Excel belum termuat.','error'); return; }
+    setStatus('Membaca file Excel...','loading');
+    var r = new FileReader();
+    r.onload = function(){
+      try {
+        var wb = XLSX.read(r.result,{type:'array'});
+        var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+        var out = [];
+        rows.forEach(function(row){
+          var m = {};
+          Object.keys(row).forEach(function(k){ m[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = String(row[k]).trim(); });
+          var s = {
+            no: m.nopeserta||m.nomorpeserta||m.no||'',
+            nisn: m.nisn||'',
+            nama: m.nama||m.namasiswa||'',
+            ttl: m.ttl||m.tempattanggallahir||'',
+            kelas: m.kelas||'',
+            ruang: m.ruang||m.ruangan||''
+          };
+          if(s.nama||s.nisn) out.push(s);
+        });
+        if(!out.length){ setStatus('Tidak ada data siswa terbaca. Gunakan format template.','error'); toast('Format Excel tidak dikenali','error'); return; }
+        state.siswa = out;
+        render();
+        setStatus(out.length+' data siswa berhasil dimuat.','success');
+        toast(out.length+' data siswa dimuat','success');
+      } catch(err){
+        setStatus('Gagal membaca file Excel.','error');
+        toast('Gagal membaca Excel','error');
+      }
+    };
+    r.readAsArrayBuffer(f);
+    e.target.value = '';
+  };
+
+  /* ZIP */
+  if($('btnZip')) $('btnZip').onclick = function(){ $('fZip').click(); };
+  if($('fZip')) $('fZip').onchange = function(e){
+    var f = e.target.files[0]; if(!f) return;
+    if(!window.JSZip){ toast('Pustaka ZIP belum termuat.','error'); return; }
+    setStatus('Membaca foto dari ZIP...','loading');
+    JSZip.loadAsync(f).then(function(zip){
+      var mime = {jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
+      var jobs = [];
+      zip.forEach(function(path, entry){
+        if(entry.dir) return;
+        var name = path.split('/').pop();
+        var dot = name.lastIndexOf('.');
+        if(dot<1 || name.charAt(0)==='.') return;
+        var ext = name.slice(dot+1).toLowerCase();
+        if(!mime[ext]) return;
+        var key = name.slice(0,dot).trim();
+        jobs.push(entry.async('base64').then(function(b){ state.foto[key] = 'data:'+mime[ext]+';base64,'+b; }));
+      });
+      return Promise.all(jobs).then(function(){
+        render();
+        var cocok = state.siswa.filter(function(s){ return state.foto[String(s.nisn).trim()]; }).length;
+        setStatus(jobs.length+' foto dibaca, '+cocok+' cocok dengan NISN.','success');
+        toast(jobs.length+' foto · '+cocok+' cocok','success');
+      });
+    }).catch(function(){
+      setStatus('Gagal membaca file ZIP.','error');
+      toast('Gagal membaca ZIP','error');
+    });
+    e.target.value = '';
+  };
+
+  /* Reset */
+  if($('btnReset')) $('btnReset').onclick = function(){
+    if(!confirm('Reset data siswa ke contoh default? Foto yang sudah diupload akan dihapus.')) return;
+    state.siswa = SAMPLE.slice();
+    state.foto = {};
+    render();
+    setStatus('Data siswa direset.','info');
+    toast('Data direset','info');
+  };
+
+  /* Print */
+  function doPrint(){ window.print(); }
+  if($('btnPrint')) $('btnPrint').onclick = doPrint;
+  if($('btnPrintMain')) $('btnPrintMain').onclick = doPrint;
+  if($('btnPrintBottom')) $('btnPrintBottom').onclick = doPrint;
+  if($('fabPrint')) $('fabPrint').onclick = doPrint;
+
+  render();
+  updateSaveBadge();
+})();
+
+/* Penghalang ringan: klik kanan, pintasan View Source & DevTools.
+   Catatan: ini hanya deteren — browser tetap bisa membuka View Source / Inspect. */
+(function(){
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, true);
+  document.addEventListener('keydown', function(e){
+    var key = e.key || '';
+    var ctrl = e.ctrlKey || e.metaKey;
+    var shift = e.shiftKey;
+    // F12, Ctrl+Shift+I/J/C, Ctrl+U, Ctrl+S, Ctrl+Shift+K
+    if(
+      key === 'F12' ||
+      (ctrl && shift && (key === 'I' || key === 'i' || key === 'J' || key === 'j' || key === 'C' || key === 'c' || key === 'K' || key === 'k')) ||
+      (ctrl && (key === 'U' || key === 'u' || key === 'S' || key === 's'))
+    ){
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }, true);
+  document.addEventListener('dragstart', function(e){ e.preventDefault(); }, true);
+  // Deteksi panel DevTools terbuka (perkiraan ukuran jendela) — hanya peringatan, tidak bisa menutup panel
+  var devtoolsOpen = false;
+  setInterval(function(){
+    var threshold = 160;
+    var open = (window.outerWidth - window.innerWidth > threshold) || (window.outerHeight - window.innerHeight > threshold);
+    if(open && !devtoolsOpen){
+      devtoolsOpen = true;
+      document.body.style.filter = 'blur(2px)';
+    } else if(!open && devtoolsOpen){
+      devtoolsOpen = false;
+      document.body.style.filter = '';
+    }
+  }, 800);
+})();
+</script>
+</body>
+</html>
