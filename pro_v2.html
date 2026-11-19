@@ -1223,10 +1223,141 @@ a { color: var(--primary); text-decoration: none; }
   line-height: 1.4;
 }
 
+/* ===== BERITA ACARA UJIAN ===== */
+.ba-sheet {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10mm 12mm 8mm;
+  margin: 0 auto 18px;
+  max-width: 210mm;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  page-break-after: always;
+  page-break-inside: avoid;
+  line-height: 1.35;
+}
+.ba-sheet:last-child { margin-bottom: 0; page-break-after: auto; }
+.ba-title {
+  text-align: center;
+  margin: 6px 0 10px;
+  line-height: 1.25;
+}
+.ba-title .main {
+  font-size: 12pt;
+  font-weight: 800;
+  letter-spacing: .3px;
+  text-transform: uppercase;
+}
+.ba-title .sub {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.ba-title .tahun {
+  font-size: 10pt;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.ba-body {
+  font-size: 10pt;
+  line-height: 1.55;
+}
+.ba-body p { margin: 0 0 6px; text-align: justify; }
+.ba-body .indent { margin-left: 0; }
+.ba-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  margin-bottom: 4px;
+  align-items: baseline;
+}
+.ba-line .lbl { white-space: nowrap; }
+.ba-line .dots {
+  border-bottom: 1px dotted #333;
+  flex: 1;
+  min-width: 40px;
+  min-height: 1.1em;
+  padding: 0 2px;
+}
+.ba-line .val {
+  font-weight: 600;
+  border-bottom: 1px dotted #333;
+  min-width: 40px;
+  padding: 0 2px 1px;
+}
+.ba-row {
+  display: grid;
+  grid-template-columns: 155px 12px 1fr;
+  gap: 2px 4px;
+  margin-bottom: 3px;
+  align-items: baseline;
+}
+.ba-row .k { font-weight: 500; }
+.ba-row .c { text-align: center; }
+.ba-row .v {
+  /* border-bottom: 1px dotted #333; */
+  min-height: 1.15em;
+  padding: 0 2px 1px;
+  font-weight: 600;
+}
+.ba-notes {
+  margin: 8px 0 10px;
+  min-height: 72px;
+}
+.ba-notes .blank {
+  border-bottom: 1px dotted #333;
+  height: 22px;
+  margin-bottom: 4px;
+}
+.ba-closing {
+  margin: 10px 0 16px;
+  text-align: justify;
+}
+.ba-sign {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 18px;
+  font-size: 10pt;
+}
+.ba-sign.one { justify-content: flex-end; }
+.ba-sign .box {
+  text-align: center;
+  min-width: 160px;
+  max-width: 200px;
+  flex: 1;
+}
+.ba-sign .role { margin-bottom: 48px; }
+.ba-sign .name-line {
+  border-bottom: 1px solid #000;
+  min-height: 18px;
+  margin-bottom: 4px;
+}
+.ba-sign .nip { font-size: 9pt; text-align: left; }
+.ba-num { font-weight: 700; margin-right: 4px; }
+
+.filter-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.filter-chip-row .form-select {
+  min-height: 42px;
+  max-width: 220px;
+}
+
+
 /* ===== PRINT ===== */
 #printArea { display: none; }
 #printArea.daftar-mode { display: block; }
 #printArea.denah-mode { display: block; }
+#printArea.berita-mode { display: block; }
+#printArea.noruang-mode { display: block; }
 @media print {
   body { background: #fff !important; height: auto !important; display: block !important; overflow: visible !important; }
   .app, .toast-wrap, .modal-overlay, .bottom-nav, .fab-print, .app-footer { display: none !important; }
@@ -1256,6 +1387,154 @@ a { color: var(--primary); text-decoration: none; }
     width: 100%;
     padding: 8mm 8mm 6mm;
   }
+  #printArea.berita-mode {
+    display: block !important;
+    width: 100%;
+  }
+  #printArea.berita-mode .ba-sheet {
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    padding: 10mm 12mm 8mm;
+  }
+  #printArea.noruang-mode {
+    display: block !important;
+    width: 100%;
+  }
+  #printArea.noruang-mode .noruang-sheet {
+    box-shadow: none;
+    page-break-after: always;
+  }
+  #printArea.noruang-mode .noruang-sheet:last-child {
+    page-break-after: auto;
+  }
+  #printArea.noruang-mode .noruang-page {
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    page-break-after: always;
+  }
+  #printArea.noruang-mode .noruang-page:last-child {
+    page-break-after: auto;
+  }
+}
+
+/* ===== PLAKAT NO. RUANG (pintu ruang ujian) ===== */
+.noruang-preview-wrap {
+  overflow: auto;
+  max-height: 75vh;
+  background: #E8EBEA;
+  border-radius: var(--radius);
+  padding: 16px;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  align-content: flex-start;
+}
+.noruang-sheet {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 105mm;
+  min-height: 148mm;
+  padding: 8mm 7mm;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  page-break-inside: avoid;
+}
+.noruang-inner {
+  width: 100%;
+  border: 2.5px solid #222;
+  padding: 10mm 6mm 9mm;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 128mm;
+  flex: 1;
+}
+.noruang-logo {
+  width: 28mm;
+  height: 28mm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5mm;
+}
+.noruang-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.noruang-label {
+  font-size: 22pt;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin: 0;
+}
+.noruang-num {
+  font-size: 48pt;
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 3mm 0 5mm;
+  letter-spacing: 1px;
+}
+.noruang-sub {
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 0 1.5mm;
+  line-height: 1.25;
+}
+.noruang-ujian {
+  font-size: 11pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1.3;
+  margin: 0 0 1mm;
+  max-width: 90%;
+}
+.noruang-range {
+  font-size: 16pt;
+  font-weight: 700;
+  margin-top: 5mm;
+  letter-spacing: 0.5px;
+}
+.noruang-page {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 210mm;
+  margin: 0 auto 18px;
+  padding: 8mm;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6mm;
+  justify-content: center;
+  page-break-after: always;
+  page-break-inside: avoid;
+}
+.noruang-page:last-child { margin-bottom: 0; page-break-after: auto; }
+.noruang-page .noruang-sheet {
+  box-shadow: none;
+  border: 1px solid #bbb;
+  margin: 0;
 }
 
 /* ===== BOTTOM NAV (mobile) ===== */
@@ -1670,6 +1949,14 @@ a { color: var(--primary); text-decoration: none; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         <span>Denah Tempat Duduk</span>
       </button>
+      <button class="nav-item" data-page="berita" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Berita Acara</span>
+      </button>
+      <button class="nav-item" data-page="noruang" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Plakat No. Ruang</span>
+      </button>
       <button class="nav-item" data-page="petunjuk" type="button" id="navHelp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         <span>Petunjuk</span>
@@ -1794,6 +2081,13 @@ a { color: var(--primary); text-decoration: none; }
               </div>
               <h4>Denah Tempat Duduk</h4>
               <p>Atur kursi, acak/urut, cetak denah & absensi</p>
+            </button>
+            <button class="quick-card" type="button" data-goto="noruang">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <h4>Plakat No. Ruang</h4>
+              <p>Cetak plakat pintu: RUANG 01 · 001 s/d 032</p>
             </button>
           </div>
         </div>
@@ -2149,6 +2443,13 @@ a { color: var(--primary); text-decoration: none; }
             <div class="card">
               <div class="card-title">Pengaturan Cetak</div>
               <div class="form-group">
+                <label class="form-label" for="filterKelas">Filter Kelas</label>
+                <select class="form-select" id="filterKelas">
+                  <option value="">— Semua Kelas —</option>
+                </select>
+                <p class="form-hint">Pilih kelas untuk mencetak hanya kartu peserta kelas tersebut. Kosongkan untuk mencetak semua.</p>
+              </div>
+              <div class="form-group">
                 <label class="form-label" for="paperMobile">Ukuran Kertas</label>
                 <select class="form-select" id="paperMobile">
                   <option value="A3">Kertas A3</option>
@@ -2165,7 +2466,8 @@ a { color: var(--primary); text-decoration: none; }
               <div class="card-title">Ringkasan</div>
               <p style="font-size:13.5px;color:var(--mute);line-height:1.6">
                 <span id="sumMode">Kartu Ujian</span> · <span id="sumCount">1</span> kartu<br>
-                Kertas: <span id="sumPaper">A3</span>
+                Kertas: <span id="sumPaper">A3</span><br>
+                Filter: <span id="sumFilter">Semua kelas</span>
               </p>
             </div>
           </div>
@@ -2412,6 +2714,233 @@ a { color: var(--primary); text-decoration: none; }
         </div>
       </section>
 
+      <!-- BERITA ACARA UJIAN -->
+      <section class="page" id="page-berita">
+        <div class="card">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Berita Acara Ujian
+          </div>
+          <div class="card-desc">Isi data pelaksanaan ujian, pilih ruang & jumlah pengawas, lalu cetak berita acara sesuai format resmi sekolah.</div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="baRuang">Ruang</label>
+              <select class="form-select" id="baRuang">
+                <option value="">— Pilih Ruang —</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baMapel">Mata Pelajaran</label>
+              <input type="text" class="form-input" id="baMapel" placeholder="Contoh: Matematika">
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label" for="baHari">Hari</label>
+              <input type="text" class="form-input" id="baHari" placeholder="Senin">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baTanggal">Tanggal (angka)</label>
+              <input type="text" class="form-input" id="baTanggal" placeholder="19">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baBulan">Bulan</label>
+              <input type="text" class="form-input" id="baBulan" placeholder="November">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="baTahunTeks">Tahun (huruf)</label>
+              <input type="text" class="form-input" id="baTahunTeks" placeholder="dua ribu dua puluh enam">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baJudul">Judul Ujian / Asesmen</label>
+              <input type="text" class="form-input" id="baJudul" placeholder="ASESMEN SUMATIF AKHIR SEMESTER (ASAS)">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="baJamMulai">Pukul Mulai</label>
+              <input type="text" class="form-input" id="baJamMulai" placeholder="07.30">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baJamSelesai">Pukul Selesai</label>
+              <input type="text" class="form-input" id="baJamSelesai" placeholder="09.00">
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label" for="baJmlSeharusnya">Jml. Seharusnya</label>
+              <input type="number" class="form-input" id="baJmlSeharusnya" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baJmlHadir">Jml. Hadir</label>
+              <input type="number" class="form-input" id="baJmlHadir" min="0" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baJmlTidakHadir">Jml. Tidak Hadir</label>
+              <input type="number" class="form-input" id="baJmlTidakHadir" min="0" placeholder="0">
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label class="form-label" for="baJmlSoal">Jumlah Soal (lembar)</label>
+              <input type="text" class="form-input" id="baJmlSoal" placeholder="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baJmlBA">Jumlah Berita Acara (lembar)</label>
+              <input type="text" class="form-input" id="baJmlBA" placeholder="1">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Jumlah Pengawas</label>
+              <div class="seg" style="margin-top:4px">
+                <label class="seg-item">
+                  <input type="radio" name="baPengawas" id="baPengawas1" value="1">
+                  <div class="seg-card" style="padding:10px 8px">
+                    <div class="seg-title" style="font-size:13px">1 Pengawas</div>
+                  </div>
+                </label>
+                <label class="seg-item">
+                  <input type="radio" name="baPengawas" id="baPengawas2" value="2" checked>
+                  <div class="seg-card" style="padding:10px 8px">
+                    <div class="seg-title" style="font-size:13px">2 Pengawas</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="baCatatan">Catatan selama ujian (opsional)</label>
+            <textarea class="form-textarea" id="baCatatan" rows="3" placeholder="Kosongkan jika tidak ada catatan khusus"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="baNamaPengawas1">Nama Pengawas I</label>
+              <input type="text" class="form-input" id="baNamaPengawas1" placeholder="Nama pengawas">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baNipPengawas1">NIP Pengawas I</label>
+              <input type="text" class="form-input" id="baNipPengawas1" placeholder="NIP">
+            </div>
+          </div>
+          <div class="form-row" id="baPengawas2Row">
+            <div class="form-group">
+              <label class="form-label" for="baNamaPengawas2">Nama Pengawas II</label>
+              <input type="text" class="form-input" id="baNamaPengawas2" placeholder="Nama pengawas">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="baNipPengawas2">NIP Pengawas II</label>
+              <input type="text" class="form-input" id="baNipPengawas2" placeholder="NIP">
+            </div>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;margin-bottom:8px">
+            <button class="btn btn-primary" type="button" id="btnPrintBerita">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Cetak Berita Acara
+            </button>
+            <button class="btn btn-secondary" type="button" id="btnRefreshBerita">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+              Muat Ulang Preview
+            </button>
+            <button class="btn btn-outline" type="button" id="btnAutoIsiBerita">Isi Otomatis dari Data</button>
+          </div>
+          <div id="baStatus" class="status-bar info" style="display:none;margin-bottom:8px"></div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Preview Berita Acara</div>
+          <div class="card-desc">Pratinjau sesuai format berita acara ujian. Data identitas sekolah diambil dari halaman Identitas.</div>
+          <div id="baPreview" class="daftar-preview-wrap">
+            <div class="empty-box">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <h4>Siapkan data</h4>
+              <p>Pilih ruang dan lengkapi form, lalu preview akan muncul di sini.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PLAKAT NO. RUANG -->
+      <section class="page" id="page-noruang">
+        <div class="card">
+          <div class="card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Plakat Nomor Ruang
+          </div>
+          <div class="card-desc">Cetak plakat pintu ruang ujian seperti contoh resmi: logo, tulisan <b>RUANG</b>, nomor ruang besar, nama ujian, dan rentang nomor peserta (mis. <b>001 s/d 032</b>) otomatis dari data Excel.</div>
+
+          <div class="form-row">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="nrRuangSelect">Pilih Ruang</label>
+              <select class="form-select" id="nrRuangSelect">
+                <option value="">— Semua Ruang —</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="nrPaper">Ukuran Kertas</label>
+              <select class="form-select" id="nrPaper">
+                <option value="A4">A4 — 1 plakat per halaman (penuh)</option>
+                <option value="A5">A5 — 1 plakat per halaman</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-top:14px">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="nrLogoSide">Logo plakat</label>
+              <select class="form-select" id="nrLogoSide">
+                <option value="R">Logo Kanan (Sekolah/Madrasah)</option>
+                <option value="L">Logo Kiri (Kemenag/Dinas)</option>
+                <option value="none">Tanpa logo</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label" for="nrRangeMode">Format nomor peserta</label>
+              <select class="form-select" id="nrRangeMode">
+                <option value="full">Sesuai Excel (penuh)</option>
+                <option value="tail">Hanya angka akhir (001 s/d 032)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:14px">
+            <label class="form-label" for="nrUjianCustom">Teks ujian di plakat (opsional)</label>
+            <input type="text" class="form-input" id="nrUjianCustom" placeholder="Kosongkan = pakai Nama Ujian dari Identitas">
+            <p class="form-hint">Contoh: UJIAN TENGAH SEMESTER GANJIL — akan ditampilkan di bawah "NOMOR PESERTA".</p>
+          </div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn btn-primary" type="button" id="btnPrintNoRuang">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Cetak Plakat
+            </button>
+            <button class="btn btn-outline" type="button" id="btnRefreshNoRuang">Refresh Preview</button>
+          </div>
+          <div id="nrStatus" class="status-bar info" style="display:none;margin-top:12px"></div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Preview Plakat</div>
+          <div class="card-desc">Setiap ruang menghasilkan satu plakat. Tempel di pintu ruang ujian.</div>
+          <div id="nrPreview" class="noruang-preview-wrap">
+            <div class="empty-box">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <h4>Belum ada data</h4>
+              <p>Upload data peserta (dengan kolom Ruang &amp; No. Peserta) terlebih dahulu.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- PETUNJUK (inline page) -->
       <section class="page" id="page-petunjuk">
         <div class="card">
@@ -2424,6 +2953,8 @@ a { color: var(--primary); text-decoration: none; }
             <li style="margin-bottom:10px">Pilih jenis kartu (Ujian / Bangku) dan watermark jika perlu.</li>
             <li style="margin-bottom:10px">Preview, pilih kertas A3/A4, lalu cetak. Skala 100% dan matikan header/footer browser.</li>
             <li style="margin-bottom:10px"><b>Denah Tempat Duduk:</b> pilih ruang, jumlah kolom, mode urut/acak, Generate, lalu cetak denah atau absensi yang mengikuti urutan kursi.</li>
+            <li style="margin-bottom:10px"><b>Filter Kelas:</b> di halaman Preview &amp; Cetak, pilih kelas untuk mencetak hanya kartu peserta kelas tersebut.</li>
+            <li style="margin-bottom:10px"><b>Berita Acara:</b> isi data pelaksanaan ujian, pilih 1 atau 2 pengawas, lalu cetak berita acara sesuai format resmi.</li>
           </ol>
         </div>
       </section>
@@ -2642,7 +3173,8 @@ a { color: var(--primary); text-decoration: none; }
     ttd:'', stempel:'', wmImg:'', mode:'ujian',
     siswa: SAMPLE.slice(), foto:{},
     zoom: 1, dirty: false,
-    searchQ: ''
+    searchQ: '',
+    filterKelas: ''
   };
   var fields = ['instansi','sekolah','alamat','npsn','emailSekolah','ujian','tahun','tempat','tanggal','kepala','nip','wmType','wmText','wmOpacity','paper'];
   var pageTitles = {
@@ -2653,6 +3185,8 @@ a { color: var(--primary); text-decoration: none; }
     preview: ['Preview & Cetak', 'Lihat hasil dan cetak'],
     daftar: ['Daftar per Ruang', 'Cetak daftar hadir & nilai per ruang'],
     denah: ['Denah Tempat Duduk', 'Atur kursi, acak/urut, cetak denah & absensi'],
+    berita: ['Berita Acara', 'Cetak berita acara pelaksanaan ujian'],
+    noruang: ['Plakat No. Ruang', 'Cetak plakat pintu ruang ujian'],
     petunjuk: ['Petunjuk', 'Cara menggunakan aplikasi']
   };
 
@@ -2798,6 +3332,41 @@ a { color: var(--primary); text-decoration: none; }
     if(btn) btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Cetak ('+p+')';
   }
 
+  function getUniqueKelas(){
+    var set = {};
+    state.siswa.forEach(function(s){
+      var k = (s.kelas || '').trim();
+      if(k) set[k] = true;
+    });
+    return Object.keys(set).sort(function(a,b){
+      return a.localeCompare(b, 'id', {numeric:true, sensitivity:'base'});
+    });
+  }
+
+  function getSiswaForPrint(){
+    var fk = (state.filterKelas || '').trim();
+    if(!fk) return state.siswa.slice();
+    return state.siswa.filter(function(s){
+      return (s.kelas || '').trim() === fk;
+    });
+  }
+
+  function refreshFilterKelasOptions(){
+    var sel = $('filterKelas');
+    if(!sel) return;
+    var cur = state.filterKelas || sel.value || '';
+    var list = getUniqueKelas();
+    sel.innerHTML = '<option value="">— Semua Kelas —</option>';
+    list.forEach(function(k){
+      var opt = document.createElement('option');
+      opt.value = k;
+      opt.textContent = k;
+      sel.appendChild(opt);
+    });
+    if(cur && list.indexOf(cur) >= 0) sel.value = cur;
+    else { sel.value = ''; state.filterKelas = ''; }
+  }
+
   function updateStats(){
     var total = state.siswa.length;
     var fotoOk = state.siswa.filter(function(s){ return state.foto[String(s.nisn).trim()]; }).length;
@@ -2806,9 +3375,12 @@ a { color: var(--primary); text-decoration: none; }
     if($('statFotoOk')) $('statFotoOk').textContent = fotoOk;
     if($('statFotoMiss')) $('statFotoMiss').textContent = miss;
     if($('statReady')) $('statReady').textContent = total ? (fotoOk===total ? 'Lengkap' : 'Siap') : '—';
-    if($('sumCount')) $('sumCount').textContent = total;
+    var filtered = getSiswaForPrint();
+    if($('sumCount')) $('sumCount').textContent = filtered.length;
     if($('sumMode')) $('sumMode').textContent = state.mode==='bangku' ? 'Kartu Bangku' : 'Kartu Ujian';
     if($('sumPaper')) $('sumPaper').textContent = ($('paper') && $('paper').value) || 'A3';
+    if($('sumFilter')) $('sumFilter').textContent = state.filterKelas ? ('Kelas ' + state.filterKelas) : 'Semua kelas';
+    refreshFilterKelasOptions();
   }
 
   /* ===== DAFTAR PER RUANG ===== */
@@ -3405,13 +3977,17 @@ a { color: var(--primary); text-decoration: none; }
 
   function render(){
     applyPrintLayout();
-    var html = state.siswa.map(kartu).join('');
+    var listPrint = getSiswaForPrint();
+    var html = listPrint.map(kartu).join('');
     var stage = $('stage');
     var printArea = $('printArea');
     if(stage){
       if(!state.siswa.length){
         stage.className = 'stage empty-state';
         stage.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div>Belum ada data peserta</div><div style="font-size:12px">Upload file Excel di halaman Data Peserta</div>';
+      } else if(!listPrint.length){
+        stage.className = 'stage empty-state';
+        stage.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div>Tidak ada peserta di kelas ini</div><div style="font-size:12px">Ubah filter kelas atau unggah data</div>';
       } else {
         stage.className = 'stage' + (state.mode==='bangku' ? ' bangku' : '');
         stage.innerHTML = html;
@@ -3422,7 +3998,11 @@ a { color: var(--primary); text-decoration: none; }
       printArea.innerHTML = html;
       printArea.className = state.mode==='bangku' ? 'bangku' : '';
     }
-    if($('prevTitle')) $('prevTitle').textContent = 'Preview '+(state.mode==='bangku'?'Kartu Bangku':'Kartu Ujian')+' ('+state.siswa.length+')';
+    if($('prevTitle')){
+      var titleBase = 'Preview '+(state.mode==='bangku'?'Kartu Bangku':'Kartu Ujian')+' ('+listPrint.length+')';
+      if(state.filterKelas) titleBase += ' · Kelas '+state.filterKelas;
+      $('prevTitle').textContent = titleBase;
+    }
     if($('zoomVal')) $('zoomVal').textContent = Math.round(state.zoom*100)+'%';
 
     var wt = $('wmType') ? $('wmType').value : 'none';
@@ -3468,6 +4048,12 @@ a { color: var(--primary); text-decoration: none; }
     renderTable();
     var daftarPage = $('page-daftar');
     if(daftarPage && daftarPage.classList.contains('active')) renderDaftar();
+    var noruangPage = $('page-noruang');
+    if(noruangPage && noruangPage.classList.contains('active')) renderNoRuang();
+    var denahPage = $('page-denah');
+    if(denahPage && denahPage.classList.contains('active')) renderDenahPreview();
+    var beritaPage = $('page-berita');
+    if(beritaPage && beritaPage.classList.contains('active')) renderBerita();
   }
 
   function setStatus(msg, type){
@@ -3838,6 +4424,8 @@ a { color: var(--primary); text-decoration: none; }
     if(name==='preview' || name==='dashboard') render();
     if(name==='daftar') renderDaftar();
     if(name==='denah') renderDenahPreview();
+    if(name==='berita') renderBerita();
+    if(name==='noruang') renderNoRuang();
   }
 
   $$('[data-page]').forEach(function(el){
@@ -4095,13 +4683,412 @@ a { color: var(--primary); text-decoration: none; }
     });
   }
 
+
+  /* ===== PLAKAT NO. RUANG ===== */
+  /** Ambil bagian angka akhir dari no peserta, mis. "07-01-032" → "032", "U-001" → "001" */
+  function extractTailNo(no){
+    var s = String(no == null ? '' : no).trim();
+    if(!s) return '';
+    var m = s.match(/(\d+)\s*$/);
+    if(m){
+      // jaga leading zero: ambil digit run terakhir apa adanya
+      return m[1];
+    }
+    return s;
+  }
+
+  /** Rentang nomor peserta penuh sesuai Excel, mis. "U-001 s/d U-032" atau "07-01-001 s/d 07-01-032" */
+  function getNoPesertaRange(list){
+    if(!list || !list.length) return '';
+    var nos = list.map(function(s){ return String(s.no == null ? '' : s.no).trim(); }).filter(Boolean);
+    if(!nos.length) return '';
+    // Urutkan natural (angka di dalam string)
+    nos.sort(function(a, b){
+      return a.localeCompare(b, 'id', { numeric: true, sensitivity: 'base' });
+    });
+    if(nos.length === 1) return nos[0];
+    return nos[0] + ' s/d ' + nos[nos.length - 1];
+  }
+
+  function getNoPesertaRangeMode(list, mode){
+    if(!list || !list.length) return '';
+    if(mode === 'tail'){
+      var tails = list.map(function(s){ return extractTailNo(s.no); }).filter(Boolean);
+      if(!tails.length) return '';
+      tails.sort(function(a,b){
+        var na = parseInt(a,10), nb = parseInt(b,10);
+        if(!isNaN(na) && !isNaN(nb) && na !== nb) return na - nb;
+        return a.localeCompare(b, 'id', { numeric: true });
+      });
+      if(tails.length === 1) return tails[0];
+      return tails[0] + ' s/d ' + tails[tails.length - 1];
+    }
+    return getNoPesertaRange(list);
+  }
+
+  function buildNoRuangSheet(ruang, list){
+    var mode = ($('nrRangeMode') && $('nrRangeMode').value) || 'full';
+    var range = getNoPesertaRangeMode(list, mode) || '—';
+    var logoSide = ($('nrLogoSide') && $('nrLogoSide').value) || 'R';
+    var logoSrc = '';
+    if(logoSide === 'R') logoSrc = state.logoR || '';
+    else if(logoSide === 'L') logoSrc = state.logoL || '';
+    var custom = ($('nrUjianCustom') && $('nrUjianCustom').value || '').trim();
+    var ujian = custom || (($('ujian') && $('ujian').value) || '');
+    // pecah teks ujian jadi baris (max ~3 baris visual)
+    var ujianLines = [];
+    if(ujian){
+      // jika sudah ada baris, pakai; else potong per kata agar tidak terlalu panjang
+      var parts = ujian.split(/\n+/).map(function(x){ return x.trim(); }).filter(Boolean);
+      if(parts.length === 1 && parts[0].length > 28){
+        var words = parts[0].split(/\s+/);
+        var line = '';
+        words.forEach(function(w){
+          if((line + ' ' + w).trim().length > 26 && line){
+            ujianLines.push(line.trim());
+            line = w;
+          } else {
+            line = (line + ' ' + w).trim();
+          }
+        });
+        if(line) ujianLines.push(line);
+      } else {
+        ujianLines = parts;
+      }
+    }
+    var ujianHtml = ujianLines.map(function(l){
+      return '<div class="noruang-ujian">'+esc(l)+'</div>';
+    }).join('');
+
+    var logoHtml = logoSrc
+      ? '<div class="noruang-logo"><img src="'+logoSrc+'" alt="Logo"></div>'
+      : '<div class="noruang-logo" style="height:12mm"></div>';
+
+    var numDisplay = String(ruang || '').replace(/^\s*ruang\s*/i, '').trim() || '—';
+
+    return '<div class="noruang-sheet">'+
+      '<div class="noruang-inner">'+
+        logoHtml+
+        '<div class="noruang-label">RUANG</div>'+
+        '<div class="noruang-num">'+esc(numDisplay)+'</div>'+
+        '<div class="noruang-sub">NOMOR PESERTA</div>'+
+        ujianHtml+
+        '<div class="noruang-range">'+esc(range)+'</div>'+
+      '</div>'+
+    '</div>';
+  }
+
+  function getSelectedNoRuangGroups(){
+    var groups = groupByRuang();
+    var sel = $('nrRuangSelect') ? $('nrRuangSelect').value : '';
+    if(sel) groups = groups.filter(function(g){ return g.ruang === sel; });
+    return groups;
+  }
+
+  function renderNoRuang(){
+    var select = $('nrRuangSelect');
+    var prev = $('nrPreview');
+    var status = $('nrStatus');
+    if(!prev) return;
+
+    var groups = groupByRuang();
+    if(select){
+      var cur = select.value;
+      select.innerHTML = '<option value="">— Semua Ruang —</option>';
+      groups.forEach(function(g){
+        var opt = document.createElement('option');
+        opt.value = g.ruang;
+        var mode = ($('nrRangeMode') && $('nrRangeMode').value) || 'full';
+        var rangeTxt = getNoPesertaRangeMode(g.list, mode);
+        opt.textContent = 'Ruang ' + g.ruang + ' · ' + g.list.length + ' peserta' + (rangeTxt ? ' · ' + rangeTxt : '');
+        select.appendChild(opt);
+      });
+      if(cur) select.value = cur;
+    }
+
+    if(!state.siswa.length){
+      prev.innerHTML = '<div class="empty-box"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><h4>Belum ada data</h4><p>Upload data peserta dengan kolom Ruang &amp; No. Peserta terlebih dahulu.</p></div>';
+      if(status) status.style.display = 'none';
+      return;
+    }
+
+    var show = getSelectedNoRuangGroups();
+    if(!show.length){
+      prev.innerHTML = '<div class="empty-box"><h4>Tidak ada data untuk ruang yang dipilih</h4></div>';
+      return;
+    }
+
+    prev.innerHTML = show.map(function(g){ return buildNoRuangSheet(g.ruang, g.list); }).join('');
+
+    if(status){
+      status.style.display = 'flex';
+      status.className = 'status-bar success';
+      status.textContent = show.length + ' plakat ruang siap dicetak · rentang nomor peserta dari data Excel.';
+    }
+  }
+
+  function doPrintNoRuang(){
+    var groups = getSelectedNoRuangGroups();
+    if(!groups.length){
+      toast('Tidak ada data untuk dicetak','error');
+      return;
+    }
+    var paper = ($('nrPaper') && $('nrPaper').value) || 'A4';
+    var sheets = groups.map(function(g){ return buildNoRuangSheet(g.ruang, g.list); });
+    var printArea = $('printArea');
+    if(!printArea) return;
+
+    var html = '';
+    if(paper === 'A5'){
+      // 1 plakat per halaman A5
+      html = sheets.map(function(s){
+        return '<div class="noruang-page" style="max-width:148mm;padding:6mm">'+s+'</div>';
+      }).join('');
+      printStyle.textContent = '@page{size:A5 portrait;margin:6mm}'+
+        '@media print{#printArea.noruang-mode{display:block!important}#printArea.noruang-mode .noruang-page{page-break-after:always;box-shadow:none;border:none;margin:0;max-width:none;width:100%;padding:0}#printArea.noruang-mode .noruang-page:last-child{page-break-after:auto}#printArea.noruang-mode .noruang-sheet{width:100%;min-height:130mm;border:none}}';
+    } else {
+      // A4: 1 plakat per halaman, penuh kertas
+      html = sheets.map(function(s){
+        return '<div class="noruang-page noruang-page-a4">'+s+'</div>';
+      }).join('');
+      printStyle.textContent = '@page{size:A4 portrait;margin:10mm}'+
+        '@media print{'+
+          '#printArea.noruang-mode{display:block!important}'+
+          '#printArea.noruang-mode .noruang-page{page-break-after:always;box-shadow:none;border:none;margin:0;max-width:none;width:100%;height:auto;min-height:0;padding:0;display:block}'+
+          '#printArea.noruang-mode .noruang-page:last-child{page-break-after:auto}'+
+          '#printArea.noruang-mode .noruang-sheet{width:100%;height:277mm;min-height:277mm;max-height:277mm;border:none;border-radius:0;padding:8mm;box-shadow:none;box-sizing:border-box}'+
+          '#printArea.noruang-mode .noruang-inner{min-height:100%;height:100%;border-width:3.5px;padding:14mm 10mm}'+
+          '#printArea.noruang-mode .noruang-logo{width:42mm;height:42mm;margin-bottom:8mm}'+
+          '#printArea.noruang-mode .noruang-label{font-size:36pt;letter-spacing:6px}'+
+          '#printArea.noruang-mode .noruang-num{font-size:96pt;margin:6mm 0 10mm;letter-spacing:2px}'+
+          '#printArea.noruang-mode .noruang-sub{font-size:16pt;letter-spacing:2px;margin-bottom:3mm}'+
+          '#printArea.noruang-mode .noruang-ujian{font-size:15pt;max-width:92%}'+
+          '#printArea.noruang-mode .noruang-range{font-size:26pt;margin-top:10mm}'+
+        '}';
+    }
+
+    printArea.className = 'noruang-mode';
+    printArea.innerHTML = html;
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){
+        printArea.className = '';
+        applyPrintLayout();
+        render();
+      }, 500);
+    }, 150);
+  }
+
+  /* ===== BERITA ACARA ===== */
+  function getBaJmlPengawas(){
+    return ($('baPengawas1') && $('baPengawas1').checked) ? 1 : 2;
+  }
+
+  function refreshBaRuangOptions(){
+    var sel = $('baRuang');
+    if(!sel) return;
+    var cur = sel.value;
+    var groups = {};
+    state.siswa.forEach(function(s){
+      var r = (s.ruang || '').trim() || '—';
+      if(!groups[r]) groups[r] = 0;
+      groups[r]++;
+    });
+    var keys = Object.keys(groups).sort(function(a,b){ return a.localeCompare(b,'id',{numeric:true}); });
+    sel.innerHTML = '<option value="">— Pilih Ruang —</option>';
+    keys.forEach(function(r){
+      var opt = document.createElement('option');
+      opt.value = r;
+      opt.textContent = 'Ruang ' + r + ' (' + groups[r] + ' peserta)';
+      sel.appendChild(opt);
+    });
+    if(cur && groups[cur] != null) sel.value = cur;
+  }
+
+  function countByRuang(ruang){
+    if(!ruang) return state.siswa.length;
+    return state.siswa.filter(function(s){ return ((s.ruang||'').trim()||'—') === ruang; }).length;
+  }
+
+  function autoIsiBerita(){
+    refreshBaRuangOptions();
+    var ruang = ($('baRuang') && $('baRuang').value) || '';
+    var n = countByRuang(ruang);
+    if($('baJmlSeharusnya')) $('baJmlSeharusnya').value = n;
+    if($('baJmlHadir')) $('baJmlHadir').value = n;
+    if($('baJmlTidakHadir')) $('baJmlTidakHadir').value = 0;
+    if($('baJudul') && !$('baJudul').value){
+      var u = ($('ujian') && $('ujian').value) || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)';
+      $('baJudul').value = u;
+    }
+    if($('baJmlSoal') && !$('baJmlSoal').value) $('baJmlSoal').value = '1';
+    if($('baJmlBA') && !$('baJmlBA').value) $('baJmlBA').value = '1';
+    // Tanggal dari field identitas jika kosong
+    if($('baTanggal') && !$('baTanggal').value){
+      var t = ($('tanggal') && $('tanggal').value) || '';
+      // coba ambil angka tanggal
+      var m = t.match(/(\d{1,2})/);
+      if(m) $('baTanggal').value = m[1];
+    }
+    renderBerita();
+    toast('Data jumlah peserta diisi otomatis dari Excel','success');
+  }
+
+  function buildBeritaHtml(){
+    var instansi = ($('instansi') && $('instansi').value) || '';
+    var sekolah = ($('sekolah') && $('sekolah').value) || '';
+    var alamat = ($('alamat') && $('alamat').value) || '';
+    var npsn = ($('npsn') && $('npsn').value) || '';
+    var emailSekolah = ($('emailSekolah') && $('emailSekolah').value) || '';
+    var tahun = ($('tahun') && $('tahun').value) || '';
+    var logoL = state.logoL ? '<img src="'+state.logoL+'" alt="">' : '';
+    var logoR = state.logoR ? '<img src="'+state.logoR+'" alt="">' : '';
+    var contactParts = [];
+    if(npsn) contactParts.push('NPSN : '+esc(npsn));
+    if(emailSekolah) contactParts.push('Email : '+esc(emailSekolah));
+    var contactLine = contactParts.join(' | ');
+
+    var hari = ($('baHari') && $('baHari').value) || '........................';
+    var tgl = ($('baTanggal') && $('baTanggal').value) || '..........';
+    var bulan = ($('baBulan') && $('baBulan').value) || '........................';
+    var tahunTeks = ($('baTahunTeks') && $('baTahunTeks').value) || '........................';
+    var judul = ($('baJudul') && $('baJudul').value) || (($('ujian') && $('ujian').value) || 'ASESMEN SUMATIF AKHIR SEMESTER (ASAS)');
+    var jamMulai = ($('baJamMulai') && $('baJamMulai').value) || '..........';
+    var jamSelesai = ($('baJamSelesai') && $('baJamSelesai').value) || '..........';
+    var ruang = ($('baRuang') && $('baRuang').value) || '';
+    var jmlSeharusnya = ($('baJmlSeharusnya') && $('baJmlSeharusnya').value) || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    var jmlHadir = ($('baJmlHadir') && $('baJmlHadir').value) || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    var jmlTidak = ($('baJmlTidakHadir') && $('baJmlTidakHadir').value) || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    var mapel = ($('baMapel') && $('baMapel').value) || '';
+    var jmlSoal = ($('baJmlSoal') && $('baJmlSoal').value) || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    var jmlBA = ($('baJmlBA') && $('baJmlBA').value) || '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+    var catatan = ($('baCatatan') && $('baCatatan').value) || '';
+    var jmlPengawas = getBaJmlPengawas();
+    var nama1 = ($('baNamaPengawas1') && $('baNamaPengawas1').value) || '';
+    var nip1 = ($('baNipPengawas1') && $('baNipPengawas1').value) || '';
+    var nama2 = ($('baNamaPengawas2') && $('baNamaPengawas2').value) || '';
+    var nip2 = ($('baNipPengawas2') && $('baNipPengawas2').value) || '';
+
+    function row(label, val){
+      return '<div class="ba-row"><div class="k">'+label+'</div><div class="c">:</div><div class="v">'+esc(String(val))+'</div></div>';
+    }
+
+    var notesHtml = '';
+    if(catatan && catatan.trim()){
+      notesHtml = '<div class="ba-notes"><div style="white-space:pre-wrap">'+esc(catatan.trim())+'</div></div>';
+    } else {
+      notesHtml = '<div class="ba-notes"><div class="blank"></div><div class="blank"></div><div class="blank"></div></div>';
+    }
+
+    var signHtml = '';
+    if(jmlPengawas === 1){
+      signHtml = '<div class="ba-sign one">'+
+        '<div class="box">'+
+          '<div>Yang membuat berita acara</div>'+
+          '<div class="role">Pengawas</div>'+
+          '<div class="name-line">'+(nama1 ? esc(nama1) : '&nbsp;')+'</div>'+
+          '<div class="nip">NIP. '+(nip1 ? esc(nip1) : '........................')+'</div>'+
+        '</div></div>';
+    } else {
+      signHtml = '<div class="ba-sign">'+
+        '<div class="box">'+
+          '<div class="role">Pengawas I</div>'+
+          '<div class="name-line">'+(nama1 ? esc(nama1) : '&nbsp;')+'</div>'+
+          '<div class="nip">NIP. '+(nip1 ? esc(nip1) : '........................')+'</div>'+
+        '</div>'+
+        '<div class="box">'+
+          '<div>Yang membuat berita acara</div>'+
+          '<div class="role">Pengawas II</div>'+
+          '<div class="name-line">'+(nama2 ? esc(nama2) : '&nbsp;')+'</div>'+
+          '<div class="nip">NIP. '+(nip2 ? esc(nip2) : '........................')+'</div>'+
+        '</div></div>';
+    }
+
+    return '<div class="ba-sheet">'+
+      '<div class="daftar-kop">'+
+        '<div class="lg">'+logoL+'</div>'+
+        '<div class="meta">'+
+          (instansi ? '<div class="instansi">'+esc(instansi)+'</div>' : '')+
+          '<div class="school">'+esc(sekolah)+'</div>'+
+          (alamat ? '<div class="addr">'+esc(alamat)+'</div>' : '')+
+          (contactLine ? '<div class="contact">'+contactLine+'</div>' : '')+
+        '</div>'+
+        '<div class="lg">'+logoR+'</div>'+
+      '</div>'+
+      '<div class="daftar-kop-line"></div>'+
+      '<div class="ba-title">'+
+        '<div class="main">BERITA ACARA</div>'+
+        '<div class="sub">'+esc(judul)+'</div>'+
+        (tahun ? '<div class="tahun">TAHUN AJARAN '+esc(tahun)+'</div>' : '')+
+      '</div>'+
+      '<div class="ba-body">'+
+        '<p>Pada hari ini <b>'+esc(hari)+'</b> Tanggal <b>'+esc(tgl)+'</b> Bulan <b>'+esc(bulan)+'</b> Tahun <b>'+esc(tahunTeks)+'</b></p>'+
+        '<p><span class="ba-num">1.</span>Telah dilaksanakan '+esc(judul)+' mulai pukul <b>'+esc(jamMulai)+'</b> sampai dengan pukul <b>'+esc(jamSelesai)+'</b></p>'+
+        row('Pada', sekolah)+
+        row('Alamat', alamat)+
+        row('Ruang', ruang === '—' ? '' : ruang)+
+        row('Jumlah Peserta Seharusnya', jmlSeharusnya + ' orang')+
+        row('Jumlah Peserta yang Hadir', jmlHadir + ' orang')+
+        row('Jumlah Peserta yang Tidak Hadir', jmlTidak + ' orang')+
+        '<p style="margin-top:8px"><span class="ba-num">2.</span> Telah dibuka sampel soal '+esc(judul)+'</p>'+
+        row('Mata Pelajaran', mapel)+
+        row('Jumlah Soal', jmlSoal + ' lembar')+
+        row('Jumlah Berita Acara', jmlBA + ' lembar')+
+        '<p>Sebelum dibuka sampel soal '+esc(judul)+' dan keadaan: .............................................................................................................................................................................................</p>'+
+        '<p style="margin-top:8px"><span class="ba-num">3.</span> Catatan selama ujian berlangsung :</p>'+
+        notesHtml+
+        '<p class="ba-closing">Berita acara ini dibuat dengan sesungguhnya</p>'+
+        signHtml+
+      '</div>'+
+    '</div>';
+  }
+
+  function renderBerita(){
+    refreshBaRuangOptions();
+    var prev = $('baPreview');
+    if(!prev) return;
+    // toggle pengawas 2 fields
+    var row2 = $('baPengawas2Row');
+    if(row2) row2.style.display = getBaJmlPengawas() === 2 ? '' : 'none';
+    prev.innerHTML = buildBeritaHtml();
+    var st = $('baStatus');
+    if(st){
+      st.style.display = 'flex';
+      st.className = 'status-bar success';
+      st.textContent = 'Preview berita acara siap · ' + getBaJmlPengawas() + ' pengawas · Ruang: ' + (($('baRuang') && $('baRuang').value) || '—');
+    }
+  }
+
+  function doPrintBerita(){
+    var html = buildBeritaHtml();
+    var printArea = $('printArea');
+    if(!printArea) return;
+    printArea.className = 'berita-mode';
+    printArea.innerHTML = html;
+    printStyle.textContent = '@page{size:A4 portrait;margin:10mm}'+
+      '@media print{#printArea.berita-mode{display:block!important}#printArea.berita-mode .ba-sheet{page-break-after:always}#printArea.berita-mode .ba-sheet:last-child{page-break-after:auto}}';
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){
+        printArea.className = '';
+        applyPrintLayout();
+        render();
+      }, 500);
+    }, 150);
+  }
+
   /* Print */
   function doPrint(){
     var printArea = $('printArea');
     if(printArea) printArea.className = '';
     applyPrintLayout();
-    if(printArea && state.siswa.length){
-      printArea.innerHTML = state.siswa.map(kartu).join('');
+    var list = getSiswaForPrint();
+    if(!list.length){
+      toast(state.filterKelas ? 'Tidak ada peserta di kelas yang dipilih' : 'Belum ada data peserta','error');
+      return;
+    }
+    if(printArea){
+      printArea.innerHTML = list.map(kartu).join('');
     }
     window.print();
   }
@@ -4140,6 +5127,51 @@ a { color: var(--primary); text-decoration: none; }
       if(denahState.generated) renderDenahPreview();
     });
   });
+
+  /* Filter kelas (cetak kartu) */
+  if($('filterKelas')){
+    $('filterKelas').addEventListener('change', function(){
+      state.filterKelas = this.value || '';
+      render();
+    });
+  }
+
+  /* Berita Acara events */
+  if($('btnPrintBerita')) $('btnPrintBerita').onclick = doPrintBerita;
+  if($('btnRefreshBerita')) $('btnRefreshBerita').onclick = renderBerita;
+  if($('btnAutoIsiBerita')) $('btnAutoIsiBerita').onclick = autoIsiBerita;
+  if($('baRuang')) $('baRuang').addEventListener('change', function(){
+    var n = countByRuang(this.value);
+    if($('baJmlSeharusnya')) $('baJmlSeharusnya').value = n;
+    if($('baJmlHadir') && (!$('baJmlHadir').value || $('baJmlHadir').dataset.auto!=='0')){
+      $('baJmlHadir').value = n;
+    }
+    if($('baJmlTidakHadir') && !$('baJmlTidakHadir').value) $('baJmlTidakHadir').value = 0;
+    renderBerita();
+  });
+  ['baPengawas1','baPengawas2'].forEach(function(id){
+    if($(id)) $(id).addEventListener('change', renderBerita);
+  });
+  ['baHari','baTanggal','baBulan','baTahunTeks','baJudul','baJamMulai','baJamSelesai',
+   'baJmlSeharusnya','baJmlHadir','baJmlTidakHadir','baMapel','baJmlSoal','baJmlBA',
+   'baCatatan','baNamaPengawas1','baNipPengawas1','baNamaPengawas2','baNipPengawas2'].forEach(function(id){
+    if($(id)){
+      $(id).addEventListener('input', function(){ renderBerita(); });
+      $(id).addEventListener('change', function(){ renderBerita(); });
+    }
+  });
+
+  /* Plakat No. Ruang events */
+  if($('btnPrintNoRuang')) $('btnPrintNoRuang').onclick = doPrintNoRuang;
+  if($('btnRefreshNoRuang')) $('btnRefreshNoRuang').onclick = renderNoRuang;
+  if($('nrRuangSelect')) $('nrRuangSelect').addEventListener('change', renderNoRuang);
+  ['nrPaper','nrLogoSide','nrRangeMode'].forEach(function(id){
+    if($(id)) $(id).addEventListener('change', renderNoRuang);
+  });
+  if($('nrUjianCustom')){
+    $('nrUjianCustom').addEventListener('input', renderNoRuang);
+    $('nrUjianCustom').addEventListener('change', renderNoRuang);
+  }
 
   render();
   updateSaveBadge();
