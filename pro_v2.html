@@ -835,6 +835,290 @@ a { color: var(--primary); text-decoration: none; }
 .bk-info .r .c { width: 4mm; flex: none; }
 .bk-info .r .v { font-weight: 700; }
 
+
+/* ===== KARTU DESAIN VARIAN ===== */
+/* Klasik = default existing styles */
+
+/* --- Modern: header strip hijau, sudut lebih lembut --- */
+.kartu.desain-modern {
+  border: 1.5px solid #087C55;
+  border-radius: 1.2mm;
+  padding: 2mm 2.8mm 2mm;
+}
+.kartu.desain-modern .k-head {
+  background: linear-gradient(135deg, #087C55 0%, #0EA572 100%);
+  color: #fff;
+  margin: -2mm -2.8mm 0;
+  padding: 2mm 2.8mm 1.6mm;
+  height: auto;
+  min-height: 13mm;
+  border-radius: 1mm 1mm 0 0;
+}
+.kartu.desain-modern .k-title .i,
+.kartu.desain-modern .k-title .s,
+.kartu.desain-modern .k-title .a,
+.kartu.desain-modern .k-title .c,
+.kartu.desain-modern .k-title .u,
+.kartu.desain-modern .k-title .t { color: #fff; }
+.kartu.desain-modern .k-title .u {
+  border-top-color: rgba(255,255,255,.45);
+}
+.kartu.desain-modern .k-line {
+  border: 0;
+  margin: 1.2mm 0 1.2mm;
+  height: 0;
+}
+.kartu.desain-modern .k-data { font-size: 6.4pt; }
+.kartu.desain-modern .k-foto {
+  border: 1.5px solid #087C55;
+  border-radius: 0.8mm;
+}
+.kartu.desain-modern .k-ttd .n { color: #087C55; }
+
+/* --- Formal: border dobel, tipografi tegas --- */
+.kartu.desain-formal {
+  border: 2.2px double #111;
+  padding: 2mm 2.6mm 1.8mm;
+}
+.kartu.desain-formal .k-title .s { font-size: 8pt; letter-spacing: .3px; }
+.kartu.desain-formal .k-title .u {
+  border-top: 1.5px solid #000;
+  border-bottom: 1px solid #000;
+  padding: .35mm 0;
+  margin-top: .4mm;
+  font-size: 6.6pt;
+}
+.kartu.desain-formal .k-line { border-top: 1.6px solid #000; margin: 1.1mm 0 1.3mm; }
+.kartu.desain-formal .k-data .v { letter-spacing: .1px; }
+.kartu.desain-formal .k-foto { border: 1.5px solid #000; }
+
+/* --- Compact: data lebih rapat, foto lebih kecil --- */
+.kartu.desain-compact {
+  padding: 1.8mm 2.4mm 1.6mm;
+}
+.kartu.desain-compact .k-head { height: 12.5mm; gap: 1.5mm; }
+.kartu.desain-compact .k-head .lg { width: 8mm; height: 10.5mm; }
+.kartu.desain-compact .k-title .i { font-size: 4.6pt; }
+.kartu.desain-compact .k-title .s { font-size: 7pt; }
+.kartu.desain-compact .k-title .a,
+.kartu.desain-compact .k-title .c { font-size: 3.8pt; }
+.kartu.desain-compact .k-title .u { font-size: 5.8pt; margin-top: .3mm; padding-top: .25mm; }
+.kartu.desain-compact .k-title .t { font-size: 4.2pt; }
+.kartu.desain-compact .k-line { margin: .7mm 0 1mm; }
+.kartu.desain-compact .k-data { font-size: 6pt; line-height: 1.22; }
+.kartu.desain-compact .k-data .l { width: 18mm; }
+.kartu.desain-compact .k-foot { height: 24mm; bottom: 1.6mm; }
+.kartu.desain-compact .k-foto {
+  width: 15mm; height: 20mm; top: 1.5mm;
+}
+.kartu.desain-compact .k-ttd { width: 54mm; font-size: 5.2pt; }
+.kartu.desain-compact .k-ttd .sig { height: 9mm; }
+.kartu.desain-compact .k-ttd .n { font-size: 5.6pt; }
+
+/* --- Banner: pita judul di atas data --- */
+.kartu.desain-banner .k-banner {
+  background: #087C55;
+  color: #fff;
+  text-align: center;
+  font-size: 6.2pt;
+  font-weight: 800;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  padding: 1mm 1.5mm;
+  margin: 0 0 1.2mm;
+  border-radius: 0.4mm;
+}
+.kartu.desain-banner .k-line { display: none; }
+.kartu.desain-banner .k-data { font-size: 6.2pt; }
+
+/* Bangku variants */
+.kartu.bk.desain-modern {
+  border: 2px solid #087C55;
+  border-radius: 1.5mm;
+}
+.kartu.bk.desain-modern .k-head {
+  background: linear-gradient(135deg, #087C55, #0EA572);
+  color: #fff;
+  margin: -4mm -7mm 0;
+  padding: 3mm 7mm 2.5mm;
+  height: auto;
+  min-height: 18mm;
+  border-radius: 1.2mm 1.2mm 0 0;
+}
+.kartu.bk.desain-modern .k-title .i,
+.kartu.bk.desain-modern .k-title .s,
+.kartu.bk.desain-modern .k-title .a,
+.kartu.bk.desain-modern .k-title .c,
+.kartu.bk.desain-modern .k-title .u,
+.kartu.bk.desain-modern .k-title .t { color: #fff; }
+.kartu.bk.desain-modern .k-title .u { border-top-color: rgba(255,255,255,.4); }
+.kartu.bk.desain-modern .k-line { border: 0; margin: 2mm 0; height: 0; }
+.kartu.bk.desain-modern .bk-no {
+  border: 2.5px solid #087C55;
+  background: #E8F5F0;
+  border-radius: 1.2mm;
+}
+.kartu.bk.desain-modern .bk-no .l { color: #066445; }
+.kartu.bk.desain-modern .bk-no .n { color: #087C55; }
+
+.kartu.bk.desain-formal {
+  border: 2.5px double #111;
+}
+.kartu.bk.desain-formal .bk-no {
+  border: 2.5px solid #000;
+  background: #fafafa;
+}
+.kartu.bk.desain-formal .k-title .u {
+  border-top: 1.8px solid #000;
+  border-bottom: 1px solid #000;
+  padding: .4mm 0;
+}
+
+.kartu.bk.desain-center .bk-body {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2mm;
+  text-align: center;
+}
+.kartu.bk.desain-center .bk-no {
+  width: 100%;
+  min-height: 22mm;
+  flex-direction: row;
+  justify-content: center;
+  gap: 4mm;
+  padding: 2mm 4mm;
+}
+.kartu.bk.desain-center .bk-no .l {
+  writing-mode: horizontal-tb;
+  margin: 0;
+  align-self: center;
+  font-size: 9pt;
+}
+.kartu.bk.desain-center .bk-no .n {
+  font-size: 28pt;
+}
+.kartu.bk.desain-center .bk-info {
+  text-align: center;
+}
+.kartu.bk.desain-center .bk-info .nm { font-size: 16pt; }
+.kartu.bk.desain-center .bk-info .r { justify-content: center; }
+.kartu.bk.desain-center .bk-info .r .l { width: auto; margin-right: 2mm; }
+
+.kartu.bk.desain-minimal {
+  border: 1.5px solid #333;
+  padding: 3.5mm 6mm;
+}
+.kartu.bk.desain-minimal .k-head { height: 16mm; }
+.kartu.bk.desain-minimal .k-line { margin: 1mm 0 2mm; }
+.kartu.bk.desain-minimal .bk-body { gap: 4mm; }
+.kartu.bk.desain-minimal .bk-no {
+  width: 48mm;
+  min-height: 28mm;
+  border: 0;
+  background: #111;
+  color: #fff;
+  border-radius: 1mm;
+}
+.kartu.bk.desain-minimal .bk-no .l { color: #ccc; letter-spacing: 1.5px; }
+.kartu.bk.desain-minimal .bk-no .n { color: #fff; font-size: 22pt; }
+.kartu.bk.desain-minimal .bk-info .nm { font-size: 17pt; }
+
+/* Design picker cards */
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+.design-item { position: relative; cursor: pointer; }
+.design-item input { position: absolute; opacity: 0; pointer-events: none; }
+.design-item .design-card {
+  border: 2px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 10px;
+  text-align: center;
+  background: var(--card);
+  transition: border-color .15s, background .15s, box-shadow .15s;
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.design-item input:checked + .design-card {
+  border-color: var(--primary);
+  background: var(--primary-l);
+  box-shadow: 0 0 0 3px rgba(8,124,85,.1);
+}
+.design-item .design-card .dc-preview {
+  width: 100%;
+  height: 36px;
+  border-radius: 6px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  position: relative;
+  overflow: hidden;
+}
+.design-item .design-card .dc-title { font-size: 13px; font-weight: 600; color: var(--ink); }
+.design-item .design-card .dc-desc { font-size: 11px; color: var(--mute); line-height: 1.3; }
+
+.dc-preview.pv-klasik { background: #fff; }
+.dc-preview.pv-klasik::before {
+  content: '';
+  position: absolute; top: 4px; left: 6px; right: 6px; height: 8px;
+  background: linear-gradient(90deg, #ccc 12%, transparent 12%, transparent 88%, #ccc 88%), #eee;
+  border-radius: 2px;
+}
+.dc-preview.pv-klasik::after {
+  content: '';
+  position: absolute; bottom: 4px; left: 6px; width: 10px; height: 14px;
+  background: #ddd; border: 1px solid #bbb;
+}
+.dc-preview.pv-modern { background: #fff; }
+.dc-preview.pv-modern::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 12px;
+  background: linear-gradient(135deg, #087C55, #0EA572);
+}
+.dc-preview.pv-formal { background: #fff; box-shadow: inset 0 0 0 2px #333; }
+.dc-preview.pv-formal::before {
+  content: '';
+  position: absolute; top: 5px; left: 8px; right: 8px; height: 6px;
+  background: #222; opacity: .15;
+}
+.dc-preview.pv-compact { background: #fff; }
+.dc-preview.pv-compact::before {
+  content: '';
+  position: absolute; top: 3px; left: 4px; right: 4px; height: 6px; background: #e5e5e5;
+}
+.dc-preview.pv-compact::after {
+  content: '';
+  position: absolute; top: 12px; left: 4px; right: 4px; height: 18px;
+  background: repeating-linear-gradient(transparent, transparent 3px, #eee 3px, #eee 4px);
+}
+.dc-preview.pv-banner { background: #fff; }
+.dc-preview.pv-banner::before {
+  content: '';
+  position: absolute; top: 10px; left: 4px; right: 4px; height: 8px;
+  background: #087C55; border-radius: 2px;
+}
+.dc-preview.pv-center { background: #fff; }
+.dc-preview.pv-center::before {
+  content: '';
+  position: absolute; top: 8px; left: 12px; right: 12px; height: 16px;
+  background: #f0f0f0; border: 1.5px solid #333; border-radius: 3px;
+}
+.dc-preview.pv-minimal { background: #fff; }
+.dc-preview.pv-minimal::before {
+  content: '';
+  position: absolute; top: 6px; left: 6px; width: 18px; height: 22px;
+  background: #111; border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .design-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* ===== STATUS / ALERT ===== */
 .status-bar {
   display: flex;
@@ -2386,6 +2670,70 @@ a { color: var(--primary); text-decoration: none; }
         </div>
 
         <div class="card">
+          <div class="card-title">Template Desain Kartu</div>
+          <div class="card-desc">Pilih gaya visual yang umum dipakai di sekolah. Desain berlaku untuk kartu ujian maupun kartu bangku.</div>
+          <div class="design-grid" id="designGrid">
+            <label class="design-item">
+              <input type="radio" name="cardDesign" id="designKlasik" value="klasik" checked>
+              <div class="design-card">
+                <div class="dc-preview pv-klasik"></div>
+                <div class="dc-title">Klasik</div>
+                <div class="dc-desc">Logo kiri-kanan · layout standar sekolah</div>
+              </div>
+            </label>
+            <label class="design-item">
+              <input type="radio" name="cardDesign" id="designModern" value="modern">
+              <div class="design-card">
+                <div class="dc-preview pv-modern"></div>
+                <div class="dc-title">Modern</div>
+                <div class="dc-desc">Header hijau gradient · aksen warna</div>
+              </div>
+            </label>
+            <label class="design-item">
+              <input type="radio" name="cardDesign" id="designFormal" value="formal">
+              <div class="design-card">
+                <div class="dc-preview pv-formal"></div>
+                <div class="dc-title">Formal</div>
+                <div class="dc-desc">Border dobel · tipografi tegas</div>
+              </div>
+            </label>
+            <label class="design-item">
+              <input type="radio" name="cardDesign" id="designCompact" value="compact">
+              <div class="design-card">
+                <div class="dc-preview pv-compact"></div>
+                <div class="dc-title">Compact</div>
+                <div class="dc-desc">Lebih rapat · hemat ruang cetak</div>
+              </div>
+            </label>
+            <label class="design-item">
+              <input type="radio" name="cardDesign" id="designBanner" value="banner">
+              <div class="design-card">
+                <div class="dc-preview pv-banner"></div>
+                <div class="dc-title">Banner</div>
+                <div class="dc-desc">Pita judul ujian · fokus identitas</div>
+              </div>
+            </label>
+            <label class="design-item" id="designCenterWrap">
+              <input type="radio" name="cardDesign" id="designCenter" value="center">
+              <div class="design-card">
+                <div class="dc-preview pv-center"></div>
+                <div class="dc-title">Nomor Tengah</div>
+                <div class="dc-desc">Khusus bangku · nomor besar di tengah</div>
+              </div>
+            </label>
+            <label class="design-item" id="designMinimalWrap">
+              <input type="radio" name="cardDesign" id="designMinimal" value="minimal">
+              <div class="design-card">
+                <div class="dc-preview pv-minimal"></div>
+                <div class="dc-title">Minimal</div>
+                <div class="dc-desc">Khusus bangku · nomor kontras hitam</div>
+              </div>
+            </label>
+          </div>
+          <p class="form-hint" style="margin-top:12px">Template <b>Nomor Tengah</b> dan <b>Minimal</b> dioptimalkan untuk Kartu Bangku; pada Kartu Ujian akan memakai layout klasik yang disesuaikan.</p>
+        </div>
+
+        <div class="card">
           <div class="card-title">Watermark (Opsional)</div>
           <div class="card-desc">Tambahkan teks atau gambar watermark di belakang kartu.</div>
           <div class="form-group">
@@ -2591,7 +2939,7 @@ a { color: var(--primary); text-decoration: none; }
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             Denah Tempat Duduk
           </div>
-          <div class="card-desc">Susun kursi per ruang berdasarkan data Excel. Mode <b>Acak</b> mencampur siswa dari kelas berbeda agar tidak duduk berderet sesama kelas. Lembar absensi mengikuti urutan kursi agar pengawas mudah mengabsen baris demi baris.</div>
+          <div class="card-desc">Susun kursi per ruang berdasarkan data Excel. Mode <b>Urut Absen + Campur</b> mengurutkan nomor peserta per kelas lalu menyisipkan kelas berbeda agar siswa sekelas tidak duduk berdampingan. Mode <b>Acak</b> mengacak penuh dengan campur kelas. <b>Absensi ikut denah dicetak per kelas</b> yang ada di ruang tersebut.</div>
 
           <div class="form-row" style="margin-bottom:14px">
             <div class="form-group" style="margin-bottom:0">
@@ -2615,19 +2963,26 @@ a { color: var(--primary); text-decoration: none; }
           <div class="form-row" style="margin-bottom:14px">
             <div class="form-group" style="margin-bottom:0">
               <label class="form-label">Mode Penempatan</label>
-              <div class="seg" style="grid-template-columns:1fr 1fr">
+              <div class="seg" style="grid-template-columns:1fr 1fr 1fr">
                 <label class="seg-item">
                   <input type="radio" name="denahMode" id="denahModeUrut" value="urut" checked>
-                  <div class="seg-card" style="padding:12px 10px">
-                    <div class="seg-title" style="font-size:13px">Urutan Data</div>
+                  <div class="seg-card" style="padding:12px 8px">
+                    <div class="seg-title" style="font-size:12.5px">Urutan Data</div>
                     <div class="seg-desc">Sesuai urutan di Excel</div>
                   </div>
                 </label>
                 <label class="seg-item">
+                  <input type="radio" name="denahMode" id="denahModeUrutAbsen" value="urut-absen">
+                  <div class="seg-card" style="padding:12px 8px">
+                    <div class="seg-title" style="font-size:12.5px">Urut Absen + Campur</div>
+                    <div class="seg-desc">Urut no. peserta, kelas tidak berdampingan</div>
+                  </div>
+                </label>
+                <label class="seg-item">
                   <input type="radio" name="denahMode" id="denahModeAcak" value="acak">
-                  <div class="seg-card" style="padding:12px 10px">
-                    <div class="seg-title" style="font-size:13px">Acak (campur kelas)</div>
-                    <div class="seg-desc">Siswa beda kelas tidak berderet</div>
+                  <div class="seg-card" style="padding:12px 8px">
+                    <div class="seg-title" style="font-size:12.5px">Acak (campur kelas)</div>
+                    <div class="seg-desc">Acak penuh, beda kelas tidak berderet</div>
                   </div>
                 </label>
               </div>
@@ -3170,7 +3525,7 @@ a { color: var(--primary); text-decoration: none; }
   var state = {
     logoL: shield('#d33','#f4c430'),
     logoR: shield('#1f4fa8','#f4c430'),
-    ttd:'', stempel:'', wmImg:'', mode:'ujian',
+    ttd:'', stempel:'', wmImg:'', mode:'ujian', design:'klasik',
     siswa: SAMPLE.slice(), foto:{},
     zoom: 1, dirty: false,
     searchQ: '',
@@ -3206,6 +3561,7 @@ a { color: var(--primary); text-decoration: none; }
     if(saved.stempel) state.stempel = saved.stempel;
     if(saved.wmImg) state.wmImg = saved.wmImg;
     if(saved.mode==='bangku') state.mode = 'bangku';
+    if(saved.design) state.design = saved.design;
     if(saved.paper && $('paper')) $('paper').value = saved.paper;
     if(saved.paper && $('paperMobile')) $('paperMobile').value = saved.paper;
     if(Array.isArray(saved.siswa) && saved.siswa.length){
@@ -3216,13 +3572,19 @@ a { color: var(--primary); text-decoration: none; }
   }
   $('modeBangku').checked = state.mode==='bangku';
   $('modeUjian').checked = state.mode!=='bangku';
+  (function(){
+    var d = state.design || 'klasik';
+    var el = document.querySelector('input[name="cardDesign"][value="'+d+'"]');
+    if(el) el.checked = true;
+    else if($('designKlasik')) $('designKlasik').checked = true;
+  })();
   if($('paperMobile') && $('paper')) $('paperMobile').value = $('paper').value;
 
   function save(){
     try {
       var o = {};
       fields.forEach(function(f){ if($(f)) o[f]=$(f).value; });
-      o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.stempel=state.stempel; o.wmImg=state.wmImg; o.mode=state.mode;
+      o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.stempel=state.stempel; o.wmImg=state.wmImg; o.mode=state.mode; o.design=state.design||'klasik';
       o.siswa = state.siswa; // persist daftar peserta (foto tidak disimpan agar localStorage tidak penuh)
       localStorage.setItem('kartuUjianCfg', JSON.stringify(o));
       state.dirty = false;
@@ -3265,6 +3627,21 @@ a { color: var(--primary); text-decoration: none; }
     return '';
   }
 
+  function getCardDesign(){
+    var el = document.querySelector('input[name="cardDesign"]:checked');
+    var d = (el && el.value) || state.design || 'klasik';
+    state.design = d;
+    return d;
+  }
+
+  function designClass(isBangku){
+    var d = getCardDesign();
+    // center & minimal are bangku-oriented; map to klasik for ujian
+    if(!isBangku && (d === 'center' || d === 'minimal')) d = 'klasik';
+    if(d === 'klasik') return '';
+    return ' desain-' + d;
+  }
+
   function kartu(s){
     var kr = s.kelas ? (s.ruang ? s.kelas+' / '+s.ruang : s.kelas) : (s.ruang||'');
     var foto = state.foto[String(s.nisn).trim()];
@@ -3277,6 +3654,9 @@ a { color: var(--primary); text-decoration: none; }
     if(npsn) contactParts.push('NPSN : '+esc(npsn));
     if(emailSekolah) contactParts.push('Email : '+esc(emailSekolah));
     var contactLine = contactParts.join(' | ');
+    var design = getCardDesign();
+    var isBk = state.mode==='bangku';
+    var dCls = designClass(isBk);
     var head = '<div class="k-head"><div class="lg">'+(state.logoL?'<img src="'+state.logoL+'">':'')+'</div>'+
       '<div class="k-title">'+
         (instansi ? '<div class="i">'+esc(instansi)+'</div>' : '')+
@@ -3286,22 +3666,26 @@ a { color: var(--primary); text-decoration: none; }
         '<div class="u">'+esc($('ujian').value)+'</div>'+
         '<div class="t">Tahun Ajaran: '+esc($('tahun').value)+'</div>'+
       '</div>'+
-      '<div class="lg">'+(state.logoR?'<img src="'+state.logoR+'">':'')+'</div></div>'+
-      '<div class="k-line"></div>';
-    if(state.mode==='bangku'){
+      '<div class="lg">'+(state.logoR?'<img src="'+state.logoR+'">':'')+'</div></div>';
+    var banner = '';
+    if(!isBk && design === 'banner'){
+      banner = '<div class="k-banner">'+esc($('ujian').value || 'KARTU PESERTA UJIAN')+'</div>';
+    }
+    var line = (design === 'modern' || design === 'banner') ? '' : '<div class="k-line"></div>';
+    if(isBk){
       var b = function(l,v){ return '<div class="r"><span class="l">'+l+'</span><span class="c">:</span><span class="v">'+esc(v)+'</span></div>'; };
       var noStr = String(s.no||'');
       var noCls = 'n';
       if(noStr.length > 11) noCls = 'n n-sm';
       else if(noStr.length > 8) noCls = 'n n-md';
-      return '<div class="kartu bk">'+w+head+
+      return '<div class="kartu bk'+dCls+'">'+w+head+line+
         '<div class="bk-body"><div class="bk-no"><span class="l">NO. PESERTA</span><span class="'+noCls+'">'+esc(noStr)+'</span></div>'+
         '<div class="bk-info"><div class="nm">'+esc(s.nama)+'</div>'+b('NISN',s.nisn)+b('Kelas',s.kelas)+b('Ruang',s.ruang)+'</div></div>'+
       '</div>';
     }
     var ttdImg = state.ttd ? '<img class="ttd-img" src="'+state.ttd+'" alt="TTD">' : '';
     var stempelImg = state.stempel ? '<img class="stempel-overlay" src="'+state.stempel+'" alt="Stempel">' : '';
-    return '<div class="kartu">'+w+head+
+    return '<div class="kartu'+dCls+'">'+w+head+line+banner+
       '<div class="k-data">'+d('No. Peserta',s.no)+d('NISN',s.nisn)+d('Nama',s.nama)+d('TTL',s.ttl)+d('Kelas/Ruang',kr)+'</div>'+
       '<div class="k-foot"><div class="k-foto">'+(foto?'<img src="'+foto+'">':userSvg)+'</div>'+
       '<div class="k-ttd">'+stempelImg+
@@ -3668,6 +4052,85 @@ a { color: var(--primary); text-decoration: none; }
     return mixed;
   }
 
+
+  /** Urut nomor peserta (absen) per kelas, lalu interleave agar sekelas tidak berdampingan. */
+  function sortByNoPeserta(list){
+    return list.slice().sort(function(a, b){
+      var na = String(a.no == null ? '' : a.no).trim();
+      var nb = String(b.no == null ? '' : b.no).trim();
+      // natural compare
+      var cmp = na.localeCompare(nb, 'id', { numeric: true, sensitivity: 'base' });
+      if(cmp !== 0) return cmp;
+      // fallback nama
+      return String(a.nama||'').localeCompare(String(b.nama||''), 'id', { sensitivity: 'base' });
+    });
+  }
+
+  function mixByAbsen(list){
+    if(!list || list.length <= 1) return list ? list.slice() : [];
+    // Group by kelas, sort each by no peserta
+    var byKelas = {};
+    list.forEach(function(s){
+      var k = normalizeKelas(s.kelas);
+      if(!byKelas[k]) byKelas[k] = [];
+      byKelas[k].push(s);
+    });
+    var keys = Object.keys(byKelas);
+    keys.forEach(function(k){ byKelas[k] = sortByNoPeserta(byKelas[k]); });
+
+    if(keys.length < 2){
+      // satu kelas: cukup urut absen
+      return sortByNoPeserta(list);
+    }
+
+    // Interleave round-robin mulai dari kelas terbanyak
+    keys.sort(function(a, b){ return byKelas[b].length - byKelas[a].length; });
+    var queues = keys.map(function(k){ return byKelas[k].slice(); });
+    var mixed = [];
+    var remaining = list.length;
+    while(remaining > 0){
+      var progressed = false;
+      for(var q = 0; q < queues.length; q++){
+        if(queues[q].length){
+          mixed.push(queues[q].shift());
+          remaining--;
+          progressed = true;
+        }
+      }
+      if(!progressed) break;
+    }
+
+    // Haluskan: hindari pasangan sekelas berdampingan jika memungkinkan
+    function kelasOf(s){ return normalizeKelas(s && s.kelas); }
+    for(var pass = 0; pass < 4; pass++){
+      for(var i = 0; i < mixed.length - 1; i++){
+        if(kelasOf(mixed[i]) !== kelasOf(mixed[i + 1])) continue;
+        var swapped = false;
+        for(var j = i + 2; j < mixed.length; j++){
+          if(kelasOf(mixed[j]) === kelasOf(mixed[i])) continue;
+          var okLeft = (i === 0) || kelasOf(mixed[i - 1]) !== kelasOf(mixed[j]);
+          if(okLeft || kelasOf(mixed[j]) !== kelasOf(mixed[i])){
+            var tmp = mixed[i + 1];
+            mixed[i + 1] = mixed[j];
+            mixed[j] = tmp;
+            swapped = true;
+            break;
+          }
+        }
+        if(!swapped){
+          for(var j2 = i + 2; j2 < mixed.length; j2++){
+            if(kelasOf(mixed[j2]) === kelasOf(mixed[i + 1])) continue;
+            var tmp2 = mixed[i];
+            mixed[i] = mixed[j2];
+            mixed[j2] = tmp2;
+            break;
+          }
+        }
+      }
+    }
+    return mixed;
+  }
+
   function seatLabel(row, col, cols){
     // Nomor kursi: baris 1 depan, kolom 1 kiri. Label: 1A, 1B... atau angka urut
     var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -3675,8 +4138,18 @@ a { color: var(--primary); text-decoration: none; }
     return (row + 1) + letter;
   }
 
-  function buildDenahPlanForRuang(ruang, list, cols, modeAcak){
-    var ordered = modeAcak ? mixByKelas(list) : list.slice();
+  function getDenahModeValue(){
+    if($('denahModeAcak') && $('denahModeAcak').checked) return 'acak';
+    if($('denahModeUrutAbsen') && $('denahModeUrutAbsen').checked) return 'urut-absen';
+    return 'urut';
+  }
+
+  function buildDenahPlanForRuang(ruang, list, cols, mode){
+    mode = mode || 'urut';
+    var ordered;
+    if(mode === 'acak') ordered = mixByKelas(list);
+    else if(mode === 'urut-absen') ordered = mixByAbsen(list);
+    else ordered = list.slice();
     var seats = [];
     ordered.forEach(function(s, i){
       var row = Math.floor(i / cols);
@@ -3691,12 +4164,13 @@ a { color: var(--primary); text-decoration: none; }
     var kelasSet = {};
     list.forEach(function(s){ kelasSet[normalizeKelas(s.kelas)] = true; });
     var nKelas = Object.keys(kelasSet).length;
+    var mixed = (mode === 'acak' || mode === 'urut-absen') && nKelas > 1;
     return {
       ruang: ruang,
       cols: cols,
       seats: seats,
-      mode: modeAcak ? 'acak' : 'urut',
-      mixedKelas: modeAcak && nKelas > 1,
+      mode: mode,
+      mixedKelas: mixed,
       nKelas: nKelas,
       total: ordered.length
     };
@@ -3783,8 +4257,9 @@ a { color: var(--primary); text-decoration: none; }
     return '<div class="denah-sheet">'+kop+titleBlock+denahPart+'</div>';
   }
 
-  function buildAbsensiOnlySheet(plan){
-    // Lembar daftar hadir / nilai terpisah dari denah (urutan ikut kursi)
+  function buildAbsensiOnlySheet(plan, kelasFilter){
+    // Lembar daftar hadir / nilai terpisah dari denah.
+    // Jika kelasFilter diisi, hanya tampilkan peserta kelas tersebut (tetap urutan kursi denah).
     var showNilai = isDenahShowNilai();
     var instansi = ($('instansi') && $('instansi').value) || '';
     var sekolah = ($('sekolah') && $('sekolah').value) || '';
@@ -3802,7 +4277,15 @@ a { color: var(--primary); text-decoration: none; }
     if(emailSekolah) contactParts.push('Email : '+esc(emailSekolah));
     var contactLine = contactParts.join(' | ');
 
-    var absensiRows = plan.seats.map(function(seat, i){
+    var seats = plan.seats || [];
+    if(kelasFilter){
+      var kf = normalizeKelas(kelasFilter);
+      seats = seats.filter(function(seat){
+        return seat.siswa && normalizeKelas(seat.siswa.kelas) === kf;
+      });
+    }
+
+    var absensiRows = seats.map(function(seat, i){
       var s = seat.siswa || {};
       return '<tr>'+
         '<td class="num">'+(i+1)+'</td>'+
@@ -3816,13 +4299,19 @@ a { color: var(--primary); text-decoration: none; }
       '</tr>';
     }).join('');
 
+    // isi baris kosong minimal agar tabel tidak terlalu pendek
+    var minRows = 8;
+    for(var e = seats.length; e < minRows; e++){
+      absensiRows += '<tr><td class="num">'+(e+1)+'</td><td class="seat"></td><td></td><td></td><td></td><td></td>'+(showNilai?'<td class="nilai"></td>':'')+'<td class="check"></td></tr>';
+    }
+
     var mainTitle = showNilai
       ? 'DAFTAR HADIR DAN DAFTAR NILAI PESERTA UJIAN'
       : 'DAFTAR HADIR PESERTA UJIAN';
-    var modeLabel = plan.mode==='acak' ? (plan.mixedKelas ? 'Acak + campur kelas' : 'Acak') : 'Urut';
+    var kelasLabel = kelasFilter ? String(kelasFilter) : '';
     var noteTxt = showNilai
-      ? 'Urutan baris = urutan kursi denah (depan kiri → kanan, lalu baris berikutnya). Kolom Nilai dikosongkan untuk diisi manual.'
-      : 'Urutan baris = urutan kursi denah (depan kiri → kanan, lalu baris berikutnya). Tanpa kolom nilai — untuk absensi & TTD.';
+      ? 'Urutan baris = urutan kursi denah (depan kiri → kanan).' + (kelasFilter ? ' Hanya peserta kelas ' + esc(kelasLabel) + '.' : '') + ' Kolom Nilai dikosongkan untuk diisi manual.'
+      : 'Urutan baris = urutan kursi denah (depan kiri → kanan).' + (kelasFilter ? ' Hanya peserta kelas ' + esc(kelasLabel) + '.' : '') + ' Tanpa kolom nilai — untuk absensi & TTD.';
 
     return '<div class="denah-sheet">'+
       '<div class="daftar-kop">'+
@@ -3842,7 +4331,8 @@ a { color: var(--primary); text-decoration: none; }
       '</div>'+
       '<div class="daftar-info">'+
         '<span><b>Ruang:</b> '+esc(plan.ruang)+'</span>'+
-        '<span><b>Jumlah Peserta:</b> '+plan.total+'</span>'+
+        (kelasFilter ? '<span><b>Kelas:</b> '+esc(kelasLabel)+'</span>' : '')+
+        '<span><b>Jumlah Peserta:</b> '+seats.length+'</span>'+
         '<span><b>Mata Pelajaran:</b> </span>'+
       '</div>'+
       '<p class="denah-note" style="margin-bottom:6px">'+noteTxt+'</p>'+
@@ -3865,6 +4355,31 @@ a { color: var(--primary); text-decoration: none; }
     '</div>';
   }
 
+  /** Buat lembar absensi per kelas yang ada di plan ruang (urutan kursi denah tetap). */
+  function buildAbsensiSheetsForPlan(plan){
+    var kelasOrder = [];
+    var seen = {};
+    (plan.seats || []).forEach(function(seat){
+      if(!seat.siswa) return;
+      var k = (seat.siswa.kelas || '').trim() || '(Tanpa Kelas)';
+      var key = normalizeKelas(k);
+      if(!seen[key]){
+        seen[key] = true;
+        kelasOrder.push(k);
+      }
+    });
+    // sort natural
+    kelasOrder.sort(function(a,b){
+      return a.localeCompare(b, 'id', { numeric: true, sensitivity: 'base' });
+    });
+    if(kelasOrder.length <= 1){
+      // satu kelas atau kosong: satu lembar
+      return buildAbsensiOnlySheet(plan, kelasOrder[0] || null);
+    }
+    return kelasOrder.map(function(k){ return buildAbsensiOnlySheet(plan, k); }).join('');
+  }
+
+
   function generateDenah(){
     if(!state.siswa.length){
       toast('Belum ada data peserta','error');
@@ -3877,14 +4392,14 @@ a { color: var(--primary); text-decoration: none; }
       return;
     }
     var cols = parseInt(($('denahCols') && $('denahCols').value) || '5', 10) || 5;
-    var modeAcak = $('denahModeAcak') && $('denahModeAcak').checked;
+    var mode = getDenahModeValue();
     var groups = getDenahGroups();
     if(!groups.length){
       toast('Tidak ada data untuk ruang yang dipilih','error');
       return;
     }
     denahState.plans = groups.map(function(g){
-      return buildDenahPlanForRuang(g.ruang, g.list, cols, modeAcak);
+      return buildDenahPlanForRuang(g.ruang, g.list, cols, mode);
     });
     denahState.generated = true;
     renderDenahPreview();
@@ -3894,12 +4409,15 @@ a { color: var(--primary); text-decoration: none; }
       status.style.display = 'flex';
       status.className = 'status-bar success';
       var mixedCount = denahState.plans.filter(function(p){ return p.mixedKelas; }).length;
-      var modeTxt = modeAcak
+      var modeTxt = mode === 'acak'
         ? (mixedCount ? 'acak + campur kelas (' + mixedCount + ' ruang multi-kelas)' : 'acak')
-        : 'urutan data';
-      status.textContent = denahState.plans.length + ' ruang · ' + total + ' peserta · mode ' + modeTxt + ' · ' + cols + ' kolom. Siap dicetak.';
+        : (mode === 'urut-absen'
+          ? (mixedCount ? 'urut absen + campur kelas (' + mixedCount + ' ruang multi-kelas)' : 'urut absen')
+          : 'urutan data');
+      status.textContent = denahState.plans.length + ' ruang · ' + total + ' peserta · mode ' + modeTxt + ' · ' + cols + ' kolom. Absensi dicetak per kelas. Siap dicetak.';
     }
-    toast('Denah berhasil digenerate' + (modeAcak ? ' (acak, campur kelas)' : ''), 'success');
+    var toastExtra = mode === 'acak' ? ' (acak, campur kelas)' : (mode === 'urut-absen' ? ' (urut absen + campur kelas)' : '');
+    toast('Denah berhasil digenerate' + toastExtra, 'success');
   }
 
   function renderDenahPreview(){
@@ -3939,7 +4457,7 @@ a { color: var(--primary); text-decoration: none; }
     }
     // Preview: denah dan daftar hadir di lembar terpisah (bukan satu halaman)
     prev.innerHTML = show.map(function(p){
-      return buildDenahSheetHtml(p) + buildAbsensiOnlySheet(p);
+      return buildDenahSheetHtml(p) + buildAbsensiSheetsForPlan(p);
     }).join('');
   }
 
@@ -3957,7 +4475,7 @@ a { color: var(--primary); text-decoration: none; }
     }
     var paper = ($('denahPaper') && $('denahPaper').value) || 'A4';
     var html = plans.map(function(p){
-      return absensiOnly ? buildAbsensiOnlySheet(p) : buildDenahSheetHtml(p);
+      return absensiOnly ? buildAbsensiSheetsForPlan(p) : buildDenahSheetHtml(p);
     }).join('');
     var printArea = $('printArea');
     if(!printArea) return;
@@ -4492,6 +5010,14 @@ a { color: var(--primary); text-decoration: none; }
     if($(id)) $(id).addEventListener('change', function(){
       state.mode = $('modeBangku').checked ? 'bangku' : 'ujian';
       markDirty(); save(); render();
+    });
+  });
+
+  document.querySelectorAll('input[name="cardDesign"]').forEach(function(el){
+    el.addEventListener('change', function(){
+      state.design = this.value || 'klasik';
+      markDirty(); save(); render();
+      toast('Desain kartu: ' + state.design, 'success');
     });
   });
 
@@ -5117,7 +5643,7 @@ a { color: var(--primary); text-decoration: none; }
   if($('denahCols')) $('denahCols').addEventListener('change', function(){
     if(denahState.generated) generateDenah();
   });
-  ['denahModeUrut','denahModeAcak'].forEach(function(id){
+  ['denahModeUrut','denahModeUrutAbsen','denahModeAcak'].forEach(function(id){
     if($(id)) $(id).addEventListener('change', function(){
       if(denahState.generated) generateDenah();
     });
