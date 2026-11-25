@@ -2180,6 +2180,152 @@ a { color: var(--primary); text-decoration: none; }
   .upload-btn .ub-icon { width: 40px; height: 40px; }
 }
 
+
+/* ===== KARTU PANITIA (cetak B4) ===== */
+.kartu-panitia {
+  /* Portrait ID card — berbeda dari kartu peserta landscape */
+  width: 70mm;
+  height: 105mm;
+  background: #fff;
+  border: 1.6px solid #111;
+  padding: 0;
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+  overflow: hidden;
+  flex: none;
+  break-inside: avoid;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.kartu-panitia .kp-band {
+  background: linear-gradient(135deg, #087C55 0%, #0EA572 100%);
+  color: #fff;
+  padding: 2.8mm 3mm 2.4mm;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.kartu-panitia .kp-band-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3mm;
+  margin-bottom: 1.5mm;
+}
+.kartu-panitia .kp-band-logos .lg {
+  width: 11mm; height: 12mm;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.95);
+  border-radius: 1mm;
+  padding: 0.6mm;
+}
+.kartu-panitia .kp-band-logos .lg img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.kartu-panitia .kp-band .school {
+  font-size: 7.5pt; font-weight: 800; text-transform: uppercase; line-height: 1.15;
+  letter-spacing: .2px;
+}
+.kartu-panitia .kp-band .instansi {
+  font-size: 5.5pt; font-weight: 600; opacity: .95; margin-bottom: .4mm;
+  text-transform: uppercase;
+}
+.kartu-panitia .kp-band .label {
+  margin-top: 1.4mm;
+  font-size: 8pt; font-weight: 800; letter-spacing: .8px;
+  text-transform: uppercase;
+  border-top: 1px solid rgba(255,255,255,.4);
+  padding-top: 1.2mm;
+}
+.kartu-panitia .kp-band .sub {
+  font-size: 5.5pt; opacity: .9; margin-top: .4mm;
+}
+.kartu-panitia .kp-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5mm 3.5mm 2mm;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.kartu-panitia .kp-foto {
+  width: 28mm; height: 34mm;
+  border: 1.5px solid #087C55;
+  border-radius: 1mm;
+  background: #f4f4f4;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  margin-bottom: 2mm;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.kartu-panitia .kp-foto img { width: 100%; height: 100%; object-fit: cover; }
+.kartu-panitia .kp-data {
+  width: 100%;
+  font-size: 7.2pt;
+  line-height: 1.35;
+  text-align: left;
+}
+.kartu-panitia .kp-data .nm {
+  font-size: 10.5pt; font-weight: 800; line-height: 1.15;
+  text-align: center; margin-bottom: 1.8mm;
+  overflow-wrap: anywhere;
+  color: #087C55;
+}
+.kartu-panitia .kp-data .r { display: flex; margin-bottom: .55mm; }
+.kartu-panitia .kp-data .r .l { width: 18mm; flex: none; color: #333; }
+.kartu-panitia .kp-data .r .c { width: 2.5mm; flex: none; }
+.kartu-panitia .kp-data .r .v { font-weight: 700; flex: 1; }
+.kartu-panitia .kp-badge {
+  display: inline-block;
+  background: #087C55; color: #fff;
+  font-size: 6.5pt; font-weight: 800; letter-spacing: .6px;
+  padding: 1mm 3mm; border-radius: .8mm; margin-top: 1.8mm;
+  text-transform: uppercase;
+}
+.kartu-panitia .kp-foot {
+  border-top: 1px solid #ddd;
+  padding: 1.5mm 3mm 2mm;
+  text-align: center;
+  font-size: 5.5pt;
+  line-height: 1.25;
+  position: relative;
+  z-index: 1;
+}
+.kartu-panitia .kp-foot .sig {
+  height: 9mm;
+  display: flex; align-items: center; justify-content: center;
+  margin: .3mm 0;
+}
+.kartu-panitia .kp-foot .sig img { max-height: 9mm; max-width: 20mm; }
+.kartu-panitia .kp-foot .n { font-weight: 700; text-decoration: underline; font-size: 6pt; }
+.kartu-panitia .wm {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 0; pointer-events: none; overflow: hidden;
+}
+.stage.panitia {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-content: flex-start;
+}
+.stage.panitia .kartu-panitia { zoom: .85; }
+
+.preview-limit-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  flex-wrap: wrap; margin-bottom: 10px;
+  padding: 10px 12px; background: #FFFBEB; border: 1px solid #F59E0B33;
+  border-radius: var(--radius-sm); font-size: 13px; color: #92400E;
+}
+#printArea.panitia-mode { display: block; }
+@media print {
+  #printArea.panitia-mode { display: grid !important; justify-content: center; align-content: start; }
+  #printArea.panitia-mode .kartu-panitia { box-shadow: none; }
+}
+
 /* Backdrop for sidebar on mobile */
 .sidebar-overlay {
   display: none;
@@ -2240,6 +2386,10 @@ a { color: var(--primary); text-decoration: none; }
       <button class="nav-item" data-page="noruang" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>Plakat No. Ruang</span>
+      </button>
+      <button class="nav-item" data-page="panitia" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Kartu Panitia</span>
       </button>
       <button class="nav-item" data-page="petunjuk" type="button" id="navHelp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -2372,6 +2522,13 @@ a { color: var(--primary); text-decoration: none; }
               </div>
               <h4>Plakat No. Ruang</h4>
               <p>Cetak plakat pintu: RUANG 01 · 001 s/d 032</p>
+            </button>
+            <button class="quick-card" type="button" data-goto="panitia">
+              <div class="qc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h4>Kartu Panitia</h4>
+              <p>Kartu identitas panitia · cetak B4</p>
             </button>
           </div>
         </div>
@@ -3297,7 +3454,108 @@ a { color: var(--primary); text-decoration: none; }
       </section>
 
       <!-- PETUNJUK (inline page) -->
-      <section class="page" id="page-petunjuk">
+
+      <!-- PANITIA -->
+            <section class="page" id="page-panitia">
+        <div class="card">
+          <div class="card-title">Data Panitia Ujian</div>
+          <div class="card-desc">Unduh template, isi data, upload Excel &amp; foto. Kartu <b>portrait</b> (70 × 105 mm) — desain berbeda dari kartu peserta. Cetak kartu identitas panitia ujian.</div>
+
+          <div class="upload-actions">
+            <button class="upload-btn" type="button" id="btnPanitiaTpl">
+              <div class="ub-icon green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Unduh Template Excel Panitia</div>
+                <div class="ub-desc">Kolom: Nama, NIP, Jabatan, Unit/Bidang, No. Kartu</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="upload-btn" type="button" id="btnPanitiaXls">
+              <div class="ub-icon blue">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Upload File .xlsx Panitia</div>
+                <div class="ub-desc">Pilih file Excel yang sudah diisi data panitia</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <input type="file" id="fPanitiaXls" accept=".xlsx,.xls" hidden>
+            <button class="upload-btn" type="button" id="btnPanitiaZip">
+              <div class="ub-icon amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              </div>
+              <div class="ub-text">
+                <div class="ub-title">Upload Foto Panitia (.zip)</div>
+                <div class="ub-desc">Nama file foto = NIP (contoh: 196501011990031001.jpg)</div>
+              </div>
+              <svg class="ub-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <input type="file" id="fPanitiaZip" accept=".zip" hidden>
+          </div>
+
+          <div id="statusPanitia" class="status-bar info" style="display:none"></div>
+
+          <div class="mass-hint" style="margin-top:14px">
+            Kolom: <code>Nama</code>, <code>NIP</code>, <code>Jabatan</code>, <code>Unit/Bidang</code>, <code>No. Kartu</code> (opsional).
+            Foto cocok berdasarkan NIP (nama file = NIP).
+          </div>
+          <div class="mass-toolbar">
+            <button class="btn btn-secondary btn-sm" type="button" id="btnPanitiaAddRow">+ Baris</button>
+            <button class="btn btn-outline btn-sm" type="button" id="btnPanitiaPaste">Tempel Excel</button>
+            <button class="btn btn-outline btn-sm" type="button" id="btnPanitiaClear">Kosongkan</button>
+            <span class="spacer"></span>
+            <span id="panitiaCount" style="font-size:12.5px;color:var(--mute)">0 panitia</span>
+          </div>
+          <div class="mass-table-wrap" id="panitiaTableWrap">
+            <table class="mass-table" id="panitiaTable">
+              <thead>
+                <tr>
+                  <th style="width:36px">#</th>
+                  <th>Nama</th>
+                  <th>NIP</th>
+                  <th>Jabatan</th>
+                  <th>Unit / Bidang</th>
+                  <th>No. Kartu</th>
+                  <th style="width:40px"></th>
+                </tr>
+              </thead>
+              <tbody id="panitiaTbody"></tbody>
+            </table>
+          </div>
+          <div class="form-row" style="margin-top:14px">
+            <div class="form-group">
+              <label class="form-label" for="panitiaLabel">Label kartu</label>
+              <input type="text" class="form-input" id="panitiaLabel" value="KARTU PANITIA UJIAN" placeholder="KARTU PANITIA UJIAN">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="panitiaPaper">Kertas cetak</label>
+              <select class="form-select" id="panitiaPaper">
+                <option value="B4" selected>B4 (250 × 353 mm)</option>
+                <option value="A4">A4</option>
+                <option value="A3">A3</option>
+              </select>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn btn-primary" type="button" id="btnSavePanitia">Simpan &amp; Preview</button>
+            <button class="btn btn-secondary" type="button" id="btnPrintPanitia">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+              Cetak Kartu Panitia
+            </button>
+          </div>
+          <div id="panitiaStatus" class="status-bar info" style="display:none;margin-top:12px"></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-title">Preview Kartu Panitia (Portrait)</div>
+          <div class="card-desc">Desain vertikal 70 × 105 mm — tidak sama dengan kartu peserta.</div>
+          <div class="stage panitia" id="panitiaStage" style="min-height:200px"></div>
+        </div>
+      </section>
+
+                  <section class="page" id="page-petunjuk">
         <div class="card">
           <div class="card-title">Petunjuk Penggunaan</div>
           <ol style="padding-left:20px;line-height:1.75;font-size:14.5px;color:var(--ink)">
@@ -3529,7 +3787,11 @@ a { color: var(--primary); text-decoration: none; }
     siswa: SAMPLE.slice(), foto:{},
     zoom: 1, dirty: false,
     searchQ: '',
-    filterKelas: ''
+    filterKelas: '',
+    panitia: [],
+    fotoPanitia: {},
+    previewLimit: 24,
+    previewShowAll: false
   };
   var fields = ['instansi','sekolah','alamat','npsn','emailSekolah','ujian','tahun','tempat','tanggal','kepala','nip','wmType','wmText','wmOpacity','paper'];
   var pageTitles = {
@@ -3542,6 +3804,7 @@ a { color: var(--primary); text-decoration: none; }
     denah: ['Denah Tempat Duduk', 'Atur kursi, acak/urut, cetak denah & absensi'],
     berita: ['Berita Acara', 'Cetak berita acara pelaksanaan ujian'],
     noruang: ['Plakat No. Ruang', 'Cetak plakat pintu ruang ujian'],
+    panitia: ['Kartu Panitia', 'Identitas panitia ujian · cetak B4'],
     petunjuk: ['Petunjuk', 'Cara menggunakan aplikasi']
   };
 
@@ -3567,6 +3830,7 @@ a { color: var(--primary); text-decoration: none; }
     if(Array.isArray(saved.siswa) && saved.siswa.length){
       state.siswa = saved.siswa;
     }
+    if(Array.isArray(saved.panitia)) state.panitia = saved.panitia;
   } catch(e) {
     fields.forEach(function(f){ if($(f)) $(f).value = DEF[f]; });
   }
@@ -3586,6 +3850,7 @@ a { color: var(--primary); text-decoration: none; }
       fields.forEach(function(f){ if($(f)) o[f]=$(f).value; });
       o.logoL=state.logoL; o.logoR=state.logoR; o.ttd=state.ttd; o.stempel=state.stempel; o.wmImg=state.wmImg; o.mode=state.mode; o.design=state.design||'klasik';
       o.siswa = state.siswa; // persist daftar peserta (foto tidak disimpan agar localStorage tidak penuh)
+      o.panitia = state.panitia || [];
       localStorage.setItem('kartuUjianCfg', JSON.stringify(o));
       state.dirty = false;
       updateSaveBadge();
@@ -4496,9 +4761,12 @@ a { color: var(--primary); text-decoration: none; }
   function render(){
     applyPrintLayout();
     var listPrint = getSiswaForPrint();
-    var html = listPrint.map(kartu).join('');
     var stage = $('stage');
-    var printArea = $('printArea');
+    /* printArea hanya diisi saat cetak — hindari duplikasi ratusan kartu + foto di DOM */
+    var limit = state.previewShowAll ? listPrint.length : Math.min(listPrint.length, state.previewLimit || 24);
+    var listStage = listPrint.slice(0, limit);
+    var htmlStage = listStage.map(kartu).join('');
+
     if(stage){
       if(!state.siswa.length){
         stage.className = 'stage empty-state';
@@ -4508,13 +4776,19 @@ a { color: var(--primary); text-decoration: none; }
         stage.innerHTML = '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><div>Tidak ada peserta di kelas ini</div><div style="font-size:12px">Ubah filter kelas atau unggah data</div>';
       } else {
         stage.className = 'stage' + (state.mode==='bangku' ? ' bangku' : '');
-        stage.innerHTML = html;
+        var bar = '';
+        if(listPrint.length > (state.previewLimit || 24) && !state.previewShowAll){
+          bar = '<div class="preview-limit-bar" style="width:100%;flex:0 0 100%"><span>Menampilkan '+limit+' dari '+listPrint.length+' kartu (mode ringan). Cetak tetap memuat semua.</span><button type="button" class="btn btn-outline btn-sm" id="btnShowAllPreview">Tampilkan semua</button></div>';
+        } else if(state.previewShowAll && listPrint.length > (state.previewLimit || 24)){
+          bar = '<div class="preview-limit-bar" style="width:100%;flex:0 0 100%"><span>Menampilkan semua '+listPrint.length+' kartu.</span><button type="button" class="btn btn-outline btn-sm" id="btnShowLessPreview">Batasi preview</button></div>';
+        }
+        stage.innerHTML = bar + htmlStage;
         stage.style.zoom = state.zoom;
+        var btnAll = $('btnShowAllPreview');
+        if(btnAll) btnAll.onclick = function(){ state.previewShowAll = true; render(); };
+        var btnLess = $('btnShowLessPreview');
+        if(btnLess) btnLess.onclick = function(){ state.previewShowAll = false; render(); };
       }
-    }
-    if(printArea){
-      printArea.innerHTML = html;
-      printArea.className = state.mode==='bangku' ? 'bangku' : '';
     }
     if($('prevTitle')){
       var titleBase = 'Preview '+(state.mode==='bangku'?'Kartu Bangku':'Kartu Ujian')+' ('+listPrint.length+')';
@@ -4944,6 +5218,7 @@ a { color: var(--primary); text-decoration: none; }
     if(name==='denah') renderDenahPreview();
     if(name==='berita') renderBerita();
     if(name==='noruang') renderNoRuang();
+    if(name==='panitia') renderPanitiaPreview();
   }
 
   $$('[data-page]').forEach(function(el){
@@ -4975,10 +5250,20 @@ a { color: var(--primary); text-decoration: none; }
   if($('modal')) $('modal').addEventListener('click', function(e){ if(e.target===this) closeHelp(); });
 
   /* Fields */
+  var _saveTimer = null, _renderTimer = null;
+  function scheduleSave(){
+    markDirty();
+    if(_saveTimer) clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(function(){ save(); }, 400);
+  }
+  function scheduleRender(){
+    if(_renderTimer) clearTimeout(_renderTimer);
+    _renderTimer = setTimeout(function(){ render(); }, 180);
+  }
   fields.forEach(function(f){
     if(!$(f)) return;
-    $(f).addEventListener('input', function(){ markDirty(); save(); render(); });
-    $(f).addEventListener('change', function(){ markDirty(); save(); render(); });
+    $(f).addEventListener('input', function(){ scheduleSave(); scheduleRender(); });
+    $(f).addEventListener('change', function(){ scheduleSave(); render(); });
   });
   if($('paperMobile')){
     $('paperMobile').addEventListener('change', function(){
@@ -4993,18 +5278,27 @@ a { color: var(--primary); text-decoration: none; }
     });
   }
 
-  function readImg(file, cb){
+  function readImg(file, cb, maxSide, keepAlpha){
     var r = new FileReader();
-    r.onload = function(){ cb(r.result); };
+    r.onload = function(){
+      var raw = r.result;
+      // Logo/TTD/stempel: jaga transparansi PNG (jangan paksa JPEG)
+      var forcePng = !!keepAlpha || (file && /png|svg|webp/i.test(file.type || file.name || ''));
+      if(typeof compressImageDataUrl === 'function'){
+        compressImageDataUrl(raw, maxSide || 900, 0.85, forcePng).then(function(c){ cb(c); });
+      } else {
+        cb(raw);
+      }
+    };
     r.readAsDataURL(file);
   }
   if($('boxL')) $('boxL').onclick = function(){ $('fLogoL').click(); };
   if($('boxR')) $('boxR').onclick = function(){ $('fLogoR').click(); };
-  if($('fLogoL')) $('fLogoL').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoL=u; markDirty(); save(); render(); toast('Logo kiri diperbarui','success'); }); };
-  if($('fLogoR')) $('fLogoR').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoR=u; markDirty(); save(); render(); toast('Logo kanan diperbarui','success'); }); };
-  if($('fWm')) $('fWm').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.wmImg=u; markDirty(); save(); render(); toast('Gambar watermark dipasang','success'); }); };
-  if($('fTtd')) $('fTtd').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.ttd=u; markDirty(); save(); render(); toast('Tanda tangan dipasang','success'); }); };
-  if($('fStempel')) $('fStempel').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.stempel=u; markDirty(); save(); render(); toast('Stempel sekolah dipasang','success'); }); };
+  if($('fLogoL')) $('fLogoL').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoL=u; markDirty(); save(); render(); toast('Logo kiri diperbarui','success'); }, 900, true); };
+  if($('fLogoR')) $('fLogoR').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.logoR=u; markDirty(); save(); render(); toast('Logo kanan diperbarui','success'); }, 900, true); };
+  if($('fWm')) $('fWm').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.wmImg=u; markDirty(); save(); render(); toast('Gambar watermark dipasang','success'); }, 900, true); };
+  if($('fTtd')) $('fTtd').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.ttd=u; markDirty(); save(); render(); toast('Tanda tangan dipasang','success'); }, 900, true); };
+  if($('fStempel')) $('fStempel').onchange = function(e){ if(e.target.files[0]) readImg(e.target.files[0], function(u){ state.stempel=u; markDirty(); save(); render(); toast('Stempel sekolah dipasang','success'); }, 900, true); };
 
   ['modeUjian','modeBangku'].forEach(function(id){
     if($(id)) $(id).addEventListener('change', function(){
@@ -5080,10 +5374,44 @@ a { color: var(--primary); text-decoration: none; }
 
   /* ZIP */
   if($('btnZip')) $('btnZip').onclick = function(){ $('fZip').click(); };
+  /* Kompres foto ke max 480px / JPEG quality 0.72 agar DOM & memori ringan */
+  function compressImageDataUrl(dataUrl, maxSide, quality, keepAlpha){
+    return new Promise(function(resolve){
+      var img = new Image();
+      img.onload = function(){
+        try {
+          var w = img.naturalWidth || img.width;
+          var h = img.naturalHeight || img.height;
+          if(!w || !h){ resolve(dataUrl); return; }
+          var scale = 1;
+          var side = Math.max(w, h);
+          if(side > maxSide) scale = maxSide / side;
+          var cw = Math.max(1, Math.round(w * scale));
+          var ch = Math.max(1, Math.round(h * scale));
+          var canvas = document.createElement('canvas');
+          canvas.width = cw; canvas.height = ch;
+          var ctx = canvas.getContext('2d');
+          // Penting: jangan isi background — biarkan transparan untuk PNG
+          ctx.clearRect(0, 0, cw, ch);
+          ctx.drawImage(img, 0, 0, cw, ch);
+          var isPngSrc = typeof dataUrl === 'string' && dataUrl.indexOf('image/png') >= 0;
+          var isWebpSrc = typeof dataUrl === 'string' && dataUrl.indexOf('image/webp') >= 0;
+          if(keepAlpha || isPngSrc || isWebpSrc){
+            resolve(canvas.toDataURL('image/png'));
+          } else {
+            resolve(canvas.toDataURL('image/jpeg', quality || 0.72));
+          }
+        } catch(err){ resolve(dataUrl); }
+      };
+      img.onerror = function(){ resolve(dataUrl); };
+      img.src = dataUrl;
+    });
+  }
+
   if($('fZip')) $('fZip').onchange = function(e){
     var f = e.target.files[0]; if(!f) return;
     if(!window.JSZip){ toast('Pustaka ZIP belum termuat.','error'); return; }
-    setStatus('Membaca foto dari ZIP...','loading');
+    setStatus('Membaca & mengompres foto dari ZIP...','loading');
     JSZip.loadAsync(f).then(function(zip){
       var mime = {jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
       var jobs = [];
@@ -5095,12 +5423,20 @@ a { color: var(--primary); text-decoration: none; }
         var ext = name.slice(dot+1).toLowerCase();
         if(!mime[ext]) return;
         var key = name.slice(0,dot).trim();
-        jobs.push(entry.async('base64').then(function(b){ state.foto[key] = 'data:'+mime[ext]+';base64,'+b; }));
+        jobs.push(
+          entry.async('base64').then(function(b){
+            var raw = 'data:'+mime[ext]+';base64,'+b;
+            return compressImageDataUrl(raw, 480, 0.72).then(function(compressed){
+              state.foto[key] = compressed;
+            });
+          })
+        );
       });
       return Promise.all(jobs).then(function(){
+        state.previewShowAll = false;
         render();
         var cocok = state.siswa.filter(function(s){ return state.foto[String(s.nisn).trim()]; }).length;
-        setStatus(jobs.length+' foto dibaca, '+cocok+' cocok dengan NISN.','success');
+        setStatus(jobs.length+' foto dibaca & dikompres, '+cocok+' cocok dengan NISN.','success');
         toast(jobs.length+' foto · '+cocok+' cocok','success');
       });
     }).catch(function(){
@@ -5134,9 +5470,14 @@ a { color: var(--primary); text-decoration: none; }
 
   /* Search */
   if($('searchPeserta')){
+    var _searchTimer = null;
     $('searchPeserta').addEventListener('input', function(){
-      state.searchQ = this.value;
-      renderTable();
+      var v = this.value;
+      if(_searchTimer) clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(function(){
+        state.searchQ = v;
+        renderTable();
+      }, 120);
     });
   }
 
@@ -5616,7 +5957,12 @@ a { color: var(--primary); text-decoration: none; }
     if(printArea){
       printArea.innerHTML = list.map(kartu).join('');
     }
-    window.print();
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){
+        if(printArea) printArea.innerHTML = '';
+      }, 400);
+    }, 50);
   }
   if($('btnPrint')) $('btnPrint').onclick = doPrint;
   if($('btnPrintMain')) $('btnPrintMain').onclick = doPrint;
@@ -5698,6 +6044,350 @@ a { color: var(--primary); text-decoration: none; }
     $('nrUjianCustom').addEventListener('input', renderNoRuang);
     $('nrUjianCustom').addEventListener('change', renderNoRuang);
   }
+
+
+  /* ===== KARTU PANITIA ===== */
+  var PANITIA_COLS = ['nama','nip','jabatan','unit','nokartu'];
+  var PANITIA_PH = ['Nama Lengkap','1965...','Ketua Panitia','Akademik','P-001'];
+
+  function createPanitiaRow(data){
+    data = data || {};
+    var tr = document.createElement('tr');
+    var numTd = document.createElement('td'); numTd.className = 'row-num'; tr.appendChild(numTd);
+    PANITIA_COLS.forEach(function(col, i){
+      var td = document.createElement('td');
+      var inp = document.createElement('input');
+      inp.type = 'text'; inp.dataset.col = col; inp.placeholder = PANITIA_PH[i];
+      inp.value = data[col] || '';
+      inp.addEventListener('input', updatePanitiaCount);
+      td.appendChild(inp); tr.appendChild(td);
+    });
+    var delTd = document.createElement('td'); delTd.className = 'row-del';
+    var delBtn = document.createElement('button'); delBtn.type = 'button'; delBtn.innerHTML = '×';
+    delBtn.onclick = function(){
+      var tb = $('panitiaTbody');
+      if(tb.children.length <= 1){
+        PANITIA_COLS.forEach(function(c){ var i = tr.querySelector('input[data-col="'+c+'"]'); if(i) i.value=''; });
+        updatePanitiaCount(); return;
+      }
+      tr.remove(); renumberPanitia(); updatePanitiaCount();
+    };
+    delTd.appendChild(delBtn); tr.appendChild(delTd);
+    return tr;
+  }
+  function renumberPanitia(){
+    var rows = $('panitiaTbody') ? $('panitiaTbody').querySelectorAll('tr') : [];
+    rows.forEach(function(tr,i){ var n=tr.querySelector('.row-num'); if(n) n.textContent=i+1; });
+  }
+  function addPanitiaRow(data){
+    if(!$('panitiaTbody')) return;
+    $('panitiaTbody').appendChild(createPanitiaRow(data));
+    renumberPanitia(); updatePanitiaCount();
+  }
+  function clearPanitiaTable(){
+    if(!$('panitiaTbody')) return;
+    $('panitiaTbody').innerHTML = '';
+    for(var i=0;i<4;i++) addPanitiaRow();
+  }
+  function collectPanitia(){
+    var out = [];
+    if(!$('panitiaTbody')) return out;
+    $('panitiaTbody').querySelectorAll('tr').forEach(function(tr){
+      var o = {}; var has = false;
+      PANITIA_COLS.forEach(function(c){
+        var inp = tr.querySelector('input[data-col="'+c+'"]');
+        o[c] = inp ? (inp.value||'').trim() : '';
+        if(o[c]) has = true;
+      });
+      if(has && o.nama) out.push(o);
+    });
+    return out;
+  }
+  function updatePanitiaCount(){
+    var n = collectPanitia().length;
+    if($('panitiaCount')) $('panitiaCount').textContent = n + ' panitia';
+  }
+  function fillPanitiaTable(rows){
+    if(!$('panitiaTbody')) return;
+    $('panitiaTbody').innerHTML = '';
+    if(!rows || !rows.length){ for(var i=0;i<4;i++) addPanitiaRow(); }
+    else { rows.forEach(function(r){ addPanitiaRow(r); }); addPanitiaRow(); }
+  }
+  function parseGenericTable(text, colKeys){
+    var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); }).filter(Boolean);
+    if(!lines.length) return [];
+    var delim = lines[0].indexOf('\t') >= 0 ? '\t' : (lines[0].indexOf(';') >= 0 ? ';' : ',');
+    var rows = lines.map(function(line){
+      return line.split(delim).map(function(c){ return c.trim().replace(/^["']|["']$/g,''); });
+    });
+    var start = 0;
+    var first = rows[0].map(function(h){ return h.toLowerCase().replace(/[^a-z0-9]/g,''); });
+    var looksHeader = first.some(function(h){
+      return ['nama','nip','jabatan','unit','nokartu','keterangan','bidang'].indexOf(h) >= 0;
+    });
+    var headerMap = null;
+    if(looksHeader){
+      headerMap = {}; first.forEach(function(h,i){ headerMap[h]=i; }); start = 1;
+    }
+    var out = [];
+    for(var r = start; r < rows.length; r++){
+      var cols = rows[r];
+      if(!cols.length || cols.every(function(c){ return !c; })) continue;
+      var get = function(keys, idx){
+        if(headerMap){
+          for(var k=0;k<keys.length;k++){ if(headerMap[keys[k]] != null) return cols[headerMap[keys[k]]]||''; }
+        }
+        return cols[idx]||'';
+      };
+      var o = {};
+      colKeys.forEach(function(ck, i){
+        if(ck === 'nama') o.nama = get(['nama','namalengkap'], i);
+        else if(ck === 'nip') o.nip = get(['nip'], i);
+        else if(ck === 'jabatan') o.jabatan = get(['jabatan','posisi','tugas'], i);
+        else if(ck === 'unit') o.unit = get(['unit','bidang','unitbidang'], i);
+        else if(ck === 'nokartu') o.nokartu = get(['nokartu','nomorkartu','no'], i);
+        else if(ck === 'ket') o.ket = get(['keterangan','ket','mapel'], i);
+        else o[ck] = cols[i]||'';
+      });
+      if(o.nama) out.push(o);
+    }
+    return out;
+  }
+  function kartuPanitia(p){
+    var nipKey = String(p.nip||'').trim();
+    var foto = (state.fotoPanitia && state.fotoPanitia[nipKey]) || state.foto[nipKey] || '';
+    var userSvg = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    var logoL = state.logoL ? '<img src="'+state.logoL+'" alt="">' : '';
+    var logoR = state.logoR ? '<img src="'+state.logoR+'" alt="">' : '';
+    var sekolah = ($('sekolah') && $('sekolah').value) || '';
+    var instansi = ($('instansi') && $('instansi').value) || '';
+    var label = ($('panitiaLabel') && $('panitiaLabel').value) || 'KARTU PANITIA UJIAN';
+    var ujian = ($('ujian') && $('ujian').value) || '';
+    var tahun = ($('tahun') && $('tahun').value) || '';
+    var tempat = ($('tempat') && $('tempat').value) || '';
+    var tanggal = ($('tanggal') && $('tanggal').value) || '';
+    var kepala = ($('kepala') && $('kepala').value) || '';
+    var nipKep = ($('nip') && $('nip').value) || '';
+    var ttdImg = state.ttd ? '<img src="'+state.ttd+'" alt="TTD">' : '';
+    var w = wm();
+    function row(l,v){ return '<div class="r"><span class="l">'+esc(l)+'</span><span class="c">:</span><span class="v">'+esc(v||'—')+'</span></div>'; }
+    return '<div class="kartu-panitia">'+w+
+      '<div class="kp-band">'+
+        '<div class="kp-band-logos">'+
+          '<div class="lg">'+logoL+'</div>'+
+          '<div class="lg">'+logoR+'</div>'+
+        '</div>'+
+        (instansi ? '<div class="instansi">'+esc(instansi)+'</div>' : '')+
+        '<div class="school">'+esc(sekolah)+'</div>'+
+        '<div class="label">'+esc(label)+'</div>'+
+        (ujian ? '<div class="sub">'+esc(ujian)+(tahun?' · '+esc(tahun):'')+'</div>' : '')+
+      '</div>'+
+      '<div class="kp-main">'+
+        '<div class="kp-foto">'+(foto?'<img src="'+foto+'" alt="">':userSvg)+'</div>'+
+        '<div class="kp-data">'+
+          '<div class="nm">'+esc(p.nama)+'</div>'+
+          row('NIP', p.nip)+
+          row('Jabatan', p.jabatan)+
+          row('Unit', p.unit)+
+          (p.nokartu ? row('No. Kartu', p.nokartu) : '')+
+        '</div>'+
+        '<div class="kp-badge">PANITIA UJIAN</div>'+
+      '</div>'+
+      '<div class="kp-foot">'+
+        '<div>'+esc(tempat)+', '+esc(tanggal)+'</div><div>Kepala Sekolah,</div>'+
+        '<div class="sig">'+ttdImg+'</div>'+
+        '<div class="n">'+esc(kepala)+'</div><div>NIP. '+esc(nipKep)+'</div>'+
+      '</div>'+
+    '</div>';
+  }
+  function renderPanitiaPreview(){
+    var stage = $('panitiaStage');
+    if(!stage) return;
+    var list = state.panitia || [];
+    if(!list.length){
+      stage.innerHTML = '<div class="empty-box"><h4>Belum ada data panitia</h4><p>Isi tabel di atas lalu klik Simpan &amp; Preview.</p></div>';
+      return;
+    }
+    stage.innerHTML = list.map(kartuPanitia).join('');
+    var st = $('panitiaStatus');
+    if(st){
+      st.style.display = 'flex'; st.className = 'status-bar success';
+      st.textContent = list.length + ' kartu panitia siap dicetak pada kertas ' + (($('panitiaPaper')&&$('panitiaPaper').value)||'B4') + '.';
+    }
+  }
+  function savePanitiaFromTable(){
+    state.panitia = collectPanitia();
+    markDirty(); save();
+    renderPanitiaPreview();
+    toast(state.panitia.length + ' data panitia disimpan', 'success');
+  }
+  function doPrintPanitia(){
+    var list = state.panitia || [];
+    if(!list.length){ toast('Belum ada data panitia','error'); return; }
+    var paper = ($('panitiaPaper') && $('panitiaPaper').value) || 'B4';
+    var printArea = $('printArea');
+    if(!printArea) return;
+    var cw = 70, ch = 105, m = 8, g = 4;
+    var dims = paper==='A4' ? [210,297] : (paper==='A3' ? [297,420] : [250,353]);
+    var best = null;
+    [[dims[0],dims[1],'portrait'],[dims[1],dims[0],'landscape']].forEach(function(o){
+      var cols = Math.floor((o[0]-2*m+g)/(cw+g)), rows = Math.floor((o[1]-2*m+g)/(ch+g));
+      if(cols<1||rows<1) return;
+      if(!best || cols*rows>best.n) best = {n:cols*rows, cols:cols, ori:o[2]};
+    });
+    if(!best) best = {n:1, cols:1, ori:'portrait'};
+    printArea.className = 'panitia-mode';
+    printArea.innerHTML = list.map(kartuPanitia).join('');
+    printStyle.textContent = '@page{size:'+paper+' '+best.ori+';margin:'+m+'mm}'+
+      '@media print{#printArea.panitia-mode{display:grid!important;grid-template-columns:repeat('+best.cols+','+cw+'mm);grid-auto-rows:'+ch+'mm;gap:'+g+'mm;justify-content:center}#printArea.panitia-mode .kartu-panitia{box-shadow:none}}';
+    setTimeout(function(){
+      window.print();
+      setTimeout(function(){
+        printArea.className = ''; printArea.innerHTML = '';
+        applyPrintLayout();
+      }, 500);
+    }, 150);
+  }
+
+  /* Events panitia */
+  function setStatusPanitia(msg, type){
+    var el = $('statusPanitia');
+    if(!el) return;
+    if(!msg){ el.style.display='none'; return; }
+    el.style.display = 'flex';
+    el.className = 'status-bar ' + (type||'info');
+    if(type==='loading') el.innerHTML = '<span class="spinner"></span> '+msg;
+    else el.textContent = msg;
+  }
+
+  if($('btnPanitiaTpl')) $('btnPanitiaTpl').onclick = function(){
+    if(!window.XLSX){ toast('Pustaka Excel belum termuat.','error'); return; }
+    var aoa = [['Nama','NIP','Jabatan','Unit/Bidang','No. Kartu'],
+               ['Ahmad Suryanto, S.Pd.','196501011990031001','Ketua Panitia','Akademik','P-001'],
+               ['Siti Aminah, S.Pd.','197203152000122002','Pengawas','Mapel Matematika','P-002']];
+    var ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols'] = [{wch:28},{wch:22},{wch:18},{wch:20},{wch:12}];
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Data Panitia');
+    XLSX.writeFile(wb, 'Template_Data_Panitia.xlsx');
+    toast('Template panitia diunduh','success');
+  };
+
+  if($('btnPanitiaXls')) $('btnPanitiaXls').onclick = function(){ $('fPanitiaXls').click(); };
+  if($('fPanitiaXls')) $('fPanitiaXls').onchange = function(e){
+    var f = e.target.files[0]; if(!f) return;
+    if(!window.XLSX){ toast('Pustaka Excel belum termuat.','error'); return; }
+    setStatusPanitia('Membaca file Excel panitia...','loading');
+    var r = new FileReader();
+    r.onload = function(){
+      try {
+        var wb = XLSX.read(r.result,{type:'array'});
+        var rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+        var out = [];
+        rows.forEach(function(row){
+          var m = {};
+          Object.keys(row).forEach(function(k){ m[k.toLowerCase().replace(/[^a-z0-9]/g,'')] = String(row[k]).trim(); });
+          var s = {
+            nama: m.nama||m.namalengkap||'',
+            nip: m.nip||'',
+            jabatan: m.jabatan||m.posisi||m.tugas||'',
+            unit: m.unit||m.bidang||m.unitbidang||'',
+            nokartu: m.nokartu||m.nomorkartu||m.no||''
+          };
+          if(s.nama) out.push(s);
+        });
+        if(!out.length){ setStatusPanitia('Tidak ada data panitia terbaca. Gunakan format template.','error'); toast('Format Excel tidak dikenali','error'); return; }
+        state.panitia = out;
+        fillPanitiaTable(out);
+        markDirty(); save();
+        renderPanitiaPreview();
+        setStatusPanitia(out.length+' data panitia berhasil dimuat.','success');
+        toast(out.length+' data panitia dimuat','success');
+      } catch(err){
+        setStatusPanitia('Gagal membaca file Excel.','error');
+        toast('Gagal membaca Excel','error');
+      }
+    };
+    r.readAsArrayBuffer(f);
+    e.target.value = '';
+  };
+
+  if($('btnPanitiaZip')) $('btnPanitiaZip').onclick = function(){ $('fPanitiaZip').click(); };
+  if($('fPanitiaZip')) $('fPanitiaZip').onchange = function(e){
+    var f = e.target.files[0]; if(!f) return;
+    if(!window.JSZip){ toast('Pustaka ZIP belum termuat.','error'); return; }
+    setStatusPanitia('Membaca & mengompres foto panitia...','loading');
+    if(!state.fotoPanitia) state.fotoPanitia = {};
+    JSZip.loadAsync(f).then(function(zip){
+      var mime = {jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif'};
+      var jobs = [];
+      zip.forEach(function(path, entry){
+        if(entry.dir) return;
+        var name = path.split('/').pop();
+        var dot = name.lastIndexOf('.');
+        if(dot<1 || name.charAt(0)==='.') return;
+        var ext = name.slice(dot+1).toLowerCase();
+        if(!mime[ext]) return;
+        var key = name.slice(0,dot).trim();
+        jobs.push(
+          entry.async('base64').then(function(b){
+            var raw = 'data:'+mime[ext]+';base64,'+b;
+            return compressImageDataUrl(raw, 480, 0.72).then(function(compressed){
+              state.fotoPanitia[key] = compressed;
+            });
+          })
+        );
+      });
+      return Promise.all(jobs).then(function(){
+        renderPanitiaPreview();
+        var cocok = (state.panitia||[]).filter(function(p){ return state.fotoPanitia[String(p.nip||'').trim()]; }).length;
+        setStatusPanitia(jobs.length+' foto panitia dibaca, '+cocok+' cocok dengan NIP.','success');
+        toast(jobs.length+' foto · '+cocok+' cocok NIP','success');
+      });
+    }).catch(function(){
+      setStatusPanitia('Gagal membaca file ZIP.','error');
+      toast('Gagal membaca ZIP','error');
+    });
+    e.target.value = '';
+  };
+
+  if($('btnPanitiaAddRow')) $('btnPanitiaAddRow').onclick = function(){ addPanitiaRow(); };
+  if($('btnPanitiaClear')) $('btnPanitiaClear').onclick = function(){
+    if(collectPanitia().length && !confirm('Kosongkan tabel panitia?')) return;
+    clearPanitiaTable(); state.panitia = []; state.fotoPanitia = {}; markDirty(); save(); renderPanitiaPreview();
+  };
+  if($('btnPanitiaPaste')) $('btnPanitiaPaste').onclick = function(){
+    var doPaste = function(text){
+      var parsed = parseGenericTable(text, PANITIA_COLS);
+      if(!parsed.length){ toast('Data tidak dikenali','error'); return; }
+      fillPanitiaTable(parsed); toast(parsed.length+' baris ditempel','success');
+    };
+    if(navigator.clipboard && navigator.clipboard.readText){
+      navigator.clipboard.readText().then(doPaste).catch(function(){
+        var t = prompt('Tempel data panitia dari Excel:'); if(t) doPaste(t);
+      });
+    } else {
+      var t = prompt('Tempel data panitia dari Excel:'); if(t) doPaste(t);
+    }
+  };
+  if($('btnSavePanitia')) $('btnSavePanitia').onclick = savePanitiaFromTable;
+  if($('btnPrintPanitia')) $('btnPrintPanitia').onclick = doPrintPanitia;
+  if($('panitiaTableWrap')){
+    $('panitiaTableWrap').addEventListener('paste', function(e){
+      var text = (e.clipboardData || window.clipboardData).getData('text');
+      if(text && (text.indexOf('\t')>=0 || text.indexOf('\n')>=0)){
+        e.preventDefault();
+        var parsed = parseGenericTable(text, PANITIA_COLS);
+        if(parsed.length){ fillPanitiaTable(parsed); toast(parsed.length+' baris ditempel','success'); }
+      }
+    });
+  }
+  /* Init tables from state */
+  if($('panitiaTbody')){
+    if(state.panitia && state.panitia.length) fillPanitiaTable(state.panitia);
+    else clearPanitiaTable();
+  }
+
 
   render();
   updateSaveBadge();
